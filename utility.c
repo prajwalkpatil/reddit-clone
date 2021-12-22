@@ -36,14 +36,14 @@ void screen_reset()
 
 void read_ucs()
 {
-    FILE *fp = fopen("ucs.rdt", "r");
+    FILE *fp = fopen("files/auth/ucs.rdt", "r");
     fscanf(fp, "%d", &user_count_start);
     fclose(fp);
 }
 
 void update_ucs()
 {
-    FILE *fp = fopen("ucs.rdt", "w+");
+    FILE *fp = fopen("files/auth/ucs.rdt", "w+");
     fprintf(fp, "%d", user_count_start);
     fclose(fp);
 }
@@ -60,7 +60,7 @@ int timeout(int seconds)
 
 void init_users()
 {
-    FILE *fp = fopen("users.rdt", "r");
+    FILE *fp = fopen("files/auth/users.rdt", "r");
     if (fp == NULL)
     {
         print_error("File empty!");
@@ -134,11 +134,11 @@ void update_users_file()
         print_error("No users!");
         return;
     }
-    FILE *fp = fopen("users.rdt", "w+");
+    FILE *fp = fopen("files/auth/users.rdt", "w+");
     if (fp == NULL)
     {
         print_error("Error opening file.");
-        return FAILURE;
+        return;
     }
     USER_HOLDER *temp = all_users;
     USER *u;

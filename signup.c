@@ -24,7 +24,7 @@ char *hash448(char *str)
 
 int add_user(USER *u)
 {
-    FILE *fp = fopen("users.rdt", "a+");
+    FILE *fp = fopen("files/auth/users.rdt", "a+");
     if (fp == NULL)
     {
         print_error("Error opening file.");
@@ -43,7 +43,7 @@ int add_user(USER *u)
 
 int write_pwd(char username[8], char pwd_hash[31])
 {
-    FILE *fp = fopen("pwds.rdt", "a+");
+    FILE *fp = fopen("files/auth/pwds.rdt", "a+");
     if (fp == NULL)
     {
         print_error("Error opening file!");
@@ -152,7 +152,7 @@ int email_input(char email[64])
 
 int check_duplicates(char username_req[18], char email_req[64])
 {
-    FILE *fp = fopen("users.rdt", "r");
+    FILE *fp = fopen("files/auth/users.rdt", "r");
     if (fp == NULL)
     {
         print_error("Error opening file.");
@@ -194,7 +194,7 @@ int check_duplicates(char username_req[18], char email_req[64])
 
 int auth_user(char username_r[18], char password_r[31])
 {
-    FILE *fp = fopen("pwds.rdt", "r");
+    FILE *fp = fopen("files/auth/pwds.rdt", "r");
     if (fp == NULL)
     {
         print_error("Error opening file.");

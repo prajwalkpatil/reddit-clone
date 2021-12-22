@@ -41,7 +41,7 @@ int login_user()
 
 void add_username_file(char username_r[18])
 {
-    FILE *fp = fopen("loggedin.rdt", "w+");
+    FILE *fp = fopen("files/auth/loggedin.rdt", "w+");
     if (fp == NULL)
     {
         printf("Error opening file!");
