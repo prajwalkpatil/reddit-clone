@@ -1,0 +1,52 @@
+#include "reddit.h"
+
+int login_user()
+{
+    printf("\n-- Login --\n");
+    char entered_username[31];
+    char temp_char;
+    char pwd[31];
+    int i = 0;
+    int status = 0;
+    printf("Username[3-8 chars]: ");
+    scanf("%s", entered_username);
+    printf("Password[1-30 chars]: ");
+    do
+    {
+        temp_char = getch();
+        if (temp_char != '\b')
+        {
+            pwd[i] = temp_char;
+            if (temp_char != '\r')
+                printf("*");
+            i++;
+        }
+        else
+        {
+            if (i != 0)
+            {
+                i--;
+                printf("\b \b");
+            }
+            continue;
+        }
+    } while (pwd[i - 1] != '\r');
+    pwd[i - 1] = '\0';
+    status = auth_user(entered_username, pwd);
+    if (status == SUCCESS)
+        return SUCCESS;
+    else
+        return FAILURE;
+}
+
+void add_username_file(char username_r[18])
+{
+    FILE *fp = fopen("loggedin.rdt", "w+");
+    if (fp == NULL)
+    {
+        printf("Error opening file!");
+        return;
+    }
+    fprintf(fp, "%s", username_r);
+    fclose(fp);
+}
