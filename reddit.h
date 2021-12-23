@@ -44,5 +44,9 @@ USER_HOLDER *insert_user_at_end(USER_HOLDER *hdr, USER *u);
 void init_users();
 void print_all_users();
 void update_users_file();
+char *community_file_name(char community_name[25]);
+int search_communtity(char community_name[25]);
+void add_post();
 
+// TODO: sort as - top, new, best
 #endif

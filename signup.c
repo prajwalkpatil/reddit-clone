@@ -280,6 +280,7 @@ void sign_up()
         status_t = check_duplicates(u->username, u->email);
     }
     getchar();
+
     status = 0;
     status = pwd_input(u->username, pwd);
     while (status == 0)
