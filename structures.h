@@ -4,7 +4,7 @@
 // Size of title and comment
 #define MAX_SIZE_TITLE 100
 #define MAX_SIZE_CONTENT 1000
-#define MAX_SIZE_DESCRIPTION 1000
+#define MAX_SIZE_DESCRIPTION 10000
 
 // Structure for user
 struct user
@@ -61,7 +61,15 @@ struct community
     int id;
     int dt_created;
     int members;
+    char name[25];
     char desc[MAX_SIZE_DESCRIPTION];
 };
 typedef struct community COMMUNITY;
+
+struct community_holder
+{
+    struct community *user_content;
+    struct community_holder *next;
+};
+typedef struct community_holder COMMUNITY_HOLDER;
 #endif

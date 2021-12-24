@@ -24,6 +24,8 @@
 
 // Static variables
 int user_count_start = 0;
+int post_count_start = 0;
+int community_count_start = 0;
 
 // Global declarions
 USER_HOLDER *main_user_holder = NULL;
@@ -44,9 +46,14 @@ USER_HOLDER *insert_user_at_end(USER_HOLDER *hdr, USER *u);
 void init_users();
 void print_all_users();
 void update_users_file();
-char *community_file_name(char community_name[25]);
+void community_file_name(char community_name[25], char file_name[70]);
 int search_communtity(char community_name[25]);
 void add_post();
+void read_post_count();
+void update_post_count();
+int create_community();
+void update_community_count();
+void read_community_count();
 
 // TODO: sort as - top, new, best
 #endif

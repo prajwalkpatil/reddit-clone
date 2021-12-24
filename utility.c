@@ -37,6 +37,11 @@ void screen_reset()
 void read_ucs()
 {
     FILE *fp = fopen("files/auth/ucs.rdt", "r");
+    if (fp == NULL)
+    {
+        print_error("Error opening file!");
+        return;
+    }
     fscanf(fp, "%d", &user_count_start);
     fclose(fp);
 }
@@ -44,6 +49,11 @@ void read_ucs()
 void update_ucs()
 {
     FILE *fp = fopen("files/auth/ucs.rdt", "w+");
+    if (fp == NULL)
+    {
+        print_error("Error opening file!");
+        return;
+    }
     fprintf(fp, "%d", user_count_start);
     fclose(fp);
 }
