@@ -43,6 +43,7 @@ void community_file_name(char community_name[25], char file_name[70])
         i++;
         k++;
     }
+    file_name[i] = '\0';
 }
 
 int search_communtity(char community_name[25])
@@ -90,7 +91,6 @@ int create_community()
     }
     strcpy(c->name, community_name);
     c->id = ++community_count_start;
-    update_community_count();
     FILE *fp = fopen("files/community/communities_all.rdt", "a+");
     if (fp == NULL)
     {
@@ -98,20 +98,23 @@ int create_community()
         return FAILURE;
     }
     getchar();
-    printf("Enter a description: ");
-    scanf("%[^\n]s", c->desc);
-    c->members = 0;
-    c->dt_created = 0;
-    fprintf(fp, "%d %d %d %s %s\n", c->id, c->members, c->dt_created, c->name, c->desc);
-    fclose(fp);
     char file_name[70];
     community_file_name(community_name, file_name);
     FILE *fp1 = fopen(file_name, "w+");
     if (fp1 == NULL)
     {
         print_error("Error opening the file.");
+        fclose(fp);
         return FAILURE;
     }
     fclose(fp1);
+    printf("Enter a description: ");
+    scanf("%[^\n]s", c->desc);
+    c->members = 0;
+    c->dt_created = 0;
+    fprintf(fp, "%d %d %d %s %s\n", c->id, c->members, c->dt_created, c->name, c->desc);
+    fclose(fp);
+    update_community_count();
+    print_success("Community sucessfully created!");
     return SUCCESS;
 }
