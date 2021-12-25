@@ -55,10 +55,11 @@ int search_communtity(char community_name[25])
         return FAILURE;
     }
     char temp[25];
+    COMMUNITY *c = (COMMUNITY *)malloc(sizeof(COMMUNITY));
     while (!feof(fp))
     {
-        fscanf(fp, "%s", temp);
-        if (!strcmp(community_name, temp))
+        fscanf(fp, "%d\t%d\t%d\t%s\n%[^\n]s\n ", &c->id, &c->members, &c->dt_created, c->name, c->desc);
+        if (!strcmp(community_name, c->name))
         {
             fclose(fp);
             return SUCCESS;
@@ -112,9 +113,101 @@ int create_community()
     scanf("%[^\n]s", c->desc);
     c->members = 0;
     c->dt_created = 0;
-    fprintf(fp, "%d %d %d %s %s\n", c->id, c->members, c->dt_created, c->name, c->desc);
+    fprintf(fp, "%d\t%d\t%d\t%s\n%s\n", c->id, c->members, c->dt_created, c->name, c->desc);
     fclose(fp);
     update_community_count();
     print_success("Community sucessfully created!");
+    all_communities = insert_community_at_end(all_communities, c);
     return SUCCESS;
+}
+
+void init_communities()
+{
+    read_community_count();
+    FILE *fp = fopen("files/community/communities_all.rdt", "r");
+    if (fp == NULL)
+    {
+        print_error("File empty!");
+        return;
+    }
+    while (!feof(fp))
+    {
+        COMMUNITY *c = (COMMUNITY *)malloc(sizeof(COMMUNITY));
+        if (c == NULL)
+        {
+            print_error("Heap is full");
+            return;
+        }
+        fscanf(fp, "%d\t%d\t%d\t%s\n%[^\n]s\n", &c->id, &c->members, &c->dt_created, c->name, c->desc);
+        if (c->id > community_count_start)
+        {
+            break;
+        }
+        all_communities = insert_community_at_end(all_communities, c);
+    }
+    fclose(fp);
+}
+
+COMMUNITY_HOLDER *insert_community_at_end(COMMUNITY_HOLDER *hdr, COMMUNITY *u)
+{
+    COMMUNITY_HOLDER *n = (COMMUNITY_HOLDER *)malloc(sizeof(COMMUNITY_HOLDER));
+    if (n == NULL)
+    {
+        print_error("The Heap is full!");
+        return hdr;
+    }
+    n->next = NULL;
+    n->user_content = u;
+    if (hdr == NULL)
+    {
+        hdr = n;
+        return hdr;
+    }
+    COMMUNITY_HOLDER *temp = hdr;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = n;
+    return hdr;
+}
+
+void print_all_communities()
+{
+    if (all_communities == NULL)
+    {
+        print_error("No communities!");
+        return;
+    }
+    COMMUNITY_HOLDER *temp = all_communities;
+    printf("\n>> COMMUNITIES: \n");
+    while (temp != NULL)
+    {
+        printf("%d) %s - %s\n", temp->user_content->id, temp->user_content->name, temp->user_content->desc);
+        temp = temp->next;
+    }
+}
+
+void update_communities_file()
+{
+    if (all_users == NULL)
+    {
+        print_error("No communities!");
+        return;
+    }
+    FILE *fp = fopen("files/community/communities_all.rdt", "w+");
+    if (fp == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    COMMUNITY_HOLDER *temp = all_communities;
+    COMMUNITY *c;
+    while (temp != NULL)
+    {
+        c = temp->user_content;
+        fprintf(fp, "%d\t%d\t%d\t%s\n%s\n", c->id, c->members, c->dt_created, c->name, c->desc);
+        temp = temp->next;
+    }
+    fclose(fp);
 }

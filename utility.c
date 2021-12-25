@@ -129,12 +129,14 @@ void print_all_users()
     }
     USER_HOLDER *temp = all_users;
     printf("\n>> REGISTERED USERS: \n");
+    int i = 0;
     while (temp != NULL)
     {
         printf("%s\n", temp->user_content->username);
         temp = temp->next;
+        i++;
     }
-    printf("\n");
+    printf("\n%d\n", i);
 }
 
 void update_users_file()

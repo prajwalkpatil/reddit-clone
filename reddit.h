@@ -30,6 +30,7 @@ int community_count_start = 0;
 // Global declarions
 USER_HOLDER *main_user_holder = NULL;
 USER_HOLDER *all_users = NULL;
+COMMUNITY_HOLDER *all_communities = NULL;
 
 // TODO: Insert function definitions
 char *hash448(char *str);
@@ -54,6 +55,10 @@ void update_post_count();
 int create_community();
 void update_community_count();
 void read_community_count();
+void init_communities();
+COMMUNITY_HOLDER *insert_community_at_end(COMMUNITY_HOLDER *hdr, COMMUNITY *u);
+void print_all_communities();
+void update_communities_file();
 
 // TODO: sort as - top, new, best
 #endif
