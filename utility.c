@@ -169,3 +169,74 @@ void update_users_file()
     }
     fclose(fp);
 }
+
+//! Don't use this function unless you want to reset all the users and communities
+void create_initial_files()
+{
+    FILE *fp = fopen("files/auth/users.rdt", "w+");
+    if (fp == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fclose(fp);
+
+    FILE *fp1 = fopen("files/auth/ucs.rdt", "w+");
+    if (fp1 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+
+    fclose(fp1);
+
+    FILE *fp2 = fopen("files/auth/users.rdt", "w+");
+    if (fp2 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fclose(fp2);
+
+    FILE *fp3 = fopen("files/auth/loggedin.rdt", "w+");
+    if (fp3 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fclose(fp3);
+
+    FILE *fp4 = fopen("files/community/communities_all.rdt", "w+");
+    if (fp4 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fclose(fp4);
+
+    FILE *fp5 = fopen("files/community/community_count.rdt", "w+");
+    if (fp5 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fprintf(fp5, "0");
+    fclose(fp5);
+
+    FILE *fp6 = fopen("files/posts/post_count.rdt", "w+");
+    if (fp6 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fprintf(fp6, "0");
+    fclose(fp6);
+
+    FILE *fp7 = fopen("files/posts/posts_all.rdt", "w+");
+    if (fp7 == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    fclose(fp7);
+}

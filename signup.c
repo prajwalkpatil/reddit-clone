@@ -192,6 +192,41 @@ int check_duplicates(char username_req[18], char email_req[64])
     return SUCCESS;
 }
 
+void user_file_name(char user_name[25], char file_name[70])
+{
+    int i = 0;
+    int k = 0;
+    strcpy(file_name, "files/users/");
+    i = 12;
+    while (user_name[k] != '\0')
+    {
+        file_name[i] = user_name[k];
+        i++;
+        k++;
+    }
+    k = 0;
+    while (k != 4)
+    {
+        file_name[i] = ".rdt"[k];
+        i++;
+        k++;
+    }
+    file_name[i] = '\0';
+}
+
+void create_user_file(char user_name[25])
+{
+    char file_name[70];
+    user_file_name(user_name, file_name);
+    FILE *fp1 = fopen(file_name, "w+");
+    if (fp1 == NULL)
+    {
+        print_error("Error opening the file.");
+        return;
+    }
+    fclose(fp1);
+}
+
 int auth_user(char username_r[18], char password_r[31])
 {
     FILE *fp = fopen("files/auth/pwds.rdt", "r");
@@ -213,6 +248,7 @@ int auth_user(char username_r[18], char password_r[31])
             {
                 print_success("You are logged in! soon will be redirected!");
                 add_username_file(username_r);
+                strcpy(main_user_holder->user_content->name, username_r);
                 return SUCCESS;
             }
         }
@@ -293,6 +329,7 @@ void sign_up()
     update_ucs();
     print_success("Account sucessfully created!..");
     print_success("You will be redirected to login page soon!");
+    create_user_file(u->username);
     all_users = insert_user_at_end(all_users, u);
     timeout(3);
     screen_reset();

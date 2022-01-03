@@ -3,6 +3,7 @@
 #include "signup.c"
 #include "signin.c"
 #include "community.c"
+#include "post.c"
 
 int main()
 {
@@ -10,7 +11,9 @@ int main()
     print_all_users();
     init_communities();
     print_all_communities();
-    create_community();
+    // create_community();
+    login_user();
+    add_post();
     print_all_communities();
     return 0;
 }

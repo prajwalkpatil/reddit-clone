@@ -49,6 +49,7 @@ struct post
     int downvotes;
     unsigned long long dt;
     char username[18];
+    char community_name[25];
     char title[MAX_SIZE_TITLE];
     char content[MAX_SIZE_CONTENT];
     struct post *next;
