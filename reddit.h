@@ -66,6 +66,8 @@ void create_post_file(int id);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//
-
+void create_user_community_file(char user_name[25]);
+void user_community_file_name(char user_name[25], char file_name[70]);
+void join_community();
 // TODO: sort as - top, new, best
 #endif

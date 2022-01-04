@@ -211,3 +211,61 @@ void update_communities_file()
     }
     fclose(fp);
 }
+
+void join_community()
+{
+    char community_name[25];
+    printf("Enter a community name: ");
+    scanf("%s", community_name);
+    if (!search_communtity(community_name))
+    {
+        print_error("Community not found!");
+        return;
+    }
+
+    char file_name[70];
+    char temp_community_name[70];
+    user_community_file_name(main_user_holder->user_content->username, file_name);
+
+    //*Check if the user has already joined the community
+    FILE *fp_c = fopen(file_name, "r");
+    if (fp_c == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    while (!feof(fp_c))
+    {
+        fscanf(fp_c, "%s\n", temp_community_name);
+        if (!strcmp(community_name, temp_community_name))
+        {
+            print_error("You've already joined the community!");
+            return;
+        }
+    }
+    fclose(fp_c);
+
+    //*Write the community name in the user file
+    FILE *fp_usr = fopen(file_name, "a+");
+    if (fp_usr == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    //*Write the community name in the user file
+    fprintf(fp_usr, "%s\n", community_name);
+    fclose(fp_usr);
+    print_success("You have sucessfully joined the community!");
+
+    //*Increase the number of members in the community
+    COMMUNITY_HOLDER *temp = all_communities;
+    while (temp != NULL)
+    {
+        if (!strcmp(community_name, temp->user_content->name))
+        {
+            ++(temp->user_content->members);
+            break;
+        }
+        temp = temp->next;
+    }
+}

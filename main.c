@@ -13,7 +13,9 @@ int main()
     print_all_communities();
     // create_community();
     login_user();
-    add_post();
+    join_community();
+    update_communities_file();
+    // add_post();
     print_all_communities();
     return 0;
 }

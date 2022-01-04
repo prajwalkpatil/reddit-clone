@@ -227,6 +227,41 @@ void create_user_file(char user_name[25])
     fclose(fp1);
 }
 
+void user_community_file_name(char user_name[25], char file_name[70])
+{
+    int i = 0;
+    int k = 0;
+    strcpy(file_name, "files/community/users/");
+    i = 22;
+    while (user_name[k] != '\0')
+    {
+        file_name[i] = user_name[k];
+        i++;
+        k++;
+    }
+    k = 0;
+    while (k != 4)
+    {
+        file_name[i] = ".rdt"[k];
+        i++;
+        k++;
+    }
+    file_name[i] = '\0';
+}
+
+void create_user_community_file(char user_name[25])
+{
+    char file_name[70];
+    user_community_file_name(user_name, file_name);
+    FILE *fp1 = fopen(file_name, "w+");
+    if (fp1 == NULL)
+    {
+        print_error("Error opening the file.");
+        return;
+    }
+    fclose(fp1);
+}
+
 int auth_user(char username_r[18], char password_r[31])
 {
     FILE *fp = fopen("files/auth/pwds.rdt", "r");
@@ -330,6 +365,7 @@ void sign_up()
     print_success("Account sucessfully created!..");
     print_success("You will be redirected to login page soon!");
     create_user_file(u->username);
+    create_user_community_file(u->username);
     all_users = insert_user_at_end(all_users, u);
     timeout(3);
     screen_reset();
