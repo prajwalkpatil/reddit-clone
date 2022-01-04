@@ -12,10 +12,10 @@ int main()
     print_all_users();
     init_communities();
     print_all_communities();
-    // create_community();
-    while (status == 0)
-        status = login_user();
-    join_community();
+    create_community();
+    // while (status == 0)
+    //     status = login_user();
+    // join_community();
     // add_post();
     print_all_communities();
     return 0;
