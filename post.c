@@ -28,7 +28,7 @@ void create_post_file(int id)
     char post_name[25];
     itoa(id, post_name, 10);
     // printf("%s\n", post_name);
-    char file_name[70];
+    char file_name[270];
     post_file_name(post_name, file_name);
     // printf("%s\n", file_name);
     FILE *fp1 = fopen(file_name, "w+");
@@ -119,7 +119,7 @@ void add_post()
     print_success("This post was sucessfully posted!");
 }
 
-void post_file_name(char post_name[25], char file_name[70])
+void post_file_name(char post_name[25], char file_name[270])
 {
     int i = 0;
     int k = 0;

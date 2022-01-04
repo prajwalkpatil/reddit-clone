@@ -223,24 +223,22 @@ void join_community()
         return;
     }
 
-    char file_name[70];
-    char temp_community_name[70];
+    char file_name[270];
+    char temp_community_name[270];
     user_community_file_name(main_user_holder->user_content->username, file_name);
 
     //*Check if the user has already joined the community
     FILE *fp_c = fopen(file_name, "r");
-    if (fp_c == NULL)
+    if (fp_c != NULL)
     {
-        print_error("Error opening file.");
-        return;
-    }
-    while (!feof(fp_c))
-    {
-        fscanf(fp_c, "%s\n", temp_community_name);
-        if (!strcmp(community_name, temp_community_name))
+        while (!feof(fp_c))
         {
-            print_error("You've already joined the community!");
-            return;
+            fscanf(fp_c, "%s\n", temp_community_name);
+            if (!strcmp(community_name, temp_community_name))
+            {
+                print_error("You've already joined the community!");
+                return;
+            }
         }
     }
     fclose(fp_c);
@@ -268,4 +266,5 @@ void join_community()
         }
         temp = temp->next;
     }
+    update_communities_file();
 }

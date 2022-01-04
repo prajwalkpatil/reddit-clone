@@ -192,7 +192,7 @@ int check_duplicates(char username_req[18], char email_req[64])
     return SUCCESS;
 }
 
-void user_file_name(char user_name[25], char file_name[70])
+void user_file_name(char user_name[25], char file_name[270])
 {
     int i = 0;
     int k = 0;
@@ -216,7 +216,7 @@ void user_file_name(char user_name[25], char file_name[70])
 
 void create_user_file(char user_name[25])
 {
-    char file_name[70];
+    char file_name[270];
     user_file_name(user_name, file_name);
     FILE *fp1 = fopen(file_name, "w+");
     if (fp1 == NULL)
@@ -227,7 +227,7 @@ void create_user_file(char user_name[25])
     fclose(fp1);
 }
 
-void user_community_file_name(char user_name[25], char file_name[70])
+void user_community_file_name(char user_name[25], char file_name[270])
 {
     int i = 0;
     int k = 0;

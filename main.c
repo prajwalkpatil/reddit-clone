@@ -7,14 +7,15 @@
 
 int main()
 {
+    int status = 0;
     init_users();
     print_all_users();
     init_communities();
     print_all_communities();
     // create_community();
-    login_user();
+    while (status == 0)
+        status = login_user();
     join_community();
-    update_communities_file();
     // add_post();
     print_all_communities();
     return 0;
