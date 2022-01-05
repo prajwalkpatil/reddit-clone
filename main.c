@@ -23,7 +23,7 @@ int main()
     // add_post();
     // add_comment(2);
     print_all_users();
-    add_reply(9);
+    add_reply(12);
     // all_communities = initialize_posts();
     // printf("\n**************************************\n");
     // print_all_posts();
