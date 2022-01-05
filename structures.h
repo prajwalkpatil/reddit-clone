@@ -64,6 +64,7 @@ struct community
     int members;
     char name[25];
     char desc[MAX_SIZE_DESCRIPTION];
+    struct post *posts;
 };
 typedef struct community COMMUNITY;
 

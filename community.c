@@ -268,3 +268,106 @@ void join_community()
     }
     update_communities_file();
 }
+
+POST *insert_post_at_end(POST *head, int post_id)
+{
+    if (head == NULL)
+    {
+        head = get_post_by_id(post_id);
+        return head;
+    }
+    POST *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = get_post_by_id(post_id);
+    return head;
+}
+
+void initialize_posts()
+{
+    int temp_post_id;
+    if (all_communities == NULL)
+    {
+        print_error("No communities!");
+        return;
+    }
+    COMMUNITY_HOLDER *temp = all_communities;
+    char temp_comm_file_name[25];
+    FILE *fp;
+    while (temp != NULL)
+    {
+        community_file_name(temp->user_content->name, temp_comm_file_name);
+        if (!file_empty_check(temp_comm_file_name))
+        {
+            printf("\n* %s *", temp_comm_file_name);
+            fp = fopen(temp_comm_file_name, "r");
+            if (fp != NULL)
+            {
+                // print_error("Unable to open the file!");
+                // return;
+                while (!feof(fp))
+                {
+                    fscanf(fp, "%d\n", &temp_post_id);
+                    printf("\nid== %d ", temp_post_id);
+                    temp->user_content->posts = insert_post_at_end(temp->user_content->posts, temp_post_id);
+                }
+                fclose(fp);
+            }
+        }
+        temp = temp->next;
+    }
+}
+
+POST *get_post_by_id(int id)
+{
+    POST *p = (POST *)malloc(sizeof(POST));
+    if (p == NULL)
+    {
+        print_error("Heap is full!");
+        return NULL;
+    }
+    char file_name[25];
+    char post_name[25];
+    itoa(id, post_name, 10);
+    post_file_name(post_name, file_name);
+    printf("%s\n", file_name);
+    FILE *fp = fopen(file_name, "r");
+    if (fp != NULL)
+    {
+        print_error("Unable to open the file");
+        return NULL;
+    }
+    fscanf(fp, "%d %llu %d %d %s %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username, p->community_name);
+    fscanf(fp, "%s\n%s\n", p->title, p->content);
+    fclose(fp);
+    p->next = NULL;
+    return p;
+}
+
+void print_all_posts()
+{
+    COMMUNITY_HOLDER *temp = all_communities;
+    if (temp == NULL)
+    {
+        print_error("No communitites!");
+        return;
+    }
+    POST *temp_post = NULL;
+    int i = 0;
+    while (temp != NULL)
+    {
+        i = 0;
+        printf("Community: %s\n", temp->user_content->name);
+        temp_post = temp->user_content->posts;
+        while (temp_post != NULL)
+        {
+            printf("%d) %s\n%s\n", i, temp_post->title, temp_post->content);
+            temp_post = temp_post->next;
+            i++;
+        }
+        printf("\n\n");
+        temp = temp->next;
+    }
+}

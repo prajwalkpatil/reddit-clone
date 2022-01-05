@@ -240,3 +240,18 @@ void create_initial_files()
     }
     fclose(fp7);
 }
+
+int file_empty_check(char *filename)
+{
+
+    struct stat filestat;
+    stat(filename, &filestat);
+    if (filestat.st_size == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
