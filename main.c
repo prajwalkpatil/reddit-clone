@@ -13,16 +13,19 @@ int main()
     // print_all_users();
     init_communities();
     // print_all_communities();
-    // create_community();
+    print_all_users();
     // sign_up();
-    // while (status == 0)
-    //     status = login_user();
+    // login_user();
+    while (status == 0)
+        status = login_user();
+    // create_community();
+    // print_all_communities();
     // add_post();
-    // add_comment(6);
-    // add_reply(7);
-    print_all_communities();
-    initialize_posts();
-    printf("\n**************************************\n");
-    print_all_posts();
+    // add_comment(2);
+    print_all_users();
+    add_reply(9);
+    // all_communities = initialize_posts();
+    // printf("\n**************************************\n");
+    // print_all_posts();
     return 0;
 }

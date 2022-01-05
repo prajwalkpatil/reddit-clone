@@ -255,3 +255,32 @@ int file_empty_check(char *filename)
         return 0;
     }
 }
+
+long int date()
+{
+    int year, month, day;
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    year = tm.tm_year + 1900;
+    month = tm.tm_mon + 1;
+    day = tm.tm_mday;
+    long int date;
+    date = (year * 10000) + (month * 100) + day;
+    return date;
+}
+
+unsigned long long int date_time()
+{
+    int year, month, day, hour, min, sec;
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    year = tm.tm_year + 1900;
+    month = tm.tm_mon + 1;
+    day = tm.tm_mday;
+    hour = tm.tm_hour;
+    min = tm.tm_min;
+    sec = tm.tm_sec;
+    unsigned long long int date_time;
+    date_time = (year * 10000000000) + (month * 100000000) + (day * 1000000) + (hour * 10000) + (min * 100) + sec;
+    return date_time;
+}

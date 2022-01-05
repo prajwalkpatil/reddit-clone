@@ -27,7 +27,7 @@ int user_count_start = 0;
 int post_count_start = 0;
 int community_count_start = 0;
 
-// Global declarions
+// Global declarations
 USER_HOLDER *main_user_holder = NULL;
 USER_HOLDER *all_users = NULL;
 COMMUNITY_HOLDER *all_communities = NULL;
@@ -63,9 +63,6 @@ void user_file_name(char user_name[25], char file_name[270]);
 void create_user_file(char user_name[25]);
 void post_file_name(char post_name[25], char file_name[270]);
 void create_post_file(int id);
-//! Don't use this function unless you want to reset all the users and communities
-void create_initial_files();
-//!______________________________________________________________________________//
 void create_user_community_file(char user_name[25]);
 void user_community_file_name(char user_name[25], char file_name[270]);
 void join_community();
@@ -76,7 +73,12 @@ void add_reply(int comment_id);
 // TODO: sort as - top, new, best
 POST *get_post_by_id(int id);
 POST *insert_post_at_end(POST *head, int post_id);
-void initialize_posts();
+COMMUNITY_HOLDER *initialize_posts();
 void print_all_posts();
 int file_empty_check(char *filename);
+long int date();
+unsigned long long int date_time();
+//! Don't use this function unless you want to reset all the users and communities
+void create_initial_files();
+//!______________________________________________________________________________//
 #endif

@@ -274,6 +274,7 @@ POST *insert_post_at_end(POST *head, int post_id)
     if (head == NULL)
     {
         head = get_post_by_id(post_id);
+        printf("\n%d\n%s\n%s", head->id, head->title, head->content);
         return head;
     }
     POST *temp = head;
@@ -282,16 +283,17 @@ POST *insert_post_at_end(POST *head, int post_id)
         temp = temp->next;
     }
     temp->next = get_post_by_id(post_id);
+    printf("\n%d%s%s", temp->next->id, temp->next->title, temp->next->content);
     return head;
 }
 
-void initialize_posts()
+COMMUNITY_HOLDER *initialize_posts()
 {
     int temp_post_id;
     if (all_communities == NULL)
     {
         print_error("No communities!");
-        return;
+        return all_communities;
     }
     COMMUNITY_HOLDER *temp = all_communities;
     char temp_comm_file_name[25];
@@ -303,21 +305,22 @@ void initialize_posts()
         {
             printf("\n* %s *", temp_comm_file_name);
             fp = fopen(temp_comm_file_name, "r");
-            if (fp != NULL)
+            if (fp == NULL)
             {
-                // print_error("Unable to open the file!");
-                // return;
-                while (!feof(fp))
-                {
-                    fscanf(fp, "%d\n", &temp_post_id);
-                    printf("\nid== %d ", temp_post_id);
-                    temp->user_content->posts = insert_post_at_end(temp->user_content->posts, temp_post_id);
-                }
-                fclose(fp);
+                print_error("Unable to open the file!");
+                return all_communities;
             }
+            while (!feof(fp))
+            {
+                fscanf(fp, "%d\n", &temp_post_id);
+                // printf("\nid== %d ", temp_post_id);
+                temp->user_content->posts = insert_post_at_end(temp->user_content->posts, temp_post_id);
+            }
+            fclose(fp);
         }
         temp = temp->next;
     }
+    return all_communities;
 }
 
 POST *get_post_by_id(int id)
@@ -334,13 +337,15 @@ POST *get_post_by_id(int id)
     post_file_name(post_name, file_name);
     printf("%s\n", file_name);
     FILE *fp = fopen(file_name, "r");
-    if (fp != NULL)
+    if (fp == NULL)
     {
         print_error("Unable to open the file");
         return NULL;
     }
     fscanf(fp, "%d %llu %d %d %s %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username, p->community_name);
-    fscanf(fp, "%s\n%s\n", p->title, p->content);
+    fgets(p->title, MAX_SIZE_TITLE, fp);
+    fgets(p->content, MAX_SIZE_CONTENT, fp);
+    // fscanf(fp, "%[^\n]s\n%[^\n]s\n", p->title, p->content);
     fclose(fp);
     p->next = NULL;
     return p;
@@ -355,6 +360,11 @@ void print_all_posts()
         return;
     }
     POST *temp_post = NULL;
+    if (temp_post == NULL)
+    {
+        print_error("Heap is full!");
+        return;
+    }
     int i = 0;
     while (temp != NULL)
     {

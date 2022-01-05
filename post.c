@@ -64,11 +64,14 @@ void add_post()
     getchar();
     printf("Enter post content: \n");
     scanf("%[^\n]s", p->content);
+    p->upvotes = 0;
+    p->downvotes = 0;
     p->user_id = main_user_holder->user_content->id;
     strcpy(p->username, main_user_holder->user_content->username);
     strcpy(p->community_name, community_name);
     //*Create the file with name of post id
     create_post_file(p->id);
+    p->dt = date_time();
     //***********************************************
     //*Write the id of post in the file of community
     char file_name[70];

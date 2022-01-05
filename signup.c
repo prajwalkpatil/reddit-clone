@@ -369,5 +369,5 @@ void sign_up()
     all_users = insert_user_at_end(all_users, u);
     timeout(3);
     screen_reset();
-    login_user();
+    // login_user();
 }

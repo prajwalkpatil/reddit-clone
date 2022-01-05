@@ -49,7 +49,7 @@ void add_comment(int post_id)
     scanf("%[^\n]s", p->content);
     strcpy(p->username, main_user_holder->user_content->username);
     p->id = ++post_count_start;
-
+    p->dt = date_time();
     char file_name[50];
     char post_name[50];
     itoa(p->id, post_name, 10);
@@ -60,7 +60,7 @@ void add_comment(int post_id)
         print_error("Error opening file!");
         return;
     }
-    fprintf(fp, "%d %d %d %s %s\n", p->id, p->upvotes, p->downvotes, p->username, p->content);
+    fprintf(fp, "%d %d %d %llu %s\n%s\n", p->id, p->upvotes, p->downvotes, p->dt, p->username, p->content);
     fclose(fp);
 
     itoa(post_id, post_name, 10);
@@ -91,7 +91,7 @@ void add_reply(int comment_id)
     scanf("%[^\n]s", p->content);
     strcpy(p->username, main_user_holder->user_content->username);
     p->id = ++post_count_start;
-
+    p->dt = date_time();
     char file_name[50];
     char comment_name[50];
     itoa(p->id, comment_name, 10);
@@ -102,7 +102,7 @@ void add_reply(int comment_id)
         print_error("Error opening file!");
         return;
     }
-    fprintf(fp, "%d %d %d %s %s\n", p->id, p->upvotes, p->downvotes, p->username, p->content);
+    fprintf(fp, "%d %d %d %llu %s\n%s\n", p->id, p->upvotes, p->downvotes, p->dt, p->username, p->content);
     fclose(fp);
 
     itoa(comment_id, comment_name, 10);
