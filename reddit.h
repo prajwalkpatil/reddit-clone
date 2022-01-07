@@ -78,6 +78,8 @@ int file_empty_check(char *filename);
 long int date();
 unsigned long long int date_time();
 void fgets_newline_kill(char a[]);
+COMMENT *insert_comment_at_end(COMMENT *head, int comment_id);
+COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//

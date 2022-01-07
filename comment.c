@@ -117,3 +117,51 @@ void add_reply(int comment_id)
     fclose(fp1);
     update_post_count();
 }
+
+COMMENT *insert_comment_at_end(COMMENT *head, int comment_id)
+{
+    COMMENT *p = (COMMENT *)malloc(sizeof(COMMENT));
+    p->next = NULL;
+    p->child = NULL;
+    if (head == NULL)
+    {
+        head = get_comment_by_id(head, p, comment_id);
+        // printf("\n%d\n%s\n%s", head->id, head->title, head->content);
+        return head;
+    }
+    COMMENT *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = get_comment_by_id(temp->next, p, comment_id);
+    // printf("\n%d\n%s\n%s\n", temp->next->id, temp->next->content);
+    return head;
+}
+
+COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id)
+{
+    if (p == NULL)
+    {
+        print_error("Heap is full!");
+        return NULL;
+    }
+    char file_name[55];
+    char comment_name[25];
+    itoa(id, comment_name, 10);
+    comment_file_name(comment_name, file_name);
+    FILE *fp = fopen(file_name, "r");
+    // printf("\n%s\n", file_name);
+    if (fp == NULL)
+    {
+        return NULL;
+    }
+    fscanf(fp, "%d %llu %d %d %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username);
+    fgets(p->content, MAX_SIZE_CONTENT, fp);
+    fgets_newline_kill(p->content);
+    fclose(fp);
+    p->child = NULL;
+    p->next = NULL;
+    t = p;
+    return t;
+}

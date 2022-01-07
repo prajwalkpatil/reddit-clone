@@ -270,6 +270,8 @@ void join_community()
 POST *insert_post_at_end(POST *head, int post_id)
 {
     POST *p = (POST *)malloc(sizeof(POST));
+    p->next = NULL;
+    p->child = NULL;
     if (head == NULL)
     {
         head = get_post_by_id(head, p, post_id);
@@ -294,6 +296,7 @@ POST *get_post_by_id(POST *t, POST *p, int id)
         return NULL;
     }
     char file_name[25];
+    int temp_comm_id;
     char post_name[25];
     itoa(id, post_name, 10);
     post_file_name(post_name, file_name);
@@ -309,8 +312,13 @@ POST *get_post_by_id(POST *t, POST *p, int id)
     fgets_newline_kill(p->title);
     fgets(p->content, MAX_SIZE_CONTENT, fp);
     fgets_newline_kill(p->content);
+    p->child = NULL;
+    while (!feof(fp))
+    {
+        fscanf(fp, "%d\n", &temp_comm_id);
+        p->child = insert_comment_at_end(p->child, temp_comm_id);
+    }
     fclose(fp);
-    p->next = NULL;
     t = p;
     return t;
 }
@@ -327,7 +335,7 @@ void initialize_posts()
     char file_name[40];
     FILE *fp;
     int temp_post_id;
-    while (temp->next != NULL)
+    while (temp->next->next != NULL)
     {
         strcpy(t_c, temp->user_content->name);
         community_file_name(t_c, file_name);
@@ -354,13 +362,14 @@ void print_all_posts()
         return;
     }
     POST *temp_post = (POST *)malloc(sizeof(POST));
+    COMMENT *temp_comment = (COMMENT *)malloc(sizeof(COMMENT));
     if (temp_post == NULL)
     {
         print_error("Heap is full!");
         return;
     }
     int i = 0;
-    while (temp != NULL)
+    while (temp->next != NULL)
     {
         i = 0;
         printf("Community: %s\n", temp->user_content->name);
@@ -368,6 +377,12 @@ void print_all_posts()
         while (temp_post != NULL)
         {
             printf("%d) %s\n%s\n", i, temp_post->title, temp_post->content);
+            temp_comment = temp_post->child;
+            while (temp_comment != NULL)
+            {
+                printf(">> %s\n", temp_comment->content);
+                temp_comment = temp_comment->next;
+            }
             temp_post = temp_post->next;
             i++;
         }

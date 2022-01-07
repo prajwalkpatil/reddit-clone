@@ -13,12 +13,12 @@ int main()
     // print_all_users();
     init_communities();
     // print_all_communities();
-    print_all_users();
+    // print_all_users();
     // sign_up();
     // while (status == 0)
     //     status = login_user();
     // create_community();
-    print_all_communities();
+    // print_all_communities();
     // login_user();
     // add_post();
     // add_comment(2);
