@@ -284,3 +284,13 @@ unsigned long long int date_time()
     date_time = (year * 10000000000) + (month * 100000000) + (day * 1000000) + (hour * 10000) + (min * 100) + sec;
     return date_time;
 }
+
+void fgets_newline_kill(char a[])
+{
+    size_t sl = strlen(a);
+
+    if (sl > 0 && a[sl - 1] == '\n')
+    {
+        a[sl - 1] = '\0';
+    }
+}

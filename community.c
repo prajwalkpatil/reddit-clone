@@ -138,11 +138,9 @@ void init_communities()
             print_error("Heap is full");
             return;
         }
-        fscanf(fp, "%d\t%d\t%d\t%s\n%[^\n]s\n", &c->id, &c->members, &c->dt_created, c->name, c->desc);
-        if (c->id > community_count_start)
-        {
-            break;
-        }
+        fscanf(fp, "%d\t%d\t%d\t%s\n", &c->id, &c->members, &c->dt_created, c->name);
+        fgets(c->desc, MAX_SIZE_DESCRIPTION, fp);
+        fgets_newline_kill(c->desc);
         all_communities = insert_community_at_end(all_communities, c);
     }
     fclose(fp);
@@ -271,10 +269,11 @@ void join_community()
 
 POST *insert_post_at_end(POST *head, int post_id)
 {
+    POST *p = (POST *)malloc(sizeof(POST));
     if (head == NULL)
     {
-        head = get_post_by_id(post_id);
-        printf("\n%d\n%s\n%s", head->id, head->title, head->content);
+        head = get_post_by_id(head, p, post_id);
+        // printf("\n%d\n%s\n%s", head->id, head->title, head->content);
         return head;
     }
     POST *temp = head;
@@ -282,50 +281,13 @@ POST *insert_post_at_end(POST *head, int post_id)
     {
         temp = temp->next;
     }
-    temp->next = get_post_by_id(post_id);
-    printf("\n%d%s%s", temp->next->id, temp->next->title, temp->next->content);
+    temp->next = get_post_by_id(temp->next, p, post_id);
+    // printf("\n%d\n%s\n%s\n", temp->next->id, temp->next->title, temp->next->content);
     return head;
 }
 
-COMMUNITY_HOLDER *initialize_posts()
+POST *get_post_by_id(POST *t, POST *p, int id)
 {
-    int temp_post_id;
-    if (all_communities == NULL)
-    {
-        print_error("No communities!");
-        return all_communities;
-    }
-    COMMUNITY_HOLDER *temp = all_communities;
-    char temp_comm_file_name[25];
-    FILE *fp;
-    while (temp != NULL)
-    {
-        community_file_name(temp->user_content->name, temp_comm_file_name);
-        if (!file_empty_check(temp_comm_file_name))
-        {
-            printf("\n* %s *", temp_comm_file_name);
-            fp = fopen(temp_comm_file_name, "r");
-            if (fp == NULL)
-            {
-                print_error("Unable to open the file!");
-                return all_communities;
-            }
-            while (!feof(fp))
-            {
-                fscanf(fp, "%d\n", &temp_post_id);
-                // printf("\nid== %d ", temp_post_id);
-                temp->user_content->posts = insert_post_at_end(temp->user_content->posts, temp_post_id);
-            }
-            fclose(fp);
-        }
-        temp = temp->next;
-    }
-    return all_communities;
-}
-
-POST *get_post_by_id(int id)
-{
-    POST *p = (POST *)malloc(sizeof(POST));
     if (p == NULL)
     {
         print_error("Heap is full!");
@@ -335,7 +297,7 @@ POST *get_post_by_id(int id)
     char post_name[25];
     itoa(id, post_name, 10);
     post_file_name(post_name, file_name);
-    printf("%s\n", file_name);
+    // printf("%s\n", file_name);
     FILE *fp = fopen(file_name, "r");
     if (fp == NULL)
     {
@@ -344,11 +306,43 @@ POST *get_post_by_id(int id)
     }
     fscanf(fp, "%d %llu %d %d %s %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username, p->community_name);
     fgets(p->title, MAX_SIZE_TITLE, fp);
+    fgets_newline_kill(p->title);
     fgets(p->content, MAX_SIZE_CONTENT, fp);
-    // fscanf(fp, "%[^\n]s\n%[^\n]s\n", p->title, p->content);
+    fgets_newline_kill(p->content);
     fclose(fp);
     p->next = NULL;
-    return p;
+    t = p;
+    return t;
+}
+
+void initialize_posts()
+{
+    if (all_communities == NULL)
+    {
+        print_error("No communities!");
+        return;
+    }
+    COMMUNITY_HOLDER *temp = all_communities;
+    char t_c[25];
+    char file_name[40];
+    FILE *fp;
+    int temp_post_id;
+    while (temp->next != NULL)
+    {
+        strcpy(t_c, temp->user_content->name);
+        community_file_name(t_c, file_name);
+        if (!file_empty_check(file_name))
+        {
+            fp = fopen(file_name, "r");
+            while (!feof(fp))
+            {
+                fscanf(fp, "%d\n", &temp_post_id);
+                temp->user_content->posts = insert_post_at_end(temp->user_content->posts, temp_post_id);
+            }
+        }
+        fclose(fp);
+        temp = temp->next;
+    }
 }
 
 void print_all_posts()
@@ -359,7 +353,7 @@ void print_all_posts()
         print_error("No communitites!");
         return;
     }
-    POST *temp_post = NULL;
+    POST *temp_post = (POST *)malloc(sizeof(POST));
     if (temp_post == NULL)
     {
         print_error("Heap is full!");
@@ -377,7 +371,7 @@ void print_all_posts()
             temp_post = temp_post->next;
             i++;
         }
-        printf("\n\n");
+        // printf("\n\n");
         temp = temp->next;
     }
 }

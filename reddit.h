@@ -70,15 +70,16 @@ void create_comment_file(char user_name[25]);
 void comment_file_name(char comment_name[25], char file_name[70]);
 void add_comment(int post_id);
 void add_reply(int comment_id);
-// TODO: sort as - top, new, best
-POST *get_post_by_id(int id);
+POST *get_post_by_id(POST *t, POST *p, int id);
 POST *insert_post_at_end(POST *head, int post_id);
-COMMUNITY_HOLDER *initialize_posts();
+void initialize_posts();
 void print_all_posts();
 int file_empty_check(char *filename);
 long int date();
 unsigned long long int date_time();
+void fgets_newline_kill(char a[]);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//
+// TODO: sort as - top, new, best
 #endif

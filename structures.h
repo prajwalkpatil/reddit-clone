@@ -5,6 +5,7 @@
 #define MAX_SIZE_TITLE 100
 #define MAX_SIZE_CONTENT 1000
 #define MAX_SIZE_DESCRIPTION 10000
+#define MAX_NUMBER_OF_POSTS 10000
 
 // Structure for user
 struct user
@@ -74,4 +75,5 @@ struct community_holder
     struct community_holder *next;
 };
 typedef struct community_holder COMMUNITY_HOLDER;
+
 #endif
