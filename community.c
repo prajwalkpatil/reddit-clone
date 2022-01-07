@@ -380,7 +380,7 @@ void print_all_posts()
             temp_comment = temp_post->child;
             while (temp_comment != NULL)
             {
-                printf(">> %s\n", temp_comment->content);
+                printf(">>%d) %s\n", temp_comment->id, temp_comment->content);
                 temp_comment = temp_comment->next;
             }
             temp_post = temp_post->next;
