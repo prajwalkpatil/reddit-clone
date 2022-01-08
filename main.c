@@ -21,7 +21,7 @@ int main()
     // print_all_communities();
     // login_user();
     // add_post();
-    // add_comment(2);
+    // add_comment(14);
     // print_all_users();
     // add_reply(12);
     initialize_posts();

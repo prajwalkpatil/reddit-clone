@@ -82,6 +82,7 @@ COMMENT *insert_comment_at_end(COMMENT *head, int comment_id);
 COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
+void print_comments(COMMENT *p, int level);
 //!______________________________________________________________________________//
 // TODO: sort as - top, new, best
 #endif

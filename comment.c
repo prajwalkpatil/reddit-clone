@@ -147,6 +147,7 @@ COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id)
         return NULL;
     }
     char file_name[55];
+    int temp_comment_id;
     char comment_name[25];
     itoa(id, comment_name, 10);
     comment_file_name(comment_name, file_name);
@@ -159,9 +160,32 @@ COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id)
     fscanf(fp, "%d %llu %d %d %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username);
     fgets(p->content, MAX_SIZE_CONTENT, fp);
     fgets_newline_kill(p->content);
+    while (!feof(fp))
+    {
+        fscanf(fp, "%d\n", &temp_comment_id);
+        p->child = insert_comment_at_end(p->child, temp_comment_id);
+    }
     fclose(fp);
-    p->child = NULL;
     p->next = NULL;
     t = p;
     return t;
+}
+
+void print_comments(COMMENT *p, int level)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    COMMENT *temp_comment = p;
+    while (temp_comment != NULL)
+    {
+        for (int l = 0; l < level; l++)
+        {
+            printf("\xB2\xB2\xB2");
+        }
+        printf("%d)%s commented: %s\n", temp_comment->id, temp_comment->username, temp_comment->content);
+        print_comments(temp_comment->child, level + 1);
+        temp_comment = temp_comment->next;
+    }
 }

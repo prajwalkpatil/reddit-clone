@@ -363,6 +363,7 @@ void print_all_posts()
     }
     POST *temp_post = (POST *)malloc(sizeof(POST));
     COMMENT *temp_comment = (COMMENT *)malloc(sizeof(COMMENT));
+    COMMENT *temp_comment_child = (COMMENT *)malloc(sizeof(COMMENT));
     if (temp_post == NULL)
     {
         print_error("Heap is full!");
@@ -376,13 +377,8 @@ void print_all_posts()
         temp_post = temp->user_content->posts;
         while (temp_post != NULL)
         {
-            printf("%d) %s\n%s\n", i, temp_post->title, temp_post->content);
-            temp_comment = temp_post->child;
-            while (temp_comment != NULL)
-            {
-                printf(">>%d) %s\n", temp_comment->id, temp_comment->content);
-                temp_comment = temp_comment->next;
-            }
+            printf("%d) %s\n%s\n", temp_post->id, temp_post->title, temp_post->content);
+            print_comments(temp_post->child, 1);
             temp_post = temp_post->next;
             i++;
         }
