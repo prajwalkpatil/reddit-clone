@@ -101,6 +101,18 @@ void d_red(char a[MAX_DISPLAY_SIZE]);
 void d_yellow(char a[MAX_DISPLAY_SIZE]);
 void d_lblue(char a[MAX_DISPLAY_SIZE]);
 void d_purple(char a[MAX_DISPLAY_SIZE]);
+void red_black();
+void yellow_black();
+void green_black();
+void blue_black();
+void purple_black();
+void lblue_black();
+void blue();
+void red();
+void yellow();
+void lblue();
+void purple();
+void reset();
 
 //********************************************
 

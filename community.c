@@ -377,7 +377,15 @@ void print_all_posts()
         temp_post = temp->user_content->posts;
         while (temp_post != NULL)
         {
-            printf("%d)u/%s posted: %s\n%s\n", temp_post->id, temp_post->username, temp_post->title, temp_post->content);
+            printf("%d)", temp_post->id);
+            blue_black();
+            printf(" u/%s", temp_post->username);
+            reset();
+            printf(" posted: ");
+            lblue();
+            printf("%s\n", temp_post->title);
+            reset();
+            printf("%s\n", temp_post->content);
             print_comments(temp_post->child, 1);
             printf("\n");
             temp_post = temp_post->next;

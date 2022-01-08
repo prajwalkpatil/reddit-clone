@@ -184,12 +184,17 @@ void print_comments(COMMENT *p, int level)
         {
             printf("\xB2\xB2");
         }
-        printf("%d)u/%s", temp_comment->id, temp_comment->username);
+        printf("%d)", temp_comment->id);
+        purple_black();
+        printf(" u/%s ", temp_comment->username);
+        reset();
         if (level == 1)
-            printf(" commented:");
+            printf(" commented: ");
         else
-            printf(" replied:");
+            printf(" replied: ");
+        purple();
         printf("%s\n", temp_comment->content);
+        reset();
         print_comments(temp_comment->child, level + 1);
         temp_comment = temp_comment->next;
     }
