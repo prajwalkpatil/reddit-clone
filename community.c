@@ -373,15 +373,23 @@ void print_all_posts()
     while (temp->next != NULL)
     {
         i = 0;
-        printf("r/%s\n", temp->user_content->name);
+        yellow_black();
         temp_post = temp->user_content->posts;
+        if (temp_post != NULL)
+            printf("  r/%s  ", temp->user_content->name);
+        reset();
         while (temp_post != NULL)
         {
+            printf("\n\n");
             printf("%d)", temp_post->id);
             blue_black();
             printf(" u/%s", temp_post->username);
             reset();
-            printf(" posted: ");
+            printf(" posted at ");
+            blue_black();
+            print_date_time(temp_post->dt);
+            reset();
+            printf(" : ");
             lblue();
             printf("%s\n", temp_post->title);
             reset();
@@ -390,8 +398,8 @@ void print_all_posts()
             printf("\n");
             temp_post = temp_post->next;
             i++;
+            printf("\n\n");
         }
-        printf("\n\n");
         temp = temp->next;
     }
 }

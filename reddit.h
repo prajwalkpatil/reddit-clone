@@ -112,10 +112,14 @@ void red();
 void yellow();
 void lblue();
 void purple();
+void green();
 void reset();
 
 //********************************************
-
+void print_date_time(unsigned long long n);
+void print_date(int n);
+void display_lr();
+void display_logo();
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//

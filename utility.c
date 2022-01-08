@@ -16,6 +16,37 @@ void get_date_time(long long n, int *year, int *month, int *day, int *hr, int *m
     *hr = *hr % 100;
 }
 
+void print_date(int n)
+{
+    int year;
+    int month;
+    int day;
+    year = n / 10000;
+    day = n % 100;
+    month = n / 100;
+    month = month % 100;
+    printf(" %d/%d/%d ", day, month, year);
+}
+
+void print_date_time(unsigned long long n)
+{
+    // 20220105155722
+    int year;
+    int month;
+    int day;
+    int hr;
+    int min;
+    int sec;
+    get_date(n / 1000000, &year, &month, &day);
+    n = n % 1000000;
+    hr = n / 10000;
+    n = n % 10000;
+    min = n / 100;
+    n = n % 100;
+    sec = n;
+    printf(" %d/%d/%d %d:%d:%d ", day, month, year, hr, min, sec);
+}
+
 void print_error(char str[1000])
 {
     printf("\033[1;31m");

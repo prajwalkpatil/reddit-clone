@@ -4,7 +4,11 @@ int login_user()
 {
     main_user_holder = (USER_HOLDER *)malloc(sizeof(USER_HOLDER));
     main_user_holder->user_content = (USER *)malloc(sizeof(USER));
-    printf("\n-- Login --\n");
+    printf("\n\xB2\xB2\xB2\xB2");
+    blue();
+    printf("  Login  ");
+    reset();
+    printf("\xB2\xB2\xB2\xB2\n");
     char entered_username[31];
     char temp_char;
     char pwd[31];
@@ -38,6 +42,7 @@ int login_user()
     if (status == SUCCESS)
     {
         strcpy(main_user_holder->user_content->username, entered_username);
+        screen_reset();
         return SUCCESS;
     }
     else

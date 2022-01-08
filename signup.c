@@ -295,6 +295,9 @@ int auth_user(char username_r[18], char password_r[31])
 void sign_up()
 {
     read_ucs();
+    green();
+    printf("\nCreate an account on Reddit and become part of our community!\n");
+    reset();
     char pwd[31];
     int status = 0;
     int status_t = 0;
@@ -304,9 +307,13 @@ void sign_up()
     if (u == NULL)
     {
         printf("Heap is full!");
-        exit(0);
+        return;
     }
-    printf("-- Signup --\n");
+    printf("\n\xB2\xB2\xB2\xB2");
+    green();
+    printf("  Signup  ");
+    reset();
+    printf("\xB2\xB2\xB2\xB2\n");
     printf("Name: ");
     scanf("%s", u->name);
     getchar();

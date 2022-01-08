@@ -157,7 +157,7 @@ COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id)
     {
         return NULL;
     }
-    fscanf(fp, "%d %llu %d %d %s\n", &p->id, &p->dt, &p->upvotes, &p->downvotes, p->username);
+    fscanf(fp, "%d %d %d %llu %s\n", &p->id, &p->upvotes, &p->downvotes, &p->dt, p->username);
     fgets(p->content, MAX_SIZE_CONTENT, fp);
     fgets_newline_kill(p->content);
     while (!feof(fp))
@@ -189,9 +189,13 @@ void print_comments(COMMENT *p, int level)
         printf(" u/%s ", temp_comment->username);
         reset();
         if (level == 1)
-            printf(" commented: ");
+            printf(" commented at ");
         else
-            printf(" replied: ");
+            printf(" replied at ");
+        purple_black();
+        print_date_time(temp_comment->dt);
+        reset();
+        printf(" : ");
         purple();
         printf("%s\n", temp_comment->content);
         reset();

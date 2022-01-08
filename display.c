@@ -95,6 +95,11 @@ void red()
     printf("\033[31m");
 }
 
+void green()
+{
+    printf("\033[32m");
+}
+
 void yellow()
 {
     printf("\033[33m");
@@ -112,5 +117,59 @@ void purple()
 
 void reset()
 {
-    printf("\033[m");
+    printf("\033[0m");
+}
+
+void display_lr()
+{
+    int status = 0;
+    int choice = 0;
+    printf("\n1) Register");
+    printf("\n2) Login");
+    printf("\n3) Browse");
+    printf("\n4) Exit");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        sign_up();
+        display_lr();
+        break;
+    case 2:
+        while (status == 0)
+            status = login_user();
+        return;
+        break;
+    case 3:
+        printf("\n\n");
+        print_all_posts();
+        display_lr();
+        break;
+    default:
+        return;
+        break;
+    }
+}
+
+void display_logo()
+{
+    red();
+    printf("    ____           __    ___ __\n"
+           "   / __ \\___  ____/ /___/ (_) /_\n"
+           "  / /_/ / _ \\/ __  / __  / / __/\n"
+           " / _, _/  __/ /_/ / /_/ / / /_\n"
+           "/_/ |_|\\___/\\__,_/\\__,_/_/\\__/\n");
+    printf("\nFront page of the internet.\n");
+    reset();
+}
+void display_loggedin()
+{
+    purple_black();
+    printf("  Logged in as  ");
+    reset();
+    lblue_black();
+    printf(" u/%s  ", main_user_holder->user_content->username);
+    reset();
+    printf("\n");
 }

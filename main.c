@@ -8,15 +8,17 @@
 #include "display.c"
 int main()
 {
-    int status = 0;
+    screen_reset();
     init_users();
-    print_all_users();
     init_communities();
+    initialize_posts();
+    display_logo();
+    display_lr();
+    display_loggedin();
+    // print_all_users();
     // print_all_communities();
     // print_all_users();
     // sign_up();
-    // while (status == 0)
-    //     status = login_user();
     // create_community();
     // print_all_communities();
     // while (status == 0)
@@ -27,8 +29,7 @@ int main()
     //     status = login_user();
     // add_reply(22);
     // print_all_users();
-    initialize_posts();
-    print_all_posts();
+    // print_all_posts();
     // printf("\n**************************************\n");
     return 0;
 }
