@@ -182,9 +182,15 @@ void print_comments(COMMENT *p, int level)
     {
         for (int l = 0; l < level; l++)
         {
-            printf("\xB2\xB2\xB2");
+            printf("\xB2\xB2");
         }
-        printf("%d)%s commented: %s\n", temp_comment->id, temp_comment->username, temp_comment->content);
+        // printf("%d)u/%s commented: %s\n", temp_comment->id, temp_comment->username, temp_comment->content);
+        printf("%d)u/%s", temp_comment->id, temp_comment->username);
+        if (level == 1)
+            printf(" commented:");
+        else
+            printf(" replied:");
+        printf("%s\n", temp_comment->content);
         print_comments(temp_comment->child, level + 1);
         temp_comment = temp_comment->next;
     }

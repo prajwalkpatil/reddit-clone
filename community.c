@@ -373,11 +373,11 @@ void print_all_posts()
     while (temp->next != NULL)
     {
         i = 0;
-        printf("Community: %s\n", temp->user_content->name);
+        printf("r/%s\n", temp->user_content->name);
         temp_post = temp->user_content->posts;
         while (temp_post != NULL)
         {
-            printf("%d) %s\n%s\n", temp_post->id, temp_post->title, temp_post->content);
+            printf("%d)u/%s posted: %s\n%s\n", temp_post->id, temp_post->username, temp_post->title, temp_post->content);
             print_comments(temp_post->child, 1);
             temp_post = temp_post->next;
             i++;
