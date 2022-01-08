@@ -80,9 +80,16 @@ unsigned long long int date_time();
 void fgets_newline_kill(char a[]);
 COMMENT *insert_comment_at_end(COMMENT *head, int comment_id);
 COMMENT *get_comment_by_id(COMMENT *t, COMMENT *p, int id);
+void print_comments(COMMENT *p, int level);
+void update_post_file(POST *p);
+void update_comment_file(COMMENT *c);
+void upvote_post(POST *p);
+void downvote_post(POST *p);
+void upvote_comment(COMMENT *p);
+void downvote_comment(COMMENT *p);
+
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
-void print_comments(COMMENT *p, int level);
 //!______________________________________________________________________________//
 // TODO: sort as - top, new, best
 #endif

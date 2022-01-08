@@ -143,3 +143,43 @@ void post_file_name(char post_name[25], char file_name[270])
     }
     file_name[i] = '\0';
 }
+
+void update_post_file(POST *p)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    char file_name[120];
+    char post_name[25];
+    itoa(p->id, post_name, 10);
+    post_file_name(post_name, file_name);
+    FILE *fp_post = fopen(file_name, "w+");
+    if (fp_post == NULL)
+    {
+        print_error("Error opening file.");
+        return;
+    }
+    //*Write the id of post in the user file
+    fprintf(fp_post, "%d %llu %d %d %s %s\n", p->id, p->dt, p->upvotes, p->downvotes, p->username, p->community_name);
+    fprintf(fp_post, "%s\n%s\n", p->title, p->content);
+    COMMENT *temp_comment = p->child;
+    while (temp_comment != NULL)
+    {
+        fprintf(fp_post, "%d\n", temp_comment->id);
+        temp_comment = temp_comment->next;
+    }
+    fclose(fp_post);
+}
+
+void upvote_post(POST *p)
+{
+    p->upvotes++;
+    update_post_file(p);
+}
+
+void downvote_post(POST *p)
+{
+    p->downvotes++;
+    update_post_file(p);
+}

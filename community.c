@@ -382,7 +382,7 @@ void print_all_posts()
             temp_post = temp_post->next;
             i++;
         }
-        // printf("\n\n");
+        printf("\n\n");
         temp = temp->next;
     }
 }

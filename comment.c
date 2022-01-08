@@ -184,7 +184,6 @@ void print_comments(COMMENT *p, int level)
         {
             printf("\xB2\xB2");
         }
-        // printf("%d)u/%s commented: %s\n", temp_comment->id, temp_comment->username, temp_comment->content);
         printf("%d)u/%s", temp_comment->id, temp_comment->username);
         if (level == 1)
             printf(" commented:");
@@ -194,4 +193,43 @@ void print_comments(COMMENT *p, int level)
         print_comments(temp_comment->child, level + 1);
         temp_comment = temp_comment->next;
     }
+}
+
+void update_comment_file(COMMENT *c)
+{
+    if (c == NULL)
+    {
+        return;
+    }
+    COMMENT *temp;
+    char file_name[100];
+    char comment_name[15];
+    itoa(c->id, comment_name, 10);
+    comment_file_name(comment_name, file_name);
+    FILE *fp = fopen(file_name, "w+");
+    if (fp == NULL)
+    {
+        print_error("Error opening file!");
+        return;
+    }
+    fprintf(fp, "%d %d %d %llu %s\n%s\n", c->id, c->upvotes, c->downvotes, c->dt, c->username, c->content);
+    temp = c->child;
+    while (temp != NULL)
+    {
+        fprintf(fp, "%d\n", temp->next);
+        temp = temp->next;
+    }
+    fclose(fp);
+}
+
+void upvote_comment(COMMENT *p)
+{
+    p->upvotes++;
+    update_comment_file(p);
+}
+
+void downvote_comment(COMMENT *p)
+{
+    p->downvotes++;
+    update_comment_file(p);
 }
