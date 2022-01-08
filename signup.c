@@ -299,7 +299,7 @@ void sign_up()
     int status = 0;
     int status_t = 0;
     USER *u = (USER *)malloc(sizeof(USER));
-    u->date_of_joining = 000;
+    u->date_of_joining = date();
     u->id = ++user_count_start;
     if (u == NULL)
     {

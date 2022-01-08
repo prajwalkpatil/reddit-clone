@@ -5,7 +5,7 @@
 #include "community.c"
 #include "post.c"
 #include "comment.c"
-
+#include "display.c"
 int main()
 {
     int status = 0;

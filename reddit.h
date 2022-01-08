@@ -88,6 +88,22 @@ void downvote_post(POST *p);
 void upvote_comment(COMMENT *p);
 void downvote_comment(COMMENT *p);
 
+//********** Display functions ***************
+
+void d_red_black(char a[MAX_DISPLAY_SIZE]);
+void d_yellow_black(char a[MAX_DISPLAY_SIZE]);
+void d_green_black(char a[MAX_DISPLAY_SIZE]);
+void d_blue_black(char a[MAX_DISPLAY_SIZE]);
+void d_purple_black(char a[MAX_DISPLAY_SIZE]);
+void d_lblue_black(char a[MAX_DISPLAY_SIZE]);
+void d_blue(char a[MAX_DISPLAY_SIZE]);
+void d_red(char a[MAX_DISPLAY_SIZE]);
+void d_yellow(char a[MAX_DISPLAY_SIZE]);
+void d_lblue(char a[MAX_DISPLAY_SIZE]);
+void d_purple(char a[MAX_DISPLAY_SIZE]);
+
+//********************************************
+
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//
