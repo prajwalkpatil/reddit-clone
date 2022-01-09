@@ -87,7 +87,8 @@ void upvote_post(POST *p);
 void downvote_post(POST *p);
 void upvote_comment(COMMENT *p);
 void downvote_comment(COMMENT *p);
-
+void print_community_posts(COMMUNITY_HOLDER *c);
+COMMUNITY_HOLDER *get_community(char community_name[50]);
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);
@@ -120,6 +121,7 @@ void print_date_time(unsigned long long n);
 void print_date(int n);
 void display_lr();
 void display_logo();
+void display_loggedin();
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//

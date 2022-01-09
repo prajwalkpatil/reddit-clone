@@ -175,11 +175,33 @@ void update_post_file(POST *p)
 void upvote_post(POST *p)
 {
     p->upvotes++;
+    USER_HOLDER *temp = all_users;
+    while (temp != NULL)
+    {
+        if (!strcmp(p->username, temp->user_content->username))
+        {
+            temp->user_content->karma++;
+            update_users_file();
+            break;
+        }
+        temp = temp->next;
+    }
     update_post_file(p);
 }
 
 void downvote_post(POST *p)
 {
     p->downvotes++;
+    USER_HOLDER *temp = all_users;
+    while (temp != NULL)
+    {
+        if (!strcmp(p->username, temp->user_content->username))
+        {
+            temp->user_content->karma--;
+            update_users_file();
+            break;
+        }
+        temp = temp->next;
+    }
     update_post_file(p);
 }

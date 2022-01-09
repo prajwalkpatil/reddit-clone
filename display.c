@@ -147,7 +147,7 @@ void display_lr()
         display_lr();
         break;
     default:
-        return;
+        exit(0);
         break;
     }
 }
@@ -160,11 +160,12 @@ void display_logo()
            "  / /_/ / _ \\/ __  / __  / / __/\n"
            " / _, _/  __/ /_/ / /_/ / / /_\n"
            "/_/ |_|\\___/\\__,_/\\__,_/_/\\__/\n");
-    printf("\nFront page of the internet.\n");
+    printf("\nThe front page of the internet.\n");
     reset();
 }
 void display_loggedin()
 {
+    screen_reset();
     purple_black();
     printf("  Logged in as  ");
     reset();
@@ -172,4 +173,30 @@ void display_loggedin()
     printf(" u/%s  ", main_user_holder->user_content->username);
     reset();
     printf("\n");
+}
+
+void display_user_posts()
+{
+    int start_c = 0;
+    int end_c = -1;
+    USER_HOLDER *logged_user = main_user_holder;
+    COMMUNITY_HOLDER *c[MAX_NOC];
+    char file_name[300];
+    char comm_name[300];
+    user_community_file_name(logged_user->user_content->username, file_name);
+    FILE *fp = fopen(file_name, "r");
+    if (fp == NULL)
+    {
+        return;
+    }
+    while (!feof(fp))
+    {
+        fscanf(fp, "%s\n", comm_name);
+        c[++end_c] = get_community(comm_name);
+    }
+    fclose(fp);
+    for (int i = start_c; i <= end_c; i++)
+    {
+        print_community_posts(c[i]);
+    }
 }

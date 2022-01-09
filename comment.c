@@ -234,11 +234,33 @@ void update_comment_file(COMMENT *c)
 void upvote_comment(COMMENT *p)
 {
     p->upvotes++;
+    USER_HOLDER *temp = all_users;
+    while (temp != NULL)
+    {
+        if (!strcmp(p->username, temp->user_content->username))
+        {
+            temp->user_content->karma++;
+            update_users_file();
+            break;
+        }
+        temp = temp->next;
+    }
     update_comment_file(p);
 }
 
 void downvote_comment(COMMENT *p)
 {
     p->downvotes++;
+    USER_HOLDER *temp = all_users;
+    while (temp != NULL)
+    {
+        if (!strcmp(p->username, temp->user_content->username))
+        {
+            temp->user_content->karma--;
+            update_users_file();
+            break;
+        }
+        temp = temp->next;
+    }
     update_comment_file(p);
 }

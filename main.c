@@ -8,14 +8,15 @@
 #include "display.c"
 int main()
 {
-    screen_reset();
+    // screen_reset();
     init_users();
     init_communities();
     initialize_posts();
     display_logo();
     display_lr();
     display_loggedin();
-    // print_all_users();
+    display_user_posts();
+    // print_all_us ers();
     // print_all_communities();
     // print_all_users();
     // sign_up();

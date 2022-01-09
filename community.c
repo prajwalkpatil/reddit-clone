@@ -403,3 +403,68 @@ void print_all_posts()
         temp = temp->next;
     }
 }
+
+void print_community_posts(COMMUNITY_HOLDER *c)
+{
+    COMMUNITY_HOLDER *temp = c;
+    if (temp == NULL)
+    {
+        print_error("No communitites!");
+        return;
+    }
+    POST *temp_post = (POST *)malloc(sizeof(POST));
+    COMMENT *temp_comment = (COMMENT *)malloc(sizeof(COMMENT));
+    COMMENT *temp_comment_child = (COMMENT *)malloc(sizeof(COMMENT));
+    if (temp_post == NULL)
+    {
+        print_error("Heap is full!");
+        return;
+    }
+    int i = 0;
+    yellow_black();
+    temp_post = temp->user_content->posts;
+    if (temp_post != NULL)
+        printf("  r/%s  ", temp->user_content->name);
+    reset();
+    while (temp_post != NULL)
+    {
+        printf("\n\n");
+        printf("%d)", temp_post->id);
+        blue_black();
+        printf(" u/%s", temp_post->username);
+        reset();
+        printf(" posted at ");
+        blue_black();
+        print_date_time(temp_post->dt);
+        reset();
+        printf(" : ");
+        lblue();
+        printf("%s\n", temp_post->title);
+        reset();
+        printf("%s\n", temp_post->content);
+        print_comments(temp_post->child, 1);
+        printf("\n");
+        temp_post = temp_post->next;
+        i++;
+        printf("\n\n");
+    }
+}
+
+COMMUNITY_HOLDER *get_community(char community_name[50])
+{
+    COMMUNITY_HOLDER *temp = all_communities;
+    COMMUNITY_HOLDER *temp_c = NULL;
+    if (temp == NULL)
+    {
+        return NULL;
+    }
+    while (temp != NULL)
+    {
+        if (!strcmp(temp->user_content->name, community_name))
+        {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}

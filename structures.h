@@ -7,7 +7,7 @@
 #define MAX_SIZE_DESCRIPTION 10000
 #define MAX_NUMBER_OF_POSTS 10000
 #define MAX_DISPLAY_SIZE 1000000
-
+#define MAX_NOC 200
 // Structure for user
 struct user
 {
