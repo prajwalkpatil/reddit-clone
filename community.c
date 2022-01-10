@@ -323,6 +323,26 @@ POST *get_post_by_id(POST *t, POST *p, int id)
     return t;
 }
 
+POST **post_by_id(int req_id)
+{
+    COMMUNITY_HOLDER *temp = all_communities;
+    POST **p_ptr = (POST **)malloc(sizeof(POST *));
+    if (temp == NULL)
+    {
+        return p_ptr;
+    }
+    while (temp != NULL)
+    {
+        if (temp->user_content->posts->id == req_id)
+        {
+            *p_ptr = temp->user_content->posts;
+            break;
+        }
+        temp = temp->next;
+    }
+    return p_ptr;
+}
+
 void initialize_posts()
 {
     if (all_communities == NULL)

@@ -89,6 +89,7 @@ void upvote_comment(COMMENT *p);
 void downvote_comment(COMMENT *p);
 void print_community_posts(COMMUNITY_HOLDER *c);
 COMMUNITY_HOLDER *get_community(char community_name[50]);
+POST **post_by_id(int req_id);
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);

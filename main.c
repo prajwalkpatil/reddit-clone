@@ -15,6 +15,8 @@ int main()
     display_logo();
     display_lr();
     display_loggedin();
+    upvote_post(*post_by_id(15));
+    downvote_post(*post_by_id(15));
     display_user_posts();
     // print_all_us ers();
     // print_all_communities();
