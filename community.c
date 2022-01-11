@@ -441,15 +441,15 @@ void print_community_posts(COMMUNITY_HOLDER *c)
         return;
     }
     int i = 0;
-    yellow_black();
     temp_post = temp->user_content->posts;
-    if (temp_post != NULL)
-        printf("  r/%s  ", temp->user_content->name);
-    reset();
     while (temp_post != NULL)
     {
         printf("\n\n");
-        printf("%d)", temp_post->id);
+        // printf("%d)", temp_post->id);
+        yellow_black();
+        printf("  r/%s  ", temp->user_content->name);
+        reset();
+        ARROW;
         blue_black();
         printf(" u/%s", temp_post->username);
         reset();
@@ -459,7 +459,7 @@ void print_community_posts(COMMUNITY_HOLDER *c)
         reset();
         printf(" : ");
         lblue();
-        printf("%s\n", temp_post->title);
+        printf("\n%s\n", temp_post->title);
         reset();
         printf("%s\n", temp_post->content);
         print_comments(temp_post->child, 1);

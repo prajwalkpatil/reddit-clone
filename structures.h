@@ -8,6 +8,10 @@
 #define MAX_NUMBER_OF_POSTS 10000
 #define MAX_DISPLAY_SIZE 1000000
 #define MAX_NOC 200
+#define ARROW printf(" \xAF ");
+#define UPVOTE_ARROW printf(" \x1E ");
+#define DOWNVOTE_ARROW printf(" \x1F ");
+
 // Structure for user
 struct user
 {

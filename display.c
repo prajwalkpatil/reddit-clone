@@ -165,7 +165,7 @@ void display_logo()
 }
 void display_loggedin()
 {
-    screen_reset();
+    // screen_reset();
     purple_black();
     printf("  Logged in as  ");
     reset();
