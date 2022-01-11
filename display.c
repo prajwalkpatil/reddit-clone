@@ -120,6 +120,15 @@ void reset()
     printf("\033[0m");
 }
 
+void delete_lines(int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("\33[2K");
+        printf("\033[A");
+    }
+}
+
 void display_lr()
 {
     int status = 0;
@@ -198,5 +207,134 @@ void display_user_posts()
     for (int i = start_c; i <= end_c; i++)
     {
         print_community_posts(c[i]);
+    }
+}
+
+void display_options()
+{
+    int choice;
+    int temp;
+    printf("\n1) Post");
+    printf("\n2) Comment");
+    printf("\n3) Reply");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        add_post();
+        break;
+    case 2:
+        printf("Enter id of the post: ");
+        scanf("%d", &temp);
+        add_comment(temp);
+        break;
+    case 3:
+        printf("Enter id of the comment: ");
+        scanf("%d", &temp);
+        add_reply(temp);
+        break;
+    }
+}
+
+void display_post_obo(POST *p)
+{
+    int choice;
+    int u_s = 0;
+    int d_s = 0;
+    if (p == NULL)
+    {
+        return;
+    }
+    POST *temp_post = p;
+    printf("\n\n");
+    // printf("%d)", temp_post->id);
+    yellow_black();
+    printf("  r/%s  ", temp_post->community_name);
+    reset();
+    ARROW;
+    blue_black();
+    printf(" u/%s", temp_post->username);
+    reset();
+    printf(" posted at ");
+    blue_black();
+    print_date_time(temp_post->dt);
+    reset();
+    printf(" : ");
+    lblue();
+    printf("\n%s\n", temp_post->title);
+    reset();
+    printf("%s\n\n", temp_post->content);
+    while (1)
+    {
+        printf("Score:%6d\nUpvotes:%6d\nDownvotes:%6d", (temp_post->upvotes - temp_post->downvotes), temp_post->upvotes, temp_post->downvotes);
+        printf("\n\n");
+        printf("Actions: \n");
+        printf("1) ");
+        printf("Upvote post ");
+        UPVOTE_ARROW;
+        printf("\n");
+        printf("2) ");
+        printf("Downvote post ");
+        DOWNVOTE_ARROW;
+        printf("\n");
+        printf("3) Remove Upvote/Downvote\n");
+        printf("4) View comments/replies\n");
+        printf("5) Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        delete_lines(11);
+        switch (choice)
+        {
+        case 1:
+            if (u_s == 0 && d_s == 0)
+            {
+                u_s = 1;
+                upvote_post(temp_post);
+            }
+            else if (u_s == 0)
+            {
+                u_s = 1;
+                d_s = 0;
+                temp_post->downvotes--;
+                update_post_file(temp_post);
+                upvote_post(temp_post);
+            }
+            break;
+        case 2:
+            if (u_s == 0 && d_s == 0)
+            {
+                d_s = 1;
+                downvote_post(temp_post);
+            }
+            else if (d_s == 0)
+            {
+                d_s = 1;
+                u_s = 0;
+                temp_post->upvotes--;
+                update_post_file(temp_post);
+                downvote_post(temp_post);
+            }
+            break;
+        case 3:
+            if (u_s == 1 && d_s == 0)
+            {
+                u_s = 0;
+                temp_post->upvotes--;
+            }
+            else if (d_s == 1 && u_s == 0)
+            {
+                d_s = 0;
+                temp_post->downvotes--;
+            }
+            update_post_file(temp_post);
+            break;
+        case 4:
+            print_comments(temp_post->child, 1);
+            break;
+        default:
+            return;
+            break;
+        }
     }
 }

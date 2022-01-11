@@ -123,6 +123,7 @@ void print_date(int n);
 void display_lr();
 void display_logo();
 void display_loggedin();
+void delete_lines(int n);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//

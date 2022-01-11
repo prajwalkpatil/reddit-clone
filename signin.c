@@ -14,9 +14,9 @@ int login_user()
     char pwd[31];
     int i = 0;
     int status = 0;
-    printf("Username[3-8 chars]: ");
+    printf("Username : ");
     scanf("%s", entered_username);
-    printf("Password[1-30 chars]: ");
+    printf("Password : ");
     do
     {
         temp_char = getch();

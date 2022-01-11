@@ -181,7 +181,23 @@ void print_all_communities()
     printf("\n>> COMMUNITIES: \n");
     while (temp != NULL)
     {
-        printf("%d) %s - %s\n", temp->user_content->id, temp->user_content->name, temp->user_content->desc);
+        printf("\n");
+        yellow_black();
+        printf(" %s ", temp->user_content->name);
+        reset();
+        printf("\n");
+        purple();
+        printf("");
+        printf("Created on ");
+        print_date(temp->user_content->dt_created);
+        printf("\n");
+        printf("%d members", temp->user_content->members);
+        reset();
+        printf("\n");
+        green();
+        printf("%s", temp->user_content->desc);
+        reset();
+        printf("\n\n");
         temp = temp->next;
     }
 }
@@ -461,7 +477,7 @@ void print_community_posts(COMMUNITY_HOLDER *c)
         lblue();
         printf("\n%s\n", temp_post->title);
         reset();
-        printf("%s\n", temp_post->content);
+        printf("%s\n\n", temp_post->content);
         print_comments(temp_post->child, 1);
         printf("\n");
         temp_post = temp_post->next;
