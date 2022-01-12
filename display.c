@@ -237,9 +237,12 @@ void display_options()
     }
 }
 
+int flag = 0;
+
 void display_post_obo(POST *p)
 {
     int choice;
+    char ch;
     int u_s = 0;
     int d_s = 0;
     if (p == NULL)
@@ -265,11 +268,11 @@ void display_post_obo(POST *p)
     printf("\n%s\n", temp_post->title);
     reset();
     printf("%s\n\n", temp_post->content);
-    while (1)
+    while (1 && !flag)
     {
         printf("Score:%6d\nUpvotes:%6d\nDownvotes:%6d", (temp_post->upvotes - temp_post->downvotes), temp_post->upvotes, temp_post->downvotes);
         printf("\n\n");
-        printf("Actions: \n");
+        printf("Actions for %d: \n", temp_post->id);
         printf("1) ");
         printf("Upvote post ");
         UPVOTE_ARROW;
@@ -330,7 +333,169 @@ void display_post_obo(POST *p)
             update_post_file(temp_post);
             break;
         case 4:
-            print_comments(temp_post->child, 1);
+            if (temp_post->child == NULL)
+            {
+                print_error("No comment exists proceeding to parent comment/post");
+                getchar();
+                printf("Do you want to proceed to previous post? (y/n): ");
+                scanf("%c", &ch);
+                delete_lines(4);
+                printf("\nScore:%6d\n", (temp_post->upvotes - temp_post->downvotes));
+                if (ch == 'N' || ch == 'n')
+                {
+                    flag = 1;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            display_comments_obo(temp_post->child, 1);
+            break;
+        default:
+            return;
+            break;
+        }
+    }
+}
+
+void display_comments_obo(COMMENT *c, int level)
+{
+    char ch;
+    int u_s = 0;
+    int d_s = 0;
+    int choice;
+    if (c == NULL)
+    {
+        return;
+    }
+    COMMENT *temp_comment = c;
+    printf("\n");
+    for (int l = 0; l < level; l++)
+    {
+        printf("\xB2\xB2");
+    }
+    printf("%d)", temp_comment->id);
+    purple_black();
+    printf(" u/%s ", temp_comment->username);
+    reset();
+    if (level == 1)
+        printf(" commented at ");
+    else
+        printf(" replied at ");
+    purple_black();
+    print_date_time(temp_comment->dt);
+    reset();
+    printf(" : ");
+    purple();
+    printf("%s\n", temp_comment->content);
+    reset();
+    while (1 && !flag)
+    {
+        printf("Score:%6d\nUpvotes:%6d\nDownvotes:%6d", (temp_comment->upvotes - temp_comment->downvotes), temp_comment->upvotes, temp_comment->downvotes);
+        printf("\n\n");
+        printf("Actions for %d: \n", temp_comment->id);
+        printf("1) ");
+        printf("Upvote post ");
+        UPVOTE_ARROW;
+        printf("\n");
+        printf("2) ");
+        printf("Downvote post ");
+        DOWNVOTE_ARROW;
+        printf("\n");
+        printf("3) Remove Upvote/Downvote\n");
+        printf("4) View next replies/comments\n");
+        printf("5) View replies to this comment/reply\n");
+        printf("6) Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        delete_lines(12);
+        switch (choice)
+        {
+        case 1:
+            if (u_s == 0 && d_s == 0)
+            {
+                u_s = 1;
+                upvote_comment(temp_comment);
+            }
+            else if (u_s == 0)
+            {
+                u_s = 1;
+                d_s = 0;
+                temp_comment->downvotes--;
+                update_comment_file(temp_comment);
+                upvote_comment(temp_comment);
+            }
+            break;
+        case 2:
+            if (u_s == 0 && d_s == 0)
+            {
+                d_s = 1;
+                downvote_comment(temp_comment);
+            }
+            else if (d_s == 0)
+            {
+                d_s = 1;
+                u_s = 0;
+                temp_comment->upvotes--;
+                update_comment_file(temp_comment);
+                downvote_comment(temp_comment);
+            }
+            break;
+        case 3:
+            if (u_s == 1 && d_s == 0)
+            {
+                u_s = 0;
+                temp_comment->upvotes--;
+            }
+            else if (d_s == 1 && u_s == 0)
+            {
+                d_s = 0;
+                temp_comment->downvotes--;
+            }
+            update_comment_file(temp_comment);
+            break;
+        case 4:
+            if (temp_comment->next == NULL)
+            {
+                print_error("No comment exists.");
+                getchar();
+                printf("Do you want to proceed to previous post? (y/n): ");
+                scanf("%c", &ch);
+                delete_lines(4);
+                printf("\nScore:%6d\n", (temp_comment->upvotes - temp_comment->downvotes));
+                if (ch == 'N' || ch == 'n')
+                {
+                    flag = 1;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            display_comments_obo(temp_comment->next, level);
+            return;
+            break;
+        case 5:
+            if (temp_comment->child == NULL)
+            {
+                print_error("No comment exists.");
+                getchar();
+                printf("Do you want to proceed to previous post/comment? (y/n): ");
+                scanf("%c", &ch);
+                delete_lines(4);
+                printf("\nScore:%6d\n", (temp_comment->upvotes - temp_comment->downvotes));
+                if (ch == 'N' || ch == 'n')
+                {
+                    flag = 1;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            display_comments_obo(temp_comment->child, level + 1);
+            return;
             break;
         default:
             return;

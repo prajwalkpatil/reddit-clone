@@ -325,3 +325,16 @@ void fgets_newline_kill(char a[])
         a[sl - 1] = '\0';
     }
 }
+
+void init()
+{
+    init_users();
+    init_communities();
+    initialize_posts();
+    post_sorted = (POST **)malloc(sizeof(POST *) * MAX_NUMBER_OF_POSTS);
+    if (post_sorted == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
+}

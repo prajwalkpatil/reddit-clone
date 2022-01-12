@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <conio.h>
 #include <time.h>
+#include <math.h>
 #include <limits.h>
 #include <sys/stat.h>
 #include "structures.h"
@@ -31,6 +32,9 @@ int community_count_start = 0;
 USER_HOLDER *main_user_holder = NULL;
 USER_HOLDER *all_users = NULL;
 COMMUNITY_HOLDER *all_communities = NULL;
+POST **post_sorted = NULL;
+int ps_start = 0;
+int ps_end = -1;
 
 // TODO: Insert function definitions
 char *hash448(char *str);
@@ -90,6 +94,7 @@ void downvote_comment(COMMENT *p);
 void print_community_posts(COMMUNITY_HOLDER *c);
 COMMUNITY_HOLDER *get_community(char community_name[50]);
 POST **post_by_id(int req_id);
+void init();
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);
@@ -124,8 +129,26 @@ void display_lr();
 void display_logo();
 void display_loggedin();
 void delete_lines(int n);
+void display_comments_obo(COMMENT *c, int level);
+void display_post_obo(POST *p);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();
 //!______________________________________________________________________________//
+
 // TODO: sort as - top, new, best
+
+//***** Operations *****
+int score(int upvotes, int downvotes);
+double controversy(int upvotes, int downvotes);
+double confidence(int upvotes, int downvotes);
+double hot(int upvotes, int downvotes, unsigned long long t);
+void post_sort_top(POST *p);
+void post_sort_best(POST *p);
+void post_sort_controversial(POST *p);
+void post_sort_old(POST *p);
+void post_sort_new(POST *p);
+int post_partition(int low, int high, int type);
+void post_quickSort(int low, int high, int type);
+
+//**********************
 #endif
