@@ -33,8 +33,11 @@ USER_HOLDER *main_user_holder = NULL;
 USER_HOLDER *all_users = NULL;
 COMMUNITY_HOLDER *all_communities = NULL;
 POST **post_sorted = NULL;
+COMMENT **comment_sorted = NULL;
 int ps_start = 0;
 int ps_end = -1;
+int cs_start = 0;
+int cs_end = -1;
 
 // TODO: Insert function definitions
 char *hash448(char *str);
@@ -150,5 +153,17 @@ void post_sort_new(POST *p);
 int post_partition(int low, int high, int type);
 void post_quickSort(int low, int high, int type);
 void display_post_by_id();
+int number_of_comments(COMMENT *p);
+void _comment_mergeSort_top(COMMENT **a, int n);
+void _comment_mergeSort_best(COMMENT **a, int n);
+void _comment_mergeSort_controversial(COMMENT **a, int n);
+void _comment_mergeSort_old(COMMENT **a, int n);
+void _comment_mergeSort_new(COMMENT **a, int n);
+void comment_merge(COMMENT **b, COMMENT **c, COMMENT **a, int p, int q, int type);
+void comment_mergeSort_top(COMMENT *p);
+void comment_mergeSort_best(COMMENT *p);
+void comment_mergeSort_controversial(COMMENT *p);
+void comment_mergeSort_old(COMMENT *p);
+void comment_mergeSort_new(COMMENT *p);
 //**********************
 #endif

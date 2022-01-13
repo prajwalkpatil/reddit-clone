@@ -164,7 +164,7 @@ int post_partition(int low, int high, int type)
     case 1:
         for (int j = low; j < high; j++)
         {
-            if (score(post_sorted[j]->upvotes, post_sorted[j]->downvotes) <= score(pivot->upvotes, pivot->downvotes))
+            if (score(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= score(pivot->upvotes, pivot->downvotes))
             {
                 temp_post = post_sorted[i];
                 post_sorted[i] = post_sorted[j];
@@ -176,7 +176,7 @@ int post_partition(int low, int high, int type)
     case 2:
         for (int j = low; j < high; j++)
         {
-            if (confidence(post_sorted[j]->upvotes, post_sorted[j]->downvotes) <= confidence(pivot->upvotes, pivot->downvotes))
+            if (confidence(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= confidence(pivot->upvotes, pivot->downvotes))
             {
                 temp_post = post_sorted[i];
                 post_sorted[i] = post_sorted[j];
@@ -188,7 +188,7 @@ int post_partition(int low, int high, int type)
     case 3:
         for (int j = low; j < high; j++)
         {
-            if (controversy(post_sorted[j]->upvotes, post_sorted[j]->downvotes) <= controversy(pivot->upvotes, pivot->downvotes))
+            if (controversy(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= controversy(pivot->upvotes, pivot->downvotes))
             {
                 temp_post = post_sorted[i];
                 post_sorted[i] = post_sorted[j];
@@ -200,7 +200,7 @@ int post_partition(int low, int high, int type)
     case 4:
         for (int j = low; j < high; j++)
         {
-            if (post_sorted[j]->dt <= pivot->dt)
+            if (post_sorted[j]->dt >= pivot->dt)
             {
                 temp_post = post_sorted[i];
                 post_sorted[i] = post_sorted[j];
@@ -212,7 +212,7 @@ int post_partition(int low, int high, int type)
     case 5:
         for (int j = low; j < high; j++)
         {
-            if ((-1 * post_sorted[j]->dt) <= (-1 * pivot->dt))
+            if ((-1 * post_sorted[j]->dt) >= (-1 * pivot->dt))
             {
                 temp_post = post_sorted[i];
                 post_sorted[i] = post_sorted[j];
@@ -235,5 +235,250 @@ void post_quickSort(int low, int high, int type)
         int pi = post_partition(low, high, type);
         post_quickSort(low, pi - 1, type);
         post_quickSort(pi + 1, high, type);
+    }
+}
+
+/*
+    Comment sorting -
+    1 : top
+    2 : Best
+    3 : Controversial
+    4 : Old
+    5 : New
+*/
+
+int number_of_comments(COMMENT *p)
+{
+    if (p == NULL)
+    {
+        return 0;
+    }
+    int i = 0;
+    while (p != NULL)
+    {
+        i++;
+        p = p->next;
+    }
+    return i;
+}
+
+void comment_mergeSort_top(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    COMMENT *temp = p;
+    while (p != NULL)
+    {
+        comment_sorted[i] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_top(comment_sorted, n);
+}
+
+void comment_mergeSort_best(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    COMMENT *temp = p;
+    while (p != NULL)
+    {
+        comment_sorted[i] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_best(comment_sorted, n);
+}
+
+void comment_mergeSort_controversial(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    COMMENT *temp = p;
+    while (p != NULL)
+    {
+        comment_sorted[i] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_controversial(comment_sorted, n);
+}
+
+void comment_mergeSort_old(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    COMMENT *temp = p;
+    while (p != NULL)
+    {
+        comment_sorted[i] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_old(comment_sorted, n);
+}
+
+void comment_mergeSort_new(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    COMMENT *temp = p;
+    while (p != NULL)
+    {
+        comment_sorted[i] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_new(comment_sorted, n);
+}
+
+void _comment_mergeSort_top(COMMENT **a, int n)
+{
+    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    int i, j = 0;
+    if (n > 1)
+    {
+        for (i = 0; i < ((n / 2)); i++)
+            b[i] = a[i];
+        for (i = n / 2; i < n; i++)
+            c[j++] = a[i];
+        _comment_mergeSort_top(b, n / 2);
+        _comment_mergeSort_top(c, (n - (n / 2)));
+        comment_merge(b, c, a, n / 2, n - (n / 2), 1);
+    }
+}
+void _comment_mergeSort_best(COMMENT **a, int n)
+{
+    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    int i, j = 0;
+    if (n > 1)
+    {
+        for (i = 0; i < ((n / 2)); i++)
+            b[i] = a[i];
+        for (i = n / 2; i < n; i++)
+            c[j++] = a[i];
+        _comment_mergeSort_best(b, n / 2);
+        _comment_mergeSort_best(c, (n - (n / 2)));
+        comment_merge(b, c, a, n / 2, n - (n / 2), 2);
+    }
+}
+void _comment_mergeSort_controversial(COMMENT **a, int n)
+{
+    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    int i, j = 0;
+    if (n > 1)
+    {
+        for (i = 0; i < ((n / 2)); i++)
+            b[i] = a[i];
+        for (i = n / 2; i < n; i++)
+            c[j++] = a[i];
+        _comment_mergeSort_controversial(b, n / 2);
+        _comment_mergeSort_controversial(c, (n - (n / 2)));
+        comment_merge(b, c, a, n / 2, n - (n / 2), 3);
+    }
+}
+void _comment_mergeSort_old(COMMENT **a, int n)
+{
+    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    int i, j = 0;
+    if (n > 1)
+    {
+        for (i = 0; i < ((n / 2)); i++)
+            b[i] = a[i];
+        for (i = n / 2; i < n; i++)
+            c[j++] = a[i];
+        _comment_mergeSort_old(b, n / 2);
+        _comment_mergeSort_old(c, (n - (n / 2)));
+        comment_merge(b, c, a, n / 2, n - (n / 2), 4);
+    }
+}
+void _comment_mergeSort_new(COMMENT **a, int n)
+{
+    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    int i, j = 0;
+    if (n > 1)
+    {
+        for (i = 0; i < ((n / 2)); i++)
+            b[i] = a[i];
+        for (i = n / 2; i < n; i++)
+            c[j++] = a[i];
+        _comment_mergeSort_new(b, n / 2);
+        _comment_mergeSort_new(c, (n - (n / 2)));
+        comment_merge(b, c, a, n / 2, n - (n / 2), 5);
+    }
+}
+
+void comment_merge(COMMENT **b, COMMENT **c, COMMENT **a, int p, int q, int type)
+{
+    int i = 0, j = 0;
+    int k = 0;
+
+    switch (type)
+    {
+    case 1:
+        while (i < p && j < q)
+        {
+            if (score((b[i])->upvotes, (b[i])->downvotes) >= score((c[i])->upvotes, (c[i])->downvotes))
+                a[k] = b[i++];
+            else
+                a[k] = c[j++];
+            k++;
+        }
+        break;
+    case 2:
+        while (i < p && j < q)
+        {
+            if ((confidence((b[i])->upvotes, (b[i])->downvotes) >= confidence((c[i])->upvotes, (c[i])->downvotes)))
+                a[k] = b[i++];
+            else
+                a[k] = c[j++];
+            k++;
+        }
+        break;
+    case 3:
+        while (i < p && j < q)
+        {
+            if ((controversy((b[i])->upvotes, (b[i])->downvotes) >= controversy((c[i])->upvotes, (c[i])->downvotes)))
+                a[k] = b[i++];
+            else
+                a[k] = c[j++];
+            k++;
+        }
+        break;
+    case 4:
+        while (i < p && j < q)
+        {
+            if ((b[i])->dt >= (c[i])->dt)
+                a[k] = b[i++];
+            else
+                a[k] = c[j++];
+            k++;
+        }
+        break;
+    case 5:
+        while (i < p && j < q)
+        {
+            if ((-1 * (b[i])->dt) >= (-1 * (c[i])->dt))
+                a[k] = b[i++];
+            else
+                a[k] = c[j++];
+            k++;
+        }
+        break;
+    }
+    if (i == p)
+    {
+        for (j; j < q; j++)
+            a[k++] = c[j];
+    }
+    else
+    {
+        for (i; i < p; i++)
+            a[k++] = b[i];
     }
 }

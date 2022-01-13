@@ -337,4 +337,10 @@ void init()
         print_error("Heap is full");
         return;
     }
+    comment_sorted = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
+    if (comment_sorted == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
 }
