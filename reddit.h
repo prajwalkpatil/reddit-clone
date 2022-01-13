@@ -149,6 +149,6 @@ void post_sort_old(POST *p);
 void post_sort_new(POST *p);
 int post_partition(int low, int high, int type);
 void post_quickSort(int low, int high, int type);
-
+void display_post_by_id();
 //**********************
 #endif

@@ -343,16 +343,22 @@ POST **post_by_id(int req_id)
 {
     COMMUNITY_HOLDER *temp = all_communities;
     POST **p_ptr = (POST **)malloc(sizeof(POST *));
+    POST *p = (POST *)malloc(sizeof(POST));
     if (temp == NULL)
     {
         return p_ptr;
     }
     while (temp != NULL)
     {
-        if (temp->user_content->posts->id == req_id)
+        p = temp->user_content->posts;
+        while (p != NULL)
         {
-            *p_ptr = temp->user_content->posts;
-            break;
+            if (p->id == req_id)
+            {
+                *p_ptr = p;
+                break;
+            }
+            p = p->next;
         }
         temp = temp->next;
     }

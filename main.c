@@ -15,7 +15,8 @@ int main()
     print_all_communities();
     print_all_users();
     print_all_posts();
-    display_post_obo(all_communities->user_content->posts);
+    display_post_by_id();
+    // display_post_obo(all_communities->user_content->posts);
     display_logo();
     display_lr();
     display_loggedin();

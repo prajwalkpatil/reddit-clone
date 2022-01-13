@@ -376,7 +376,7 @@ void display_comments_obo(COMMENT *c, int level)
     {
         printf("\xB2\xB2");
     }
-    printf("%d)", temp_comment->id);
+    printf(" (#%3d) ", temp_comment->id);
     purple_black();
     printf(" u/%s ", temp_comment->username);
     reset();
@@ -505,4 +505,12 @@ void display_comments_obo(COMMENT *c, int level)
             break;
         }
     }
+}
+
+void display_post_by_id()
+{
+    int temp_id;
+    printf("\nEnter the id of post: ");
+    scanf("%d", &temp_id);
+    display_post_obo(*(post_by_id(temp_id)));
 }
