@@ -255,6 +255,7 @@ void display_post_obo(POST *p)
     yellow_black();
     printf("  r/%s  ", temp_post->community_name);
     reset();
+    printf(" (#%3d)", temp_post->id);
     ARROW;
     blue_black();
     printf(" u/%s", temp_post->username);
@@ -270,7 +271,7 @@ void display_post_obo(POST *p)
     printf("%s\n\n", temp_post->content);
     while (1 && !flag)
     {
-        printf("Score:%6d\nUpvotes:%6d\nDownvotes:%6d", (temp_post->upvotes - temp_post->downvotes), temp_post->upvotes, temp_post->downvotes);
+        printf("Score(#%3d):%6d\nUpvotes:%10d\nDownvotes:%8d", temp_post->id, (temp_post->upvotes - temp_post->downvotes), temp_post->upvotes, temp_post->downvotes);
         printf("\n\n");
         printf("Actions for %d: \n", temp_post->id);
         printf("1) ");
@@ -340,7 +341,7 @@ void display_post_obo(POST *p)
                 printf("Do you want to proceed to previous post? (y/n): ");
                 scanf("%c", &ch);
                 delete_lines(4);
-                printf("\nScore:%6d\n", (temp_post->upvotes - temp_post->downvotes));
+                printf("\nScore(#%3d):%6d\n", temp_post->id, (temp_post->upvotes - temp_post->downvotes));
                 if (ch == 'N' || ch == 'n')
                 {
                     flag = 1;
@@ -392,9 +393,9 @@ void display_comments_obo(COMMENT *c, int level)
     reset();
     while (1 && !flag)
     {
-        printf("Score:%6d\nUpvotes:%6d\nDownvotes:%6d", (temp_comment->upvotes - temp_comment->downvotes), temp_comment->upvotes, temp_comment->downvotes);
+        printf("Score(#%3d):%6d\nUpvotes:%10d\nDownvotes:%8d", temp_comment->id, (temp_comment->upvotes - temp_comment->downvotes), temp_comment->upvotes, temp_comment->downvotes);
         printf("\n\n");
-        printf("Actions for %d: \n", temp_comment->id);
+        printf("Actions for #%d: \n", temp_comment->id);
         printf("1) ");
         printf("Upvote post ");
         UPVOTE_ARROW;
@@ -406,10 +407,13 @@ void display_comments_obo(COMMENT *c, int level)
         printf("3) Remove Upvote/Downvote\n");
         printf("4) View next replies/comments\n");
         printf("5) View replies to this comment/reply\n");
-        printf("6) Exit\n");
+        printf("6) Proceed to previous post/comment/reply\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        delete_lines(12);
+        if (choice == 6)
+            delete_lines(11);
+        else
+            delete_lines(12);
         switch (choice)
         {
         case 1:
@@ -463,7 +467,7 @@ void display_comments_obo(COMMENT *c, int level)
                 printf("Do you want to proceed to previous post? (y/n): ");
                 scanf("%c", &ch);
                 delete_lines(4);
-                printf("\nScore:%6d\n", (temp_comment->upvotes - temp_comment->downvotes));
+                printf("\nScore(#%3d):%6d\n", temp_comment->id, (temp_comment->upvotes - temp_comment->downvotes));
                 if (ch == 'N' || ch == 'n')
                 {
                     flag = 1;
@@ -474,7 +478,7 @@ void display_comments_obo(COMMENT *c, int level)
                 }
             }
             display_comments_obo(temp_comment->next, level);
-            return;
+            // return;
             break;
         case 5:
             if (temp_comment->child == NULL)
@@ -484,7 +488,7 @@ void display_comments_obo(COMMENT *c, int level)
                 printf("Do you want to proceed to previous post/comment? (y/n): ");
                 scanf("%c", &ch);
                 delete_lines(4);
-                printf("\nScore:%6d\n", (temp_comment->upvotes - temp_comment->downvotes));
+                printf("\nScore(#%3d):%6d\n", temp_comment->id, (temp_comment->upvotes - temp_comment->downvotes));
                 if (ch == 'N' || ch == 'n')
                 {
                     flag = 1;
@@ -495,7 +499,6 @@ void display_comments_obo(COMMENT *c, int level)
                 }
             }
             display_comments_obo(temp_comment->child, level + 1);
-            return;
             break;
         default:
             return;
