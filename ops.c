@@ -482,3 +482,49 @@ void comment_merge(COMMENT **b, COMMENT **c, COMMENT **a, int p, int q, int type
             a[k++] = b[i];
     }
 }
+
+int rabinKarp(char pattern[], char text[], int q)
+{
+    int m = strlen(pattern);
+    int n = strlen(text);
+    int i, j;
+    int p = 0;
+    int t = 0;
+    int h = 1;
+    int z = 0;
+
+    for (i = 0; i < m - 1; i++)
+        h = (h * D) % q;
+
+    // Calculate hash value for pattern and text
+    for (i = 0; i < m; i++)
+    {
+        p = (D * p + pattern[i]) % q;
+        t = (D * t + text[i]) % q;
+    }
+
+    // Find the match
+    for (i = 0; i <= n - m; i++)
+    {
+        if (p == t)
+        {
+            for (j = 0; j < m; j++)
+            {
+                if (text[i + j] != pattern[j])
+                    break;
+            }
+
+            if (j == m)
+                z++;
+            // printf("Pattern is found at position:  %d \n", i + 1);
+        }
+
+        if (i < n - m)
+        {
+            t = (D * (t - text[i] * h) + text[i + m]) % q;
+            if (t < 0)
+                t = (t + q);
+        }
+    }
+    return z;
+}

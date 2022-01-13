@@ -12,6 +12,7 @@
 #define ARROW printf(" \xAF ");
 #define UPVOTE_ARROW printf(" \x1E ");
 #define DOWNVOTE_ARROW printf(" \x1F ");
+#define D 10
 
 // Structure for user
 struct user

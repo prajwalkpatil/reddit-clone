@@ -165,5 +165,6 @@ void comment_mergeSort_best(COMMENT *p);
 void comment_mergeSort_controversial(COMMENT *p);
 void comment_mergeSort_old(COMMENT *p);
 void comment_mergeSort_new(COMMENT *p);
+int rabinKarp(char pattern[], char text[], int q);
 //**********************
 #endif
