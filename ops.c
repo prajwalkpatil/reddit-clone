@@ -57,7 +57,7 @@ void post_sort_top(POST *p)
 {
     if (p == NULL)
     {
-        print_error("Heap us full!");
+        print_error("Heap is full!");
         return;
     }
     POST *temp = p;
@@ -70,6 +70,7 @@ void post_sort_top(POST *p)
     }
     if (!(ps_start > ps_end))
         post_quickSort(ps_start, ps_end, 1);
+    printf("*****");
 }
 
 void post_sort_best(POST *p)
@@ -154,80 +155,84 @@ void post_sort_new(POST *p)
     4 : Old
     5 : New
 */
-int post_partition(int low, int high, int type)
+
+void swap_posts(int i, int j)
 {
-    POST *temp_post;
-    POST *pivot = post_sorted[high];
-    int i = (low - 1);
+    POST *temp;
+    temp = post_sorted[i];
+    post_sorted[i] = post_sorted[j];
+    post_sorted[j] = temp;
+}
+
+int post_partition(int lower, int upper, int type)
+{
+    int i = (lower - 1);
+    POST *pivot = post_sorted[upper];
+    int j;
     switch (type)
     {
     case 1:
-        for (int j = low; j < high; j++)
+        for (j = lower; j < upper; j++)
         {
             if (score(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= score(pivot->upvotes, pivot->downvotes))
             {
-                temp_post = post_sorted[i];
-                post_sorted[i] = post_sorted[j];
-                post_sorted[j] = temp_post;
                 i++;
+                swap_posts(i, j);
             }
         }
+        swap_posts(i + 1, upper);
+        return (i + 1);
         break;
     case 2:
-        for (int j = low; j < high; j++)
-        {
-            if (confidence(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= confidence(pivot->upvotes, pivot->downvotes))
-            {
-                temp_post = post_sorted[i];
-                post_sorted[i] = post_sorted[j];
-                post_sorted[j] = temp_post;
-                i++;
-            }
-        }
-        break;
-    case 3:
-        for (int j = low; j < high; j++)
+        for (j = lower; j < upper; j++)
         {
             if (controversy(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= controversy(pivot->upvotes, pivot->downvotes))
             {
-                temp_post = post_sorted[i];
-                post_sorted[i] = post_sorted[j];
-                post_sorted[j] = temp_post;
                 i++;
+                swap_posts(i, j);
             }
         }
+        swap_posts(i + 1, upper);
+        return (i + 1);
+        break;
+    case 3:
+        for (j = lower; j < upper; j++)
+        {
+            if (controversy(post_sorted[j]->upvotes, post_sorted[j]->downvotes) >= controversy(pivot->upvotes, pivot->downvotes))
+            {
+                i++;
+                swap_posts(i, j);
+            }
+        }
+        swap_posts(i + 1, upper);
+        return (i + 1);
         break;
     case 4:
-        for (int j = low; j < high; j++)
+        for (j = lower; j < upper; j++)
+        {
+            if (post_sorted[j]->dt <= pivot->dt)
+            {
+                i++;
+                swap_posts(i, j);
+            }
+        }
+        swap_posts(i + 1, upper);
+        return (i + 1);
+        break;
+    case 5:
+        for (j = lower; j < upper; j++)
         {
             if (post_sorted[j]->dt >= pivot->dt)
             {
-                temp_post = post_sorted[i];
-                post_sorted[i] = post_sorted[j];
-                post_sorted[j] = temp_post;
                 i++;
+                swap_posts(i, j);
             }
         }
-        break;
-    case 5:
-        for (int j = low; j < high; j++)
-        {
-            if ((-1 * post_sorted[j]->dt) >= (-1 * pivot->dt))
-            {
-                temp_post = post_sorted[i];
-                post_sorted[i] = post_sorted[j];
-                post_sorted[j] = temp_post;
-                i++;
-            }
-        }
+        swap_posts(i + 1, upper);
+        return (i + 1);
         break;
     }
-    temp_post = post_sorted[i + 1];
-    post_sorted[i + 1] = post_sorted[high];
-    post_sorted[high] = temp_post;
-    return (i + 1);
 }
-
 void post_quickSort(int low, int high, int type)
 {
     if (low < high)
@@ -527,4 +532,39 @@ int rabinKarp(char pattern[], char text[], int q)
         }
     }
     return z;
+}
+
+void print_sorted_posts()
+{
+    POST *temp = (POST *)malloc(sizeof(POST));
+    if (temp == NULL)
+    {
+        print_error("No posts");
+        return;
+    }
+    for (int i = ps_start; i <= ps_end; i++)
+    {
+        temp = post_sorted[i];
+        printf("\n\n");
+        // printf("%d)", temp_post->id);
+        yellow_black();
+        printf("  r/%s  ", temp->community_name);
+        reset();
+        ARROW;
+        blue_black();
+        printf(" u/%s", temp->username);
+        reset();
+        printf(" posted at ");
+        blue_black();
+        print_date_time(temp->dt);
+        reset();
+        printf(" : ");
+        lblue();
+        printf("\n%s\n", temp->title);
+        reset();
+        printf("%s\n\n", temp->content);
+        printf("Score: #(%4d)\n", temp->upvotes - temp->downvotes);
+        print_comments(temp->child, 1);
+        printf("\n");
+    }
 }

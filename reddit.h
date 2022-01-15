@@ -145,6 +145,7 @@ int score(int upvotes, int downvotes);
 double controversy(int upvotes, int downvotes);
 double confidence(int upvotes, int downvotes);
 double hot(int upvotes, int downvotes, unsigned long long t);
+void swap_posts(int i, int j);
 void post_sort_top(POST *p);
 void post_sort_best(POST *p);
 void post_sort_controversial(POST *p);
@@ -166,5 +167,6 @@ void comment_mergeSort_controversial(COMMENT *p);
 void comment_mergeSort_old(COMMENT *p);
 void comment_mergeSort_new(COMMENT *p);
 int rabinKarp(char pattern[], char text[], int q);
+void print_sorted_posts();
 //**********************
 #endif
