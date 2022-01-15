@@ -16,10 +16,10 @@ int main()
     // post_sort_old(all_communities->user_content->posts);
     // print_sorted_posts();
     comment_mergeSort_top(all_communities->user_content->posts->next->next->next->child);
-    search_posts("recru");
+    search_posts("book");
     print_post_result();
-    search_users("fre");
-    print_user_result();
+    search_posts(" fires ");
+    print_post_result();
     // print_sorted_comments();
     // display_post_by_id();
     // // display_post_obo(all_communities->user_content->posts);

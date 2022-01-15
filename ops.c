@@ -687,7 +687,7 @@ void print_sorted_comments()
     }
 }
 
-int rabinKarp(char pattern[], char text[], int q)
+int rabinKarp(char pattern[MAX_SIZE_CONTENT], char text[MAX_SIZE_CONTENT], int q)
 {
     int m = strlen(pattern);
     int n = strlen(text);
@@ -786,7 +786,24 @@ void print_user_result()
     }
 }
 
-void search_posts(char req_pattern[])
+void insertion_sort_posts()
+{
+    int i, j;
+    POST_RESULT *key = (POST_RESULT *)malloc(sizeof(POST_RESULT));
+    for (j = pr_start; j <= pr_end; j++)
+    {
+        key = post_search_result[j];
+        i = j - 1;
+        while (i >= 0 && ((post_search_result[i]->occurences) < (key->occurences)))
+        {
+            post_search_result[i + 1] = post_search_result[i];
+            i = i - 1;
+        }
+        post_search_result[i + 1] = key;
+    }
+}
+
+void search_posts(char req_pattern[MAX_SIZE_CONTENT])
 {
     COMMUNITY_HOLDER *temp_communities = all_communities;
     POST *temp_post;
@@ -809,6 +826,7 @@ void search_posts(char req_pattern[])
         }
         temp_communities = temp_communities->next;
     }
+    insertion_sort_posts();
 }
 
 void print_post_result()
@@ -840,6 +858,7 @@ void print_post_result()
         printf("%s\n", temp_post->post_h->title);
         reset();
         printf("%s\n", temp_post->post_h->content);
+        printf("Occurences: %d\n", temp_post->occurences);
         // print_comments(temp_post->post_h->child, 1);
         printf("\n");
     }

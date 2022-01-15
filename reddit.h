@@ -180,10 +180,15 @@ void comment_mergeSort_old(COMMENT *p);
 void comment_mergeSort_new(COMMENT *p);
 void comment_mergeSort_hot(COMMENT *p);
 
-int rabinKarp(char pattern[], char text[], int q);
+int rabinKarp(char pattern[MAX_SIZE_CONTENT], char text[MAX_SIZE_CONTENT], int q);
 void print_sorted_posts();
 void print_sorted_comments();
 int bruteforce_substring_search(char text[], char pattern[]);
 void search_users(char req_username[]);
+void print_user_result();
+void print_post_result();
+void search_posts(char req_pattern[]);
+void insertion_sort_posts();
+
 //**********************
 #endif
