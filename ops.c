@@ -614,52 +614,6 @@ void comment_merge(int l, int m, int r, int type)
 
 //* Merge sort ---END
 
-int rabinKarp(char pattern[], char text[], int q)
-{
-    int m = strlen(pattern);
-    int n = strlen(text);
-    int i, j;
-    int p = 0;
-    int t = 0;
-    int h = 1;
-    int z = 0;
-
-    for (i = 0; i < m - 1; i++)
-        h = (h * D) % q;
-
-    // Calculate hash value for pattern and text
-    for (i = 0; i < m; i++)
-    {
-        p = (D * p + pattern[i]) % q;
-        t = (D * t + text[i]) % q;
-    }
-
-    // Find the match
-    for (i = 0; i <= n - m; i++)
-    {
-        if (p == t)
-        {
-            for (j = 0; j < m; j++)
-            {
-                if (text[i + j] != pattern[j])
-                    break;
-            }
-
-            if (j == m)
-                z++;
-            // printf("Pattern is found at position:  %d \n", i + 1);
-        }
-
-        if (i < n - m)
-        {
-            t = (D * (t - text[i] * h) + text[i + m]) % q;
-            if (t < 0)
-                t = (t + q);
-        }
-    }
-    return z;
-}
-
 void print_sorted_posts()
 {
     POST *temp = (POST *)malloc(sizeof(POST));
@@ -730,5 +684,163 @@ void print_sorted_comments()
         printf(" Score(#%3d): %d\n", temp_comment->id, score(temp_comment->upvotes, temp_comment->downvotes));
         reset();
         print_comments(temp_comment->child, 2);
+    }
+}
+
+int rabinKarp(char pattern[], char text[], int q)
+{
+    int m = strlen(pattern);
+    int n = strlen(text);
+    int i, j;
+    int p = 0;
+    int t = 0;
+    int h = 1;
+    int z = 0;
+
+    for (i = 0; i < m - 1; i++)
+        h = (h * D) % q;
+
+    // Calculate hash value for pattern and text
+    for (i = 0; i < m; i++)
+    {
+        p = (D * p + pattern[i]) % q;
+        t = (D * t + text[i]) % q;
+    }
+
+    // Find the match
+    for (i = 0; i <= n - m; i++)
+    {
+        if (p == t)
+        {
+            for (j = 0; j < m; j++)
+            {
+                if (text[i + j] != pattern[j])
+                    break;
+            }
+
+            if (j == m)
+                z++;
+            // printf("Pattern is found at position:  %d \n", i + 1);
+        }
+
+        if (i < n - m)
+        {
+            t = (D * (t - text[i] * h) + text[i + m]) % q;
+            if (t < 0)
+                t = (t + q);
+        }
+    }
+    return z;
+}
+
+int bruteforce_substring_search(char text[], char pattern[])
+{
+    int n, m, count;
+    n = strlen(text);
+    m = strlen(pattern);
+    int i, j;
+    count = 0;
+    for (i = 0; i <= n - m; i++)
+    {
+        j = 0;
+        while (j < m && pattern[j] == text[i + j])
+            j++;
+        if (j == m)
+            count++;
+    }
+    return count;
+}
+
+void search_users(char req_username[])
+{
+    USER_HOLDER *temp_user = all_users;
+    ur_start = 0;
+    ur_end = -1;
+    int oc = 0;
+    while (temp_user != NULL)
+    {
+        oc = bruteforce_substring_search(temp_user->user_content->username, req_username);
+        oc += bruteforce_substring_search(temp_user->user_content->name, req_username);
+        if (oc != 0)
+        {
+            user_search_result[++ur_end]->user_h = temp_user->user_content;
+            user_search_result[ur_end]->occurences = oc;
+        }
+        temp_user = temp_user->next;
+    }
+}
+
+void print_user_result()
+{
+    if (ur_end == -1 && ur_start == 0)
+    {
+        return;
+    }
+    printf("\n=========== USERS ============= \n");
+    for (int i = ur_start; i <= ur_end; i++)
+    {
+        printf("\n");
+        printf("%s ", user_search_result[i]->user_h->name);
+        ARROW;
+        printf(" u/%s ", user_search_result[i]->user_h->username);
+    }
+}
+
+void search_posts(char req_pattern[])
+{
+    COMMUNITY_HOLDER *temp_communities = all_communities;
+    POST *temp_post;
+    pr_start = 0;
+    pr_end = -1;
+    int oc = 0;
+    while (temp_communities != NULL)
+    {
+        temp_post = temp_communities->user_content->posts;
+        while (temp_post != NULL)
+        {
+            oc = rabinKarp(req_pattern, temp_post->title, 13);
+            oc += rabinKarp(req_pattern, temp_post->content, 13);
+            if (oc != 0)
+            {
+                post_search_result[++pr_end]->post_h = temp_post;
+                post_search_result[pr_end]->occurences = oc;
+            }
+            temp_post = temp_post->next;
+        }
+        temp_communities = temp_communities->next;
+    }
+}
+
+void print_post_result()
+{
+    if (pr_end == -1 && pr_start == 0)
+    {
+        return;
+    }
+    POST_RESULT *temp_post;
+    printf("\n=========== POSTS ============= \n");
+    for (int i = pr_start; i <= pr_end; i++)
+    {
+        temp_post = post_search_result[i];
+        printf("\n");
+        yellow_black();
+        printf("  r/%s  ", temp_post->post_h->community_name);
+        reset();
+        printf("\n\n");
+        printf("%d)", temp_post->post_h->id);
+        blue_black();
+        printf(" u/%s", temp_post->post_h->username);
+        reset();
+        printf(" posted at ");
+        blue_black();
+        print_date_time(temp_post->post_h->dt);
+        reset();
+        printf(" : ");
+        lblue();
+        printf("%s\n", temp_post->post_h->title);
+        reset();
+        printf("%s\n", temp_post->post_h->content);
+        // print_comments(temp_post->post_h->child, 1);
+        printf("\n");
     }
 }

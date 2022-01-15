@@ -12,10 +12,15 @@ int main()
 {
     // screen_reset();
     init();
+    // print_all_posts();
     // post_sort_old(all_communities->user_content->posts);
     // print_sorted_posts();
     comment_mergeSort_top(all_communities->user_content->posts->next->next->next->child);
-    print_sorted_comments();
+    search_posts("recru");
+    print_post_result();
+    search_users("fre");
+    print_user_result();
+    // print_sorted_comments();
     // display_post_by_id();
     // // display_post_obo(all_communities->user_content->posts);
     // display_logo();

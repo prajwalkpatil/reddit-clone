@@ -7,6 +7,7 @@
 #define MAX_SIZE_DESCRIPTION 10000
 #define MAX_NUMBER_OF_POSTS 10000
 #define MAX_NUMBER_OF_COMMENTS 100000
+#define MAX_NUMBER_OF_USERS 100000
 #define MAX_DISPLAY_SIZE 1000000
 #define MAX_NOC 200
 #define ARROW printf(" \xAF ");
@@ -82,5 +83,26 @@ struct community_holder
     struct community_holder *next;
 };
 typedef struct community_holder COMMUNITY_HOLDER;
+
+struct user_result
+{
+    struct user *user_h;
+    int occurences;
+};
+typedef struct user_result USER_RESULT;
+
+struct commmunity_result
+{
+    struct community_holder **community_h;
+    int occurences;
+};
+typedef struct commmunity_result COMMUNITY_RESULT;
+
+struct post_result
+{
+    struct post *post_h;
+    int occurences;
+};
+typedef struct post_result POST_RESULT;
 
 #endif

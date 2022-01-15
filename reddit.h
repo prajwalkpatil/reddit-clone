@@ -34,10 +34,16 @@ USER_HOLDER *all_users = NULL;
 COMMUNITY_HOLDER *all_communities = NULL;
 POST **post_sorted = NULL;
 COMMENT **comment_sorted = NULL;
+USER_RESULT **user_search_result = NULL;
+POST_RESULT **post_search_result = NULL;
 int ps_start = 0;
 int ps_end = -1;
 int cs_start = 0;
 int cs_end = -1;
+int ur_start = 0;
+int ur_end = -1;
+int pr_start = 0;
+int pr_end = -1;
 
 // TODO: Insert function definitions
 char *hash448(char *str);
@@ -177,5 +183,7 @@ void comment_mergeSort_hot(COMMENT *p);
 int rabinKarp(char pattern[], char text[], int q);
 void print_sorted_posts();
 void print_sorted_comments();
+int bruteforce_substring_search(char text[], char pattern[]);
+void search_users(char req_username[]);
 //**********************
 #endif

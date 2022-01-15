@@ -343,4 +343,16 @@ void init()
         print_error("Heap is full");
         return;
     }
+    user_search_result = (USER_RESULT **)malloc(sizeof(USER_RESULT *) * MAX_NUMBER_OF_USERS);
+    if (user_search_result == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
+    post_search_result = (POST_RESULT **)malloc(sizeof(POST_RESULT *) * MAX_NUMBER_OF_POSTS);
+    if (post_search_result == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
 }
