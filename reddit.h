@@ -36,6 +36,9 @@ POST **post_sorted = NULL;
 COMMENT **comment_sorted = NULL;
 USER_RESULT **user_search_result = NULL;
 POST_RESULT **post_search_result = NULL;
+COMMUNITY_HOLDER *community_members_sort_arr[MAX_NUMBER_OF_COMMENTS];
+USER_HOLDER *users_followers_sort_arr[MAX_NUMBER_OF_USERS];
+USER_HOLDER *users_karma_sort_arr[1000];
 int ps_start = 0;
 int ps_end = -1;
 int cs_start = 0;
@@ -87,6 +90,7 @@ POST *get_post_by_id(POST *t, POST *p, int id);
 POST *insert_post_at_end(POST *head, int post_id);
 void initialize_posts();
 void print_all_posts();
+void display_user_posts();
 int file_empty_check(char *filename);
 long int date();
 unsigned long long int date_time();
@@ -104,6 +108,7 @@ void print_community_posts(COMMUNITY_HOLDER *c);
 COMMUNITY_HOLDER *get_community(char community_name[50]);
 POST **post_by_id(int req_id);
 void init();
+void community_sort_mem();
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);
@@ -190,6 +195,8 @@ void print_user_result();
 void print_post_result();
 void search_posts(char req_pattern[]);
 void insertion_sort_posts();
-
+void print_all_communities_precise();
+void user_sort_karma();
+void user_sort_followers();
 //**********************
 #endif

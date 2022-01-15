@@ -184,7 +184,7 @@ void print_comments(COMMENT *p, int level)
         {
             printf("\xB2\xB2");
         }
-        printf("%d)", temp_comment->id);
+        printf(" #(%d) ", temp_comment->id);
         purple_black();
         printf(" u/%s ", temp_comment->username);
         reset();

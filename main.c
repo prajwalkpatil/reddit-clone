@@ -14,7 +14,6 @@ int main()
     init();
     display_logo();
     display_lr();
-
     // print_all_posts();
     // post_sort_old(all_communities->user_content->posts);
     // print_sorted_posts();

@@ -178,18 +178,31 @@ void display_logo()
 void display_loggedin()
 {
     // screen_reset();
+    printf("\n\n");
     purple_black();
     printf("  Logged in as  ");
     reset();
     lblue_black();
     printf(" u/%s  ", main_user_holder->user_content->username);
     reset();
+    display_user_posts();
     display_options();
     printf("\n");
 }
 
 void display_user_posts()
 {
+    printf("\n\n\n");
+    lblue_black();
+    printf(" =================== ");
+    reset();
+    green_black();
+    printf(" FEED ");
+    reset();
+    lblue_black();
+    printf(" =================== ");
+    reset();
+    printf("\n");
     int start_c = 0;
     int end_c = -1;
     USER_HOLDER *logged_user = main_user_holder;
@@ -226,7 +239,7 @@ void display_options()
     printf("\n6) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    delete_lines(7);
+    delete_lines(8);
     switch (choice)
     {
     case 1:

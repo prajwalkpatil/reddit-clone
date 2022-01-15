@@ -867,3 +867,115 @@ void print_post_result()
         printf("\n");
     }
 }
+
+void user_sort_karma()
+{
+    USER_HOLDER *temp;
+    USER_HOLDER *temp2;
+    temp = all_users;
+    int n = 0;
+    int i, j;
+    while (temp != NULL)
+    {
+        users_karma_sort_arr[n++] = temp;
+        temp = temp->next;
+    }
+
+    for (i = 0; i <= n - 2; i++)
+    {
+        for (j = 0; j <= n - 2 - i; j++)
+        {
+            if (users_karma_sort_arr[j]->user_content->karma < users_karma_sort_arr[j + 1]->user_content->karma)
+            {
+                temp2 = users_karma_sort_arr[j];
+                users_karma_sort_arr[j] = users_karma_sort_arr[j + 1];
+                users_karma_sort_arr[j + 1] = temp2;
+            }
+        }
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        purple_black();
+        printf(" u/%s ", users_karma_sort_arr[i]->user_content->username);
+        reset();
+        yellow_black();
+        printf(" Karma : %d", users_karma_sort_arr[i]->user_content->karma);
+        reset();
+        printf("\n");
+    }
+}
+
+void user_sort_followers()
+{
+    USER_HOLDER *temp;
+    USER_HOLDER *temp2;
+    temp = all_users;
+    int n = 0;
+    int i, j, min;
+    while (temp != NULL)
+    {
+        users_followers_sort_arr[n++] = temp;
+        temp = temp->next;
+    }
+    for (i = 0; i <= n - 2; i++)
+    {
+        min = i;
+        for (j = i + 1; j <= n - 1; j++)
+        {
+            if (users_followers_sort_arr[j]->user_content->followers > users_followers_sort_arr[min]->user_content->followers)
+                min = j;
+        }
+        temp2 = users_followers_sort_arr[i];
+        users_followers_sort_arr[i] = users_followers_sort_arr[min];
+        users_followers_sort_arr[min] = temp2;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        purple_black();
+        printf(" u/%s ", users_followers_sort_arr[i]->user_content->username);
+        reset();
+        yellow_black();
+        printf(" Followers : %d ", users_followers_sort_arr[i]->user_content->followers);
+        reset();
+        printf("\n");
+    }
+}
+
+void community_sort_mem()
+{
+    COMMUNITY_HOLDER *temp;
+    COMMUNITY_HOLDER *v;
+    temp = all_communities;
+    int i, j, n;
+    n = 0;
+    while (temp != NULL)
+    {
+        community_members_sort_arr[n++] = temp;
+        temp = temp->next;
+    }
+    // insertion sort
+    for (i = 0; i <= n - 1; i++)
+    {
+        v = community_members_sort_arr[i];
+        j = i - 1;
+        while (j >= 0 && community_members_sort_arr[j]->user_content->members > v->user_content->members)
+        {
+            community_members_sort_arr[j + 1] = community_members_sort_arr[j];
+            j--;
+        }
+        community_members_sort_arr[j + 1] = v;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        purple_black();
+        printf(" r/%s ", community_members_sort_arr[i]->user_content->name);
+        reset();
+        yellow_black();
+        printf(" Followers : %d ", community_members_sort_arr[i]->user_content->members);
+        reset();
+        printf("\n");
+    }
+}

@@ -201,6 +201,25 @@ void print_all_communities()
         temp = temp->next;
     }
 }
+void print_all_communities_precise()
+{
+    if (all_communities == NULL)
+    {
+        print_error("No communities!");
+        return;
+    }
+    COMMUNITY_HOLDER *temp = all_communities;
+    printf("\n>> COMMUNITIES: ");
+    printf("\n");
+    while (temp != NULL)
+    {
+        yellow_black();
+        printf(" %s ", temp->user_content->name);
+        reset();
+        printf("  ");
+        temp = temp->next;
+    }
+}
 
 void update_communities_file()
 {
@@ -228,8 +247,9 @@ void update_communities_file()
 
 void join_community()
 {
+    print_all_communities_precise();
     char community_name[25];
-    printf("Enter a community name: ");
+    printf("\nEnter a community name: ");
     scanf("%s", community_name);
     if (!search_communtity(community_name))
     {
@@ -423,7 +443,7 @@ void print_all_posts()
         while (temp_post != NULL)
         {
             printf("\n\n");
-            printf("%d)", temp_post->id);
+            printf("#(%d)", temp_post->id);
             blue_black();
             printf(" u/%s", temp_post->username);
             reset();
@@ -471,6 +491,7 @@ void print_community_posts(COMMUNITY_HOLDER *c)
         yellow_black();
         printf("  r/%s  ", temp->user_content->name);
         reset();
+        printf(" #(%d) ", temp_post->id);
         ARROW;
         blue_black();
         printf(" u/%s", temp_post->username);
@@ -510,3 +531,36 @@ COMMUNITY_HOLDER *get_community(char community_name[50])
     }
     return NULL;
 }
+
+/*
+void community_sort_mem()
+{
+    COMMUNITY_HOLDER *temp;
+    COMMUNITY_HOLDER *v;
+    temp = all_communities;
+    int i, j, n;
+    n = 0;
+    while (temp != NULL)
+    {
+        community_members_sort_arr[n++] = *temp;
+        temp = temp->next;
+    }
+    // insertion sort
+    for (i = 0; i <= n - 1; i++)
+    {
+        *v = community_members_sort_arr[i];
+        j = i - 1;
+        while (j >= 0 && community_members_sort_arr[j].user_content->members > v->user_content->members)
+        {
+            community_members_sort_arr[j + 1] = community_members_sort_arr[j];
+            j--;
+        }
+        community_members_sort_arr[j + 1] = *v;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        printf("%d Community name : %s\t followers : %d\n", i + 1, community_members_sort_arr[i].user_content->name, community_members_sort_arr[i].user_content->members);
+    }
+}
+*/
