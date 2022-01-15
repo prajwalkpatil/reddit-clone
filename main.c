@@ -14,7 +14,7 @@ int main()
     init();
     // post_sort_old(all_communities->user_content->posts);
     // print_sorted_posts();
-    comment_mergeSort_old(all_communities->user_content->posts->next->next->next->child);
+    comment_mergeSort_top(all_communities->user_content->posts->next->next->next->child);
     print_sorted_comments();
     // display_post_by_id();
     // // display_post_obo(all_communities->user_content->posts);
