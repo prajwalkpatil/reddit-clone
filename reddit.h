@@ -145,28 +145,37 @@ int score(int upvotes, int downvotes);
 double controversy(int upvotes, int downvotes);
 double confidence(int upvotes, int downvotes);
 double hot(int upvotes, int downvotes, unsigned long long t);
+
+//* Quick Sort - Functions
 void swap_posts(int i, int j);
 void post_sort_top(POST *p);
 void post_sort_best(POST *p);
+void post_sort_hot(POST *p);
 void post_sort_controversial(POST *p);
 void post_sort_old(POST *p);
 void post_sort_new(POST *p);
 int post_partition(int low, int high, int type);
 void post_quickSort(int low, int high, int type);
+
+//* Merge Sort - Functions
 void display_post_by_id();
 int number_of_comments(COMMENT *p);
-void _comment_mergeSort_top(COMMENT **a, int n);
-void _comment_mergeSort_best(COMMENT **a, int n);
-void _comment_mergeSort_controversial(COMMENT **a, int n);
-void _comment_mergeSort_old(COMMENT **a, int n);
-void _comment_mergeSort_new(COMMENT **a, int n);
-void comment_merge(COMMENT **b, COMMENT **c, COMMENT **a, int p, int q, int type);
+void _comment_mergeSort_top(int l, int r);
+void _comment_mergeSort_best(int l, int r);
+void _comment_mergeSort_controversial(int l, int r);
+void _comment_mergeSort_old(int l, int r);
+void _comment_mergeSort_new(int l, int r);
+void _comment_mergeSort_hot(int l, int r);
+void comment_merge(int l, int m, int r, int type);
 void comment_mergeSort_top(COMMENT *p);
 void comment_mergeSort_best(COMMENT *p);
 void comment_mergeSort_controversial(COMMENT *p);
 void comment_mergeSort_old(COMMENT *p);
 void comment_mergeSort_new(COMMENT *p);
+void comment_mergeSort_hot(COMMENT *p);
+
 int rabinKarp(char pattern[], char text[], int q);
 void print_sorted_posts();
+void print_sorted_comments();
 //**********************
 #endif

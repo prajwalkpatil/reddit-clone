@@ -12,8 +12,10 @@ int main()
 {
     // screen_reset();
     init();
-    post_sort_new(all_communities->user_content->posts);
-    print_sorted_posts();
+    // post_sort_old(all_communities->user_content->posts);
+    // print_sorted_posts();
+    comment_mergeSort_old(all_communities->user_content->posts->next->next->next->child);
+    print_sorted_comments();
     // display_post_by_id();
     // // display_post_obo(all_communities->user_content->posts);
     // display_logo();

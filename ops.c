@@ -92,6 +92,25 @@ void post_sort_best(POST *p)
         post_quickSort(ps_start, ps_end, 2);
 }
 
+void post_sort_hot(POST *p)
+{
+    if (p == NULL)
+    {
+        print_error("Heap us full!");
+        return;
+    }
+    POST *temp = p;
+    ps_start = 0;
+    ps_end = -1;
+    while (temp != NULL)
+    {
+        post_sorted[++ps_end] = temp;
+        temp = temp->next;
+    }
+    if (!(ps_start > ps_end))
+        post_quickSort(ps_start, ps_end, 6);
+}
+
 void post_sort_controversial(POST *p)
 {
     if (p == NULL)
@@ -154,7 +173,10 @@ void post_sort_new(POST *p)
     3 : Controversial
     4 : Old
     5 : New
+    6:  Hot
 */
+
+//* Quick sort ---START
 
 void swap_posts(int i, int j)
 {
@@ -231,6 +253,18 @@ int post_partition(int lower, int upper, int type)
         swap_posts(i + 1, upper);
         return (i + 1);
         break;
+    case 6:
+        for (j = lower; j < upper; j++)
+        {
+            if (hot(post_sorted[j]->upvotes, post_sorted[j]->downvotes, post_sorted[j]->dt) >= hot(pivot->upvotes, pivot->downvotes, pivot->dt))
+            {
+                i++;
+                swap_posts(i, j);
+            }
+        }
+        swap_posts(i + 1, upper);
+        return (i + 1);
+        break;
     }
 }
 void post_quickSort(int low, int high, int type)
@@ -242,6 +276,7 @@ void post_quickSort(int low, int high, int type)
         post_quickSort(pi + 1, high, type);
     }
 }
+//* Quick sort ---END
 
 /*
     Comment sorting -
@@ -251,6 +286,8 @@ void post_quickSort(int low, int high, int type)
     4 : Old
     5 : New
 */
+
+//* Merge sort ---START
 
 int number_of_comments(COMMENT *p)
 {
@@ -271,222 +308,311 @@ void comment_mergeSort_top(COMMENT *p)
 {
     int n = number_of_comments(p);
     int i = 0;
+    cs_start = 0;
+    cs_end = -1;
     COMMENT *temp = p;
-    while (p != NULL)
+    while (temp != NULL)
     {
-        comment_sorted[i] = temp;
+        comment_sorted[++cs_end] = temp;
         temp = temp->next;
         i++;
     }
-    _comment_mergeSort_top(comment_sorted, n);
+    _comment_mergeSort_top(cs_start, cs_end);
 }
-
 void comment_mergeSort_best(COMMENT *p)
 {
     int n = number_of_comments(p);
     int i = 0;
+    cs_start = 0;
+    cs_end = -1;
     COMMENT *temp = p;
-    while (p != NULL)
+    while (temp != NULL)
     {
-        comment_sorted[i] = temp;
+        comment_sorted[++cs_end] = temp;
         temp = temp->next;
         i++;
     }
-    _comment_mergeSort_best(comment_sorted, n);
+    _comment_mergeSort_best(cs_start, cs_end);
 }
-
 void comment_mergeSort_controversial(COMMENT *p)
 {
     int n = number_of_comments(p);
     int i = 0;
+    cs_start = 0;
+    cs_end = -1;
     COMMENT *temp = p;
-    while (p != NULL)
+    while (temp != NULL)
     {
-        comment_sorted[i] = temp;
+        comment_sorted[++cs_end] = temp;
         temp = temp->next;
         i++;
     }
-    _comment_mergeSort_controversial(comment_sorted, n);
+    _comment_mergeSort_controversial(cs_start, cs_end);
 }
-
 void comment_mergeSort_old(COMMENT *p)
 {
     int n = number_of_comments(p);
     int i = 0;
+    cs_start = 0;
+    cs_end = -1;
     COMMENT *temp = p;
-    while (p != NULL)
+    while (temp != NULL)
     {
-        comment_sorted[i] = temp;
+        comment_sorted[++cs_end] = temp;
         temp = temp->next;
         i++;
     }
-    _comment_mergeSort_old(comment_sorted, n);
+    _comment_mergeSort_old(cs_start, cs_end);
 }
 
 void comment_mergeSort_new(COMMENT *p)
 {
     int n = number_of_comments(p);
     int i = 0;
+    cs_start = 0;
+    cs_end = -1;
     COMMENT *temp = p;
-    while (p != NULL)
+    while (temp != NULL)
     {
-        comment_sorted[i] = temp;
+        comment_sorted[++cs_end] = temp;
         temp = temp->next;
         i++;
     }
-    _comment_mergeSort_new(comment_sorted, n);
+    _comment_mergeSort_new(cs_start, cs_end);
+}
+void comment_mergeSort_hot(COMMENT *p)
+{
+    int n = number_of_comments(p);
+    int i = 0;
+    cs_start = 0;
+    cs_end = -1;
+    COMMENT *temp = p;
+    while (temp != NULL)
+    {
+        comment_sorted[++cs_end] = temp;
+        temp = temp->next;
+        i++;
+    }
+    _comment_mergeSort_hot(cs_start, cs_end);
 }
 
-void _comment_mergeSort_top(COMMENT **a, int n)
+void _comment_mergeSort_top(int l, int r)
 {
-    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    int i, j = 0;
-    if (n > 1)
+    if (l < r)
     {
-        for (i = 0; i < ((n / 2)); i++)
-            b[i] = a[i];
-        for (i = n / 2; i < n; i++)
-            c[j++] = a[i];
-        _comment_mergeSort_top(b, n / 2);
-        _comment_mergeSort_top(c, (n - (n / 2)));
-        comment_merge(b, c, a, n / 2, n - (n / 2), 1);
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_top(l, m);
+        _comment_mergeSort_top(m + 1, r);
+        comment_merge(l, m, r, 1);
     }
 }
-void _comment_mergeSort_best(COMMENT **a, int n)
+void _comment_mergeSort_best(int l, int r)
 {
-    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    int i, j = 0;
-    if (n > 1)
+    if (l < r)
     {
-        for (i = 0; i < ((n / 2)); i++)
-            b[i] = a[i];
-        for (i = n / 2; i < n; i++)
-            c[j++] = a[i];
-        _comment_mergeSort_best(b, n / 2);
-        _comment_mergeSort_best(c, (n - (n / 2)));
-        comment_merge(b, c, a, n / 2, n - (n / 2), 2);
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_best(l, m);
+        _comment_mergeSort_best(m + 1, r);
+        comment_merge(l, m, r, 2);
     }
 }
-void _comment_mergeSort_controversial(COMMENT **a, int n)
+void _comment_mergeSort_controversial(int l, int r)
 {
-    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    int i, j = 0;
-    if (n > 1)
+    if (l < r)
     {
-        for (i = 0; i < ((n / 2)); i++)
-            b[i] = a[i];
-        for (i = n / 2; i < n; i++)
-            c[j++] = a[i];
-        _comment_mergeSort_controversial(b, n / 2);
-        _comment_mergeSort_controversial(c, (n - (n / 2)));
-        comment_merge(b, c, a, n / 2, n - (n / 2), 3);
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_controversial(l, m);
+        _comment_mergeSort_controversial(m + 1, r);
+        comment_merge(l, m, r, 3);
     }
 }
-void _comment_mergeSort_old(COMMENT **a, int n)
+void _comment_mergeSort_old(int l, int r)
 {
-    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    int i, j = 0;
-    if (n > 1)
+    if (l < r)
     {
-        for (i = 0; i < ((n / 2)); i++)
-            b[i] = a[i];
-        for (i = n / 2; i < n; i++)
-            c[j++] = a[i];
-        _comment_mergeSort_old(b, n / 2);
-        _comment_mergeSort_old(c, (n - (n / 2)));
-        comment_merge(b, c, a, n / 2, n - (n / 2), 4);
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_old(l, m);
+        _comment_mergeSort_old(m + 1, r);
+        comment_merge(l, m, r, 4);
     }
 }
-void _comment_mergeSort_new(COMMENT **a, int n)
+void _comment_mergeSort_new(int l, int r)
 {
-    COMMENT **b = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    COMMENT **c = (COMMENT **)malloc(sizeof(COMMENT *) * MAX_NUMBER_OF_COMMENTS);
-    int i, j = 0;
-    if (n > 1)
+    if (l < r)
     {
-        for (i = 0; i < ((n / 2)); i++)
-            b[i] = a[i];
-        for (i = n / 2; i < n; i++)
-            c[j++] = a[i];
-        _comment_mergeSort_new(b, n / 2);
-        _comment_mergeSort_new(c, (n - (n / 2)));
-        comment_merge(b, c, a, n / 2, n - (n / 2), 5);
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_new(l, m);
+        _comment_mergeSort_new(m + 1, r);
+        comment_merge(l, m, r, 5);
+    }
+}
+void _comment_mergeSort_hot(int l, int r)
+{
+    if (l < r)
+    {
+        int m = l + (r - l) / 2;
+        _comment_mergeSort_hot(l, m);
+        _comment_mergeSort_hot(m + 1, r);
+        comment_merge(l, m, r, 5);
     }
 }
 
-void comment_merge(COMMENT **b, COMMENT **c, COMMENT **a, int p, int q, int type)
+void comment_merge(int l, int m, int r, int type)
 {
-    int i = 0, j = 0;
-    int k = 0;
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
+    COMMENT **L = (COMMENT **)malloc(sizeof(COMMENT *) * n1);
+    COMMENT **R = (COMMENT **)malloc(sizeof(COMMENT *) * n2);
+
+    for (i = 0; i < n1; i++)
+        L[i] = comment_sorted[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = comment_sorted[m + 1 + j];
+
+    /*
+        Comment sorting -
+        1 : top
+        2 : Best
+        3 : Controversial
+        4 : Old
+        5 : New
+        6:  Hot
+    */
     switch (type)
     {
     case 1:
-        while (i < p && j < q)
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
         {
-            if (score((b[i])->upvotes, (b[i])->downvotes) >= score((c[i])->upvotes, (c[i])->downvotes))
-                a[k] = b[i++];
+            if (score(L[i]->upvotes, L[i]->downvotes) >= score(R[j]->upvotes, R[j]->downvotes))
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
             else
-                a[k] = c[j++];
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
             k++;
         }
         break;
     case 2:
-        while (i < p && j < q)
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
         {
-            if ((confidence((b[i])->upvotes, (b[i])->downvotes) >= confidence((c[i])->upvotes, (c[i])->downvotes)))
-                a[k] = b[i++];
+            if (confidence(L[i]->upvotes, L[i]->downvotes) >= confidence(R[j]->upvotes, R[j]->downvotes))
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
             else
-                a[k] = c[j++];
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
             k++;
         }
         break;
     case 3:
-        while (i < p && j < q)
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
         {
-            if ((controversy((b[i])->upvotes, (b[i])->downvotes) >= controversy((c[i])->upvotes, (c[i])->downvotes)))
-                a[k] = b[i++];
+            if (controversy(L[i]->upvotes, L[i]->downvotes) >= controversy(R[j]->upvotes, R[j]->downvotes))
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
             else
-                a[k] = c[j++];
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
             k++;
         }
         break;
     case 4:
-        while (i < p && j < q)
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
         {
-            if ((b[i])->dt >= (c[i])->dt)
-                a[k] = b[i++];
+            if (L[i]->dt <= R[j]->dt)
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
             else
-                a[k] = c[j++];
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
             k++;
         }
         break;
     case 5:
-        while (i < p && j < q)
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
         {
-            if ((-1 * (b[i])->dt) >= (-1 * (c[i])->dt))
-                a[k] = b[i++];
+            if (L[i]->dt >= R[j]->dt)
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
             else
-                a[k] = c[j++];
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+        break;
+    case 6:
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2)
+        {
+            if (hot(L[i]->upvotes, L[i]->downvotes, L[i]->dt) >= hot(R[j]->upvotes, R[j]->downvotes, R[j]->dt))
+            {
+                comment_sorted[k] = L[i];
+                i++;
+            }
+            else
+            {
+                comment_sorted[k] = R[j];
+                j++;
+            }
             k++;
         }
         break;
     }
-    if (i == p)
+    while (i < n1)
     {
-        for (j; j < q; j++)
-            a[k++] = c[j];
+        comment_sorted[k] = L[i];
+        i++;
+        k++;
     }
-    else
+
+    while (j < n2)
     {
-        for (i; i < p; i++)
-            a[k++] = b[i];
+        comment_sorted[k] = R[j];
+        j++;
+        k++;
     }
 }
+
+//* Merge sort ---END
 
 int rabinKarp(char pattern[], char text[], int q)
 {
@@ -539,7 +665,12 @@ void print_sorted_posts()
     POST *temp = (POST *)malloc(sizeof(POST));
     if (temp == NULL)
     {
-        print_error("No posts");
+        print_error("Heap is full");
+        return;
+    }
+    if (ps_start == 0 && ps_end == -1)
+    {
+        print_error("Sort the posts first!");
         return;
     }
     for (int i = ps_start; i <= ps_end; i++)
@@ -566,5 +697,38 @@ void print_sorted_posts()
         printf("Score: #(%4d)\n", temp->upvotes - temp->downvotes);
         print_comments(temp->child, 1);
         printf("\n");
+    }
+}
+
+void print_sorted_comments()
+{
+    COMMENT *temp_comment = (COMMENT *)malloc(sizeof(COMMENT));
+    if (temp_comment == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
+    if (cs_start == 0 && cs_end == -1)
+    {
+        print_error("Sort the comments first!");
+        return;
+    }
+    for (int i = cs_start; i <= cs_end; i++)
+    {
+        temp_comment = comment_sorted[i];
+        printf("\n(#%3d) ", temp_comment->id);
+        purple_black();
+        printf(" u/%s ", temp_comment->username);
+        reset();
+        printf(" commented at ");
+        purple_black();
+        print_date_time(temp_comment->dt);
+        reset();
+        printf(" : ");
+        purple();
+        printf("%s\n", temp_comment->content);
+        printf(" Score(#%3d): %d\n", temp_comment->id, score(temp_comment->upvotes, temp_comment->downvotes));
+        reset();
+        print_comments(temp_comment->child, 2);
     }
 }
