@@ -753,6 +753,7 @@ int bruteforce_substring_search(char text[], char pattern[])
 
 void search_users(char req_username[])
 {
+    //! The req_pattern should be preferably more than 3 characters
     USER_HOLDER *temp_user = all_users;
     ur_start = 0;
     ur_end = -1;
@@ -805,6 +806,7 @@ void insertion_sort_posts()
 
 void search_posts(char req_pattern[MAX_SIZE_CONTENT])
 {
+    //! The req_pattern should be preferably more than 4 characters
     COMMUNITY_HOLDER *temp_communities = all_communities;
     POST *temp_post;
     pr_start = 0;
@@ -858,7 +860,9 @@ void print_post_result()
         printf("%s\n", temp_post->post_h->title);
         reset();
         printf("%s\n", temp_post->post_h->content);
+        purple();
         printf("Occurences: %d\n", temp_post->occurences);
+        reset();
         // print_comments(temp_post->post_h->child, 1);
         printf("\n");
     }

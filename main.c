@@ -12,19 +12,20 @@ int main()
 {
     // screen_reset();
     init();
+    display_logo();
+    display_lr();
+
     // print_all_posts();
     // post_sort_old(all_communities->user_content->posts);
     // print_sorted_posts();
-    comment_mergeSort_top(all_communities->user_content->posts->next->next->next->child);
-    search_posts("book");
-    print_post_result();
-    search_posts(" fires ");
-    print_post_result();
+    // comment_mergeSort_top(all_communities->user_content->posts->next->next->next->child);
+    // search_posts("book");
+    // print_post_result();
+    // search_posts(" fires ");
+    // print_post_result();
     // print_sorted_comments();
     // display_post_by_id();
     // // display_post_obo(all_communities->user_content->posts);
-    // display_logo();
-    // display_lr();
     // display_loggedin();
     // upvote_post(*post_by_id(15));
     // downvote_post(*post_by_id(15));

@@ -42,7 +42,10 @@ int login_user()
     if (status == SUCCESS)
     {
         strcpy(main_user_holder->user_content->username, entered_username);
+        print_success("Login Successful! You will be redirected");
+        timeout(2);
         screen_reset();
+        is_loggedin = 1;
         return SUCCESS;
     }
     else

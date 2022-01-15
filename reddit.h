@@ -27,7 +27,7 @@
 int user_count_start = 0;
 int post_count_start = 0;
 int community_count_start = 0;
-
+int is_loggedin = 0;
 // Global declarations
 USER_HOLDER *main_user_holder = NULL;
 USER_HOLDER *all_users = NULL;
@@ -139,6 +139,7 @@ void display_logo();
 void display_loggedin();
 void delete_lines(int n);
 void display_comments_obo(COMMENT *c, int level);
+void display_options();
 void display_post_obo(POST *p);
 //! Don't use this function unless you want to reset all the users and communities
 void create_initial_files();

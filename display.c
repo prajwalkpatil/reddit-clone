@@ -139,6 +139,7 @@ void display_lr()
     printf("\n4) Exit");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
+    delete_lines(6);
     switch (choice)
     {
     case 1:
@@ -148,11 +149,13 @@ void display_lr()
     case 2:
         while (status == 0)
             status = login_user();
+        display_loggedin();
         return;
         break;
     case 3:
         printf("\n\n");
         print_all_posts();
+        display_logo();
         display_lr();
         break;
     default:
@@ -181,6 +184,7 @@ void display_loggedin()
     lblue_black();
     printf(" u/%s  ", main_user_holder->user_content->username);
     reset();
+    display_options();
     printf("\n");
 }
 
@@ -217,8 +221,12 @@ void display_options()
     printf("\n1) Post");
     printf("\n2) Comment");
     printf("\n3) Reply");
+    printf("\n4) Join Community");
+    printf("\n5) Create Community");
+    printf("\n6) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
+    delete_lines(7);
     switch (choice)
     {
     case 1:
@@ -233,6 +241,17 @@ void display_options()
         printf("Enter id of the comment: ");
         scanf("%d", &temp);
         add_reply(temp);
+        break;
+    case 4:
+        join_community();
+        display_options();
+        break;
+    case 5:
+        create_community();
+        display_options();
+        break;
+    default:
+        display_lr();
         break;
     }
 }
