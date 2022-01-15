@@ -109,6 +109,7 @@ COMMUNITY_HOLDER *get_community(char community_name[50]);
 POST **post_by_id(int req_id);
 void init();
 void community_sort_mem();
+void display_community_posts_obo();
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);

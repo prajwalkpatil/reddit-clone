@@ -227,21 +227,71 @@ void display_user_posts()
     }
 }
 
+void display_community_posts_obo()
+{
+    int choice = 0;
+    int start_c = 0;
+    int end_c = -1;
+    USER_HOLDER *logged_user = main_user_holder;
+    POST *post_temp;
+    COMMUNITY_HOLDER *c[MAX_NOC];
+    char file_name[300];
+    char comm_name[300];
+    user_community_file_name(logged_user->user_content->username, file_name);
+    FILE *fp = fopen(file_name, "r");
+    if (fp == NULL)
+    {
+        return;
+    }
+    while (!feof(fp))
+    {
+        fscanf(fp, "%s\n", comm_name);
+        c[++end_c] = get_community(comm_name);
+    }
+    fclose(fp);
+    for (int i = start_c; i <= end_c; i++)
+    {
+        if (c[i]->user_content->posts != NULL)
+        {
+            post_temp = c[i]->user_content->posts;
+            while (post_temp != NULL)
+            {
+                display_post_obo(post_temp);
+                printf("\n1) Next Post");
+                printf("\n2) Exit display");
+                printf("\nEnter your choice: ");
+                scanf("%d", &choice);
+                delete_lines(4);
+                if (choice != 1)
+                {
+                    return;
+                }
+                post_temp = post_temp->next;
+            }
+        }
+    }
+}
+
 void display_options()
 {
     int choice;
     int temp;
-    printf("\n1) Post");
-    printf("\n2) Comment");
-    printf("\n3) Reply");
+    d_red("\nProceed to display post individually to upvote/downvote or add comments/replies to it.");
+    printf("\n0) Display posts individually");
+    printf("\n1) Post to a community");
+    printf("\n2) Comment to a post by id");
+    printf("\n3) Reply to a comment by id");
     printf("\n4) Join Community");
     printf("\n5) Create Community");
     printf("\n6) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    delete_lines(8);
+    delete_lines(9);
     switch (choice)
     {
+    case 0:
+        display_community_posts_obo();
+        break;
     case 1:
         add_post();
         break;
@@ -316,7 +366,7 @@ void display_post_obo(POST *p)
         printf("\n");
         printf("3) Remove Upvote/Downvote\n");
         printf("4) View comments/replies\n");
-        printf("5) Exit\n");
+        printf("5) Exit this post to proceed next\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         delete_lines(11);
