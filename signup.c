@@ -1,5 +1,10 @@
 #include "reddit.h"
-
+/**
+Function Name: hash448
+Input Params:char *str
+Return Type: char*
+Description: a hash function used to generate a hash for passwords
+**/
 char *hash448(char *str)
 {
     int i = 0;
@@ -21,7 +26,12 @@ char *hash448(char *str)
     res[j] = '\0';
     return res;
 }
-
+/**
+Function Name: add_user
+Input Params:char *u
+Return Type: int
+Description: details of the user is written in the appropriate files
+**/
 int add_user(USER *u)
 {
     FILE *fp = fopen("files/auth/users.rdt", "a+");
@@ -40,7 +50,12 @@ int add_user(USER *u)
     fprintf(fp, "\n");
     fclose(fp);
 }
-
+/**
+Function Name:  write_pwd
+Input Params:char username[8], char pwd_hash[31]
+Return Type: int
+Description: username and hashed password is written into the file
+**/
 int write_pwd(char username[8], char pwd_hash[31])
 {
     FILE *fp = fopen("files/auth/pwds.rdt", "a+");
@@ -53,7 +68,12 @@ int write_pwd(char username[8], char pwd_hash[31])
     fclose(fp);
     return SUCCESS;
 }
-
+/**
+Function Name:  pwd_input
+Input Params:char username[8], char pwd_hash[31]
+Return Type: int
+Description: checks if username and password already exists ,if exists return failure , else return success
+**/
 int pwd_input(char username[8], char pwd[31])
 {
     printf("Password[1-30 chars]: ");
@@ -121,7 +141,12 @@ int pwd_input(char username[8], char pwd[31])
     }
     return SUCCESS;
 }
-
+/**
+Function Name:  email_input
+Input Params:char email[64]
+Return Type: int
+Description: email is taken as input from the user , and written in the file
+**/
 int email_input(char email[64])
 {
     printf("Email: ");
@@ -149,7 +174,12 @@ int email_input(char email[64])
         return FAILURE;
     }
 }
-
+/**
+Function Name:  check_duplicates
+Input Params:char username_req[18], char email_req[64]
+Return Type: int
+Description: checks if username and email given as input already exists
+**/
 int check_duplicates(char username_req[18], char email_req[64])
 {
     FILE *fp = fopen("files/auth/users.rdt", "r");
@@ -191,7 +221,12 @@ int check_duplicates(char username_req[18], char email_req[64])
     fclose(fp);
     return SUCCESS;
 }
-
+/**
+Function Name: user_file_name
+Input Params:char user_name[25], char file_name[270]
+Return Type: void
+Description: creates a file for user_name of type .rdt
+**/
 void user_file_name(char user_name[25], char file_name[270])
 {
     int i = 0;
@@ -213,7 +248,12 @@ void user_file_name(char user_name[25], char file_name[270])
     }
     file_name[i] = '\0';
 }
-
+/**
+Function Name: create_user_file
+Input Params:char user_name[25]
+Return Type: void
+Description: creates a file for user_name of type .rdt and checks weather file is created
+**/
 void create_user_file(char user_name[25])
 {
     char file_name[270];
@@ -226,7 +266,12 @@ void create_user_file(char user_name[25])
     }
     fclose(fp1);
 }
-
+/**
+Function Name: user_community_file_name
+Input Params:char user_name[25]
+Return Type: void
+Description: writes username in the community given the appropriate file_name
+**/
 void user_community_file_name(char user_name[25], char file_name[270])
 {
     int i = 0;
@@ -248,7 +293,12 @@ void user_community_file_name(char user_name[25], char file_name[270])
     }
     file_name[i] = '\0';
 }
-
+/**
+Function Name: create_user_community_file
+Input Params:char user_name[25]
+Return Type: void
+Description: creates file for a new community
+**/
 void create_user_community_file(char user_name[25])
 {
     char file_name[70];
@@ -261,7 +311,12 @@ void create_user_community_file(char user_name[25])
     }
     fclose(fp1);
 }
-
+/**
+Function Name: auth_user
+Input Params:char username_r[18], char password_r[31]
+Return Type: int
+Description: checks if the username and password given is valid or not , if valid print the success messege else print failure messege
+**/
 int auth_user(char username_r[18], char password_r[31])
 {
     FILE *fp = fopen("files/auth/pwds.rdt", "r");
@@ -291,7 +346,12 @@ int auth_user(char username_r[18], char password_r[31])
     print_error("Invalid username or password!");
     return FAILURE;
 }
-
+/**
+Function Name:sign_up()
+Input Params:NIL
+Return Type: void
+Description: takes input of username and password and email from the user and user is joined to appropriate community and all the data is written in the file
+**/
 void sign_up()
 {
     read_ucs();

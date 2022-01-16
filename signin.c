@@ -1,5 +1,11 @@
 #include "reddit.h"
-
+/**
+Function Name: login_user
+Input Params:NIL
+Return Type: void
+Description: username ,pass word is taken from the user and checks if the username already exists ,if exists return failure
+else accepted,password is encrypted ,all the information is written in the file
+**/
 int login_user()
 {
     main_user_holder = (USER_HOLDER *)malloc(sizeof(USER_HOLDER));
@@ -42,7 +48,7 @@ int login_user()
     if (status == SUCCESS)
     {
         strcpy(main_user_holder->user_content->username, entered_username);
-        print_success("Login Successful! You will be redirected");
+        // print_success("Login Successful! You will be redirected");
         timeout(2);
         screen_reset();
         is_loggedin = 1;
@@ -51,7 +57,12 @@ int login_user()
     else
         return FAILURE;
 }
-
+/**
+Function Name: add_username_file
+Input Params:char username_r[18]
+Return Type: void
+Description: a file to store the information of the user is created
+**/
 void add_username_file(char username_r[18])
 {
     FILE *fp = fopen("files/auth/loggedin.rdt", "w+");

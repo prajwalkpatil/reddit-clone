@@ -1,5 +1,10 @@
 #include "reddit.h"
-
+/**
+Function Name: get_date
+Input Params:int n, int *year, int *month, int *day
+Return Type:void
+Description: calculates year,day,month
+**/
 void get_date(int n, int *year, int *month, int *day)
 {
     *year = n / 10000;
@@ -7,7 +12,12 @@ void get_date(int n, int *year, int *month, int *day)
     *month = n / 100;
     *month = *month % 100;
 }
-
+/**
+Function Name:get_date_time
+Input Params:long long n, int *year, int *month, int *day, int *hr, int *min
+Return Type:void
+Description: calculates date along with minutes and hour
+**/
 void get_date_time(long long n, int *year, int *month, int *day, int *hr, int *min)
 {
     get_date(n / 10000, year, month, day);
@@ -15,7 +25,12 @@ void get_date_time(long long n, int *year, int *month, int *day, int *hr, int *m
     *hr = n / 100;
     *hr = *hr % 100;
 }
-
+/**
+Function Name:print_date
+Input Params: int n
+Return Type:void
+Description: prints day,month,year
+**/
 void print_date(int n)
 {
     int year;
@@ -27,7 +42,12 @@ void print_date(int n)
     month = month % 100;
     printf(" %d/%d/%d ", day, month, year);
 }
-
+/**
+Function Name:print_date_time
+Input Params: unsigned long long n
+Return Type:void
+Description:prints day,month,year,hours,minutes and seconds
+**/
 void print_date_time(unsigned long long n)
 {
     // 20220105155722
@@ -46,25 +66,46 @@ void print_date_time(unsigned long long n)
     sec = n;
     printf(" %d/%d/%d %d:%d:%d ", day, month, year, hr, min, sec);
 }
-
+/**
+Function Name:print_error
+Input Params: char str[1000]
+Return Type:void
+Description: printing error messeges using colors
+**/
 void print_error(char str[1000])
 {
     printf("\033[1;31m");
     printf("\n%s\n", str);
     printf("\033[0m");
 }
+/**
+Function Name:print_success
+Input Params: char str[1000]
+Return Type:void
+Description: printing success messeges using colors
+**/
 void print_success(char str[1000])
 {
     printf("\033[1;32m");
     printf("\n%s\n", str);
     printf("\033[0m");
 }
-
+/**
+Function Name:screen_reset
+Input Params: NIL
+Return Type:void
+Description: resets screen
+**/
 void screen_reset()
 {
     printf("\e[1;1H\e[2J");
 }
-
+/**
+Function Name:read_ucs
+Input Params: NIL
+Return Type:void
+Description: reads usercount form the file
+**/
 void read_ucs()
 {
     FILE *fp = fopen("files/auth/ucs.rdt", "r");
@@ -76,7 +117,12 @@ void read_ucs()
     fscanf(fp, "%d", &user_count_start);
     fclose(fp);
 }
-
+/**
+Function Name:update_ucs
+Input Params: NIL
+Return Type:void
+Description: updates usercount and written in the file
+**/
 void update_ucs()
 {
     FILE *fp = fopen("files/auth/ucs.rdt", "w+");
@@ -88,7 +134,12 @@ void update_ucs()
     fprintf(fp, "%d", user_count_start);
     fclose(fp);
 }
-
+/**
+Function Name:timeout
+Input Params: int seconds
+Return Type:int
+Description: returns 1 after specific time
+**/
 int timeout(int seconds)
 {
     clock_t endwait;
@@ -98,7 +149,12 @@ int timeout(int seconds)
     }
     return 1;
 }
-
+/**
+Function Name:init_users
+Input Params: NIL
+Return Type:void
+Description: reads user data from file and inserts to the Linked list
+**/
 void init_users()
 {
     FILE *fp = fopen("files/auth/users.rdt", "r");
@@ -126,7 +182,12 @@ void init_users()
     }
     fclose(fp);
 }
-
+/**
+Function Name:insert_user_at_end
+Input Params: USER_HOLDER *hdr, USER *u
+Return Type:USER_HOLDER *
+Description: function to insert the user data to a linked list
+**/
 USER_HOLDER *insert_user_at_end(USER_HOLDER *hdr, USER *u)
 {
     USER_HOLDER *n = (USER_HOLDER *)malloc(sizeof(USER_HOLDER));
@@ -150,7 +211,12 @@ USER_HOLDER *insert_user_at_end(USER_HOLDER *hdr, USER *u)
     temp->next = n;
     return hdr;
 }
-
+/**
+Function Name:print_all_users
+Input Params: NIL
+Return Type:void
+Description:prints all the data of users loaded to the Linked list from the file
+**/
 void print_all_users()
 {
     if (all_users == NULL)
@@ -169,7 +235,12 @@ void print_all_users()
     }
     printf("\n%d\n", i);
 }
-
+/**
+Function Name:update_users_file
+Input Params: NIL
+Return Type:void
+Description:adds user data to the appropriate file
+**/
 void update_users_file()
 {
     if (all_users == NULL)
@@ -200,8 +271,13 @@ void update_users_file()
     }
     fclose(fp);
 }
-
 //! Don't use this function unless you want to reset all the users and communities
+/**
+Function Name:update_users_file
+Input Params: NIL
+Return Type:void
+Description: creates all files erases all data ,gives a fresh start
+**/
 void create_initial_files()
 {
     FILE *fp = fopen("files/auth/users.rdt", "w+");
@@ -271,7 +347,12 @@ void create_initial_files()
     }
     fclose(fp7);
 }
-
+/**
+Function Name: file_empty_check
+Input Params:char *filename
+Return Type:int
+Description: if file is empty return 1 else return 0
+**/
 int file_empty_check(char *filename)
 {
 
@@ -286,7 +367,12 @@ int file_empty_check(char *filename)
         return 0;
     }
 }
-
+/**
+Function Name:  date
+Input Params:char *filename
+Return Type:long
+Description: calculates and return date
+**/
 long int date()
 {
     int year, month, day;
@@ -299,7 +385,12 @@ long int date()
     date = (year * 10000) + (month * 100) + day;
     return date;
 }
-
+/**
+Function Name:  date_time
+Input Params:NIL
+Return Type:unsigned long long int
+Description: calculates and return date and time
+**/
 unsigned long long int date_time()
 {
     int year, month, day, hour, min, sec;
@@ -315,7 +406,12 @@ unsigned long long int date_time()
     date_time = (year * 10000000000) + (month * 100000000) + (day * 1000000) + (hour * 10000) + (min * 100) + sec;
     return date_time;
 }
-
+/**
+Function Name: fgets_newline_kill
+Input Params:char a[]
+Return Type: void
+Description:  deletes all the new lines obtained from fgets
+**/
 void fgets_newline_kill(char a[])
 {
     size_t sl = strlen(a);
@@ -325,7 +421,12 @@ void fgets_newline_kill(char a[])
         a[sl - 1] = '\0';
     }
 }
-
+/**
+Function Name: init
+Input Params:NIL
+Return Type: void
+Description: data of users ,communities,posts,comments are read from the file and inserted into tree
+**/
 void init()
 {
     init_users();

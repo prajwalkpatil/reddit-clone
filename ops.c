@@ -1,10 +1,20 @@
 #include "reddit.h"
-
+/**
+Function Name: score
+Input Params: int upvotes , int downvotes
+Return Type: int
+Description: returns score of the post i.e, upvotes - downvotes
+**/
 int score(int upvotes, int downvotes)
 {
     return (upvotes - downvotes);
 }
-
+/**
+Function Name: controversy
+Input Params: int upvotes , int downvotes
+Return Type: double
+Description: calculates contoversy i,e pow(magnitude,balance) , magnitude is upvotes + downvotes , balance = downvotes or upvotes / upvote or downvotes
+**/
 double controversy(int upvotes, int downvotes)
 {
     if (upvotes <= 0 || downvotes <= 0)
@@ -24,7 +34,12 @@ double controversy(int upvotes, int downvotes)
     }
     return pow(magnitude, balance);
 }
-
+/**
+Function Name: confidence
+Input Params: int upvotes , int downvotes
+Return Type: double
+Description: calculates and returns confidence according to the function
+**/
 double confidence(int upvotes, int downvotes)
 {
     /*
@@ -46,13 +61,23 @@ double confidence(int upvotes, int downvotes)
 
     return (double)(left - right) / under;
 }
-
+/**
+Function Name: hot
+Input Params: int upvotes, int downvotes, unsigned long long t
+Return Type: double
+Description: calculates and returns hot i.e, upvotes - downvotes /t
+**/
 double hot(int upvotes, int downvotes, unsigned long long t)
 {
     int n = upvotes - downvotes;
     return (double)(n) / t;
 }
-
+/**
+Function Name: post_sort_top
+Input Params: POST *p
+Return Type: void
+Description: sorts posts using quick_sort
+**/
 void post_sort_top(POST *p)
 {
     if (p == NULL)
@@ -72,7 +97,12 @@ void post_sort_top(POST *p)
         post_quickSort(ps_start, ps_end, 1);
     printf("*****");
 }
-
+/**
+Function Name: post_sort_best
+Input Params: POST *p
+Return Type: void
+Description: sorts posts using quick_sort
+**/
 void post_sort_best(POST *p)
 {
     if (p == NULL)
@@ -91,7 +121,12 @@ void post_sort_best(POST *p)
     if (!(ps_start > ps_end))
         post_quickSort(ps_start, ps_end, 2);
 }
-
+/**
+Function Name: post_sort_hot
+Input Params: POST *p
+Return Type: void
+Description: sorts posts using quick_sort
+**/
 void post_sort_hot(POST *p)
 {
     if (p == NULL)
@@ -110,7 +145,12 @@ void post_sort_hot(POST *p)
     if (!(ps_start > ps_end))
         post_quickSort(ps_start, ps_end, 6);
 }
-
+/**
+Function Name: post_sort_controversial
+Input Params: POST *p
+Return Type: void
+Description: sorts posts based on controversy using quick sort
+**/
 void post_sort_controversial(POST *p)
 {
     if (p == NULL)
@@ -129,7 +169,12 @@ void post_sort_controversial(POST *p)
     if (!(ps_start > ps_end))
         post_quickSort(ps_start, ps_end, 3);
 }
-
+/**
+Function Name: post_sort_old
+Input Params: POST *p
+Return Type: void
+Description: sorts posts based on date posted , oldest first
+**/
 void post_sort_old(POST *p)
 {
     if (p == NULL)
@@ -148,6 +193,12 @@ void post_sort_old(POST *p)
     if (!(ps_start > ps_end))
         post_quickSort(ps_start, ps_end, 4);
 }
+/**
+Function Name: post_sort_new
+Input Params: POST *p
+Return Type: void
+Description: sorts posts based on date posted , newest first
+**/
 void post_sort_new(POST *p)
 {
     if (p == NULL)
@@ -177,7 +228,12 @@ void post_sort_new(POST *p)
 */
 
 //* Quick sort ---START
-
+/**
+Function Name: swap_posts
+Input Params: int i , int j
+Return Type: void
+Description: swaps posts
+**/
 void swap_posts(int i, int j)
 {
     POST *temp;
@@ -185,7 +241,12 @@ void swap_posts(int i, int j)
     post_sorted[i] = post_sorted[j];
     post_sorted[j] = temp;
 }
-
+/**
+Function Name: post_partition
+Input Params: int lower, int upper , int type
+Return Type: int
+Description: posts are partitioned based on the chosen type
+**/
 int post_partition(int lower, int upper, int type)
 {
     int i = (lower - 1);
@@ -267,6 +328,12 @@ int post_partition(int lower, int upper, int type)
         break;
     }
 }
+/**
+Function Name: post_quickSort
+Input Params: int lower, int high , int type
+Return Type: int
+Description: posts are sorted based on type using quick sort
+**/
 void post_quickSort(int low, int high, int type)
 {
     if (low < high)
@@ -288,7 +355,12 @@ void post_quickSort(int low, int high, int type)
 */
 
 //* Merge sort ---START
-
+/**
+Function Name: number_of_comments
+Input Params: COMMENT *p
+Return Type: int
+Description: returns number of comments to that posts
+**/
 int number_of_comments(COMMENT *p)
 {
     if (p == NULL)
@@ -303,7 +375,12 @@ int number_of_comments(COMMENT *p)
     }
     return i;
 }
-
+/**
+Function Name: comment_mergeSort_
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments using merge_sort
+**/
 void comment_mergeSort_top(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -319,6 +396,13 @@ void comment_mergeSort_top(COMMENT *p)
     }
     _comment_mergeSort_top(cs_start, cs_end);
 }
+
+/**
+Function Name: comment_mergeSort_best
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments based on which is best(best first) using merge_sort
+**/
 void comment_mergeSort_best(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -334,6 +418,12 @@ void comment_mergeSort_best(COMMENT *p)
     }
     _comment_mergeSort_best(cs_start, cs_end);
 }
+/**
+Function Name: comment_mergeSort_controversial
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments based on controversy using merge_sort
+**/
 void comment_mergeSort_controversial(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -349,6 +439,12 @@ void comment_mergeSort_controversial(COMMENT *p)
     }
     _comment_mergeSort_controversial(cs_start, cs_end);
 }
+/**
+Function Name: comment_mergeSort_old
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments based on date (oldest first) using merge sort
+**/
 void comment_mergeSort_old(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -364,7 +460,12 @@ void comment_mergeSort_old(COMMENT *p)
     }
     _comment_mergeSort_old(cs_start, cs_end);
 }
-
+/**
+Function Name: comment_mergeSort_new
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments based on date (newest first) using merge sort
+**/
 void comment_mergeSort_new(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -380,6 +481,12 @@ void comment_mergeSort_new(COMMENT *p)
     }
     _comment_mergeSort_new(cs_start, cs_end);
 }
+/**
+Function Name: comment_mergeSort_hot
+Input Params: COMMENT *p
+Return Type: void
+Description: sorts comments based on hot using merge sort
+**/
 void comment_mergeSort_hot(COMMENT *p)
 {
     int n = number_of_comments(p);
@@ -395,7 +502,12 @@ void comment_mergeSort_hot(COMMENT *p)
     }
     _comment_mergeSort_hot(cs_start, cs_end);
 }
-
+/**
+Function Name: _comment_mergeSort_top
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on upvotes using merge sort
+**/
 void _comment_mergeSort_top(int l, int r)
 {
     if (l < r)
@@ -406,6 +518,12 @@ void _comment_mergeSort_top(int l, int r)
         comment_merge(l, m, r, 1);
     }
 }
+/**
+Function Name: _comment_mergeSort_best
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on which one is best using merge sort
+**/
 void _comment_mergeSort_best(int l, int r)
 {
     if (l < r)
@@ -416,6 +534,12 @@ void _comment_mergeSort_best(int l, int r)
         comment_merge(l, m, r, 2);
     }
 }
+/**
+Function Name: _comment_mergeSort_controversial
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on controversy using merge sort
+**/
 void _comment_mergeSort_controversial(int l, int r)
 {
     if (l < r)
@@ -426,6 +550,12 @@ void _comment_mergeSort_controversial(int l, int r)
         comment_merge(l, m, r, 3);
     }
 }
+/**
+Function Name: comment_mergeSort_old
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on date using merge sort
+**/
 void _comment_mergeSort_old(int l, int r)
 {
     if (l < r)
@@ -436,6 +566,12 @@ void _comment_mergeSort_old(int l, int r)
         comment_merge(l, m, r, 4);
     }
 }
+/**
+Function Name: _comment_mergeSort_new
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on date using merge sort
+**/
 void _comment_mergeSort_new(int l, int r)
 {
     if (l < r)
@@ -446,6 +582,12 @@ void _comment_mergeSort_new(int l, int r)
         comment_merge(l, m, r, 5);
     }
 }
+/**
+Function Name: _comment_mergeSort_hot
+Input Params: int l, int r
+Return Type: void
+Description: sorts comments based on hot using merge sort
+**/
 void _comment_mergeSort_hot(int l, int r)
 {
     if (l < r)
@@ -456,7 +598,12 @@ void _comment_mergeSort_hot(int l, int r)
         comment_merge(l, m, r, 5);
     }
 }
-
+/**
+Function Name: comment_merge
+Input Params: int l, int m, int r, int type
+Return Type: void
+Description: sorts comments based on type and this is used in the fucntions of sorting comments using merge sort
+**/
 void comment_merge(int l, int m, int r, int type)
 {
     int i, j, k;
@@ -613,7 +760,12 @@ void comment_merge(int l, int m, int r, int type)
 }
 
 //* Merge sort ---END
-
+/**
+Function Name: print_sorted_posts
+Input Params:NIL
+Return Type: void
+Description: prints the sorted posts with all the details
+**/
 void print_sorted_posts()
 {
     POST *temp = (POST *)malloc(sizeof(POST));
@@ -653,7 +805,12 @@ void print_sorted_posts()
         printf("\n");
     }
 }
-
+/**
+Function Name: print_sorted_comments
+Input Params:NIL
+Return Type: void
+Description: prints the sorted comments with all the details
+**/
 void print_sorted_comments()
 {
     COMMENT *temp_comment = (COMMENT *)malloc(sizeof(COMMENT));
@@ -686,7 +843,12 @@ void print_sorted_comments()
         print_comments(temp_comment->child, 2);
     }
 }
-
+/**
+Function Name: rabinKarp
+Input Params: char pattern[], char text[], int q
+Return Type: int
+Description: string search using rabinkarp
+**/
 int rabinKarp(char pattern[MAX_SIZE_CONTENT], char text[MAX_SIZE_CONTENT], int q)
 {
     int m = strlen(pattern);

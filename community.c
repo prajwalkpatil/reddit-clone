@@ -1,5 +1,10 @@
 #include "reddit.h"
-
+/**
+Function Name: read_community_count
+Input Params: NIL
+Return Type: void
+Description: loads community count from the appropriate file and stores in community_count_start variable
+**/
 void read_community_count()
 {
     FILE *fp = fopen("files/community/community_count.rdt", "r");
@@ -11,7 +16,12 @@ void read_community_count()
     fscanf(fp, "%d", &community_count_start);
     fclose(fp);
 }
-
+/**
+Function Name: update_community_count
+Input Params: NIL
+Return Type: void
+Description: updates community count to the appropriate file by the variable commuity_count_start
+**/
 void update_community_count()
 {
     FILE *fp = fopen("files/community/community_count.rdt", "w+");
@@ -23,7 +33,12 @@ void update_community_count()
     fprintf(fp, "%d", community_count_start);
     fclose(fp);
 }
-
+/**
+Function Name: community_file_name
+Input Params: char community_name , char file_name
+Return Type: void
+Description:
+**/
 void community_file_name(char community_name[25], char file_name[70])
 {
     int i = 0;
@@ -45,7 +60,12 @@ void community_file_name(char community_name[25], char file_name[70])
     }
     file_name[i] = '\0';
 }
-
+/**
+Function Name: search_community
+Input Params: char community_name
+Return Type: int
+Description: search weather the community name is already present or not if present return SUCCESS else return FAILURE
+**/
 int search_communtity(char community_name[25])
 {
     FILE *fp = fopen("files/community/communities_all.rdt", "r");
@@ -68,7 +88,12 @@ int search_communtity(char community_name[25])
     fclose(fp);
     return FAILURE;
 }
-
+/**
+Function Name: create_commuinty
+Input Params: NIL
+Return Type: int
+Description: creates community and stores in the appropriate file
+**/
 int create_community()
 {
     read_community_count();
@@ -120,7 +145,12 @@ int create_community()
     all_communities = insert_community_at_end(all_communities, c);
     return SUCCESS;
 }
-
+/**
+Function Name: init_communities
+Input Params: NIL
+Return Type: void
+Description: get the community from the appropriate file and insert in the LL
+**/
 void init_communities()
 {
     read_community_count();
@@ -145,7 +175,12 @@ void init_communities()
     }
     fclose(fp);
 }
-
+/**
+Function Name: insert_community_at_end
+Input Params: COMMUNITY_HOLDER *hdr,COMMUNITY *u
+Return Type: COMMUNITY_HOLDER *
+Description: inserts community to the LL , if heap is full/hdr is NULL returns hdr,
+**/
 COMMUNITY_HOLDER *insert_community_at_end(COMMUNITY_HOLDER *hdr, COMMUNITY *u)
 {
     COMMUNITY_HOLDER *n = (COMMUNITY_HOLDER *)malloc(sizeof(COMMUNITY_HOLDER));
@@ -169,7 +204,12 @@ COMMUNITY_HOLDER *insert_community_at_end(COMMUNITY_HOLDER *hdr, COMMUNITY *u)
     temp->next = n;
     return hdr;
 }
-
+/**
+Function Name: print_all_communities
+Input Params: NIL
+Return Type: void
+Description: prints all the communities created
+**/
 void print_all_communities()
 {
     if (all_communities == NULL)
@@ -220,7 +260,12 @@ void print_all_communities_precise()
         temp = temp->next;
     }
 }
-
+/**
+Function Name: update_communities_file
+Input Params: NIL
+Return Type: void
+Description: updates name of community file
+**/
 void update_communities_file()
 {
     if (all_users == NULL)
@@ -244,7 +289,13 @@ void update_communities_file()
     }
     fclose(fp);
 }
-
+/**
+Function Name: join_community
+Input Params: NIL
+Return Type: void
+Description: checks weather the commnunity chosen exists ,also checks weather user has already joined the community or not else writes the community name in the user file
+and increases the community number
+**/
 void join_community()
 {
     print_all_communities_precise();
@@ -302,7 +353,12 @@ void join_community()
     }
     update_communities_file();
 }
-
+/**
+Function Name: insert_post_at_end
+Input Params: POST *head , int post_id
+Return Type: POST *
+Description: inserts post at the end of the tree , returns head
+**/
 POST *insert_post_at_end(POST *head, int post_id)
 {
     POST *p = (POST *)malloc(sizeof(POST));
@@ -323,6 +379,12 @@ POST *insert_post_at_end(POST *head, int post_id)
     // printf("\n%d\n%s\n%s\n", temp->next->id, temp->next->title, temp->next->content);
     return head;
 }
+/**
+Function Name: get_post_by_id
+Input Params: POST *t,POST *p,int id
+Return Type: POST *
+Description: takes the post id as input and searches for the post by its id and if its found returns the pointer to that post
+**/
 
 POST *get_post_by_id(POST *t, POST *p, int id)
 {
@@ -358,7 +420,12 @@ POST *get_post_by_id(POST *t, POST *p, int id)
     t = p;
     return t;
 }
-
+/**
+Function Name: post_by_id
+Input Params: int req_id
+Return Type: void
+Description: inserts the post by taking post id as input
+**/
 POST **post_by_id(int req_id)
 {
     COMMUNITY_HOLDER *temp = all_communities;
@@ -384,7 +451,12 @@ POST **post_by_id(int req_id)
     }
     return p_ptr;
 }
-
+/**
+Function Name: initialize_posts
+Input Params: NIL
+Return Type: void
+Description: takes posts from the appropriate file and inserts them to a tree
+**/
 void initialize_posts()
 {
     if (all_communities == NULL)
@@ -414,7 +486,12 @@ void initialize_posts()
         temp = temp->next;
     }
 }
-
+/**
+Function Name: print_all_posts
+Input Params: NIL
+Return Type: void
+Description: prints all the posts and their details posted in all communities
+**/
 void print_all_posts()
 {
     COMMUNITY_HOLDER *temp = all_communities;
@@ -465,7 +542,12 @@ void print_all_posts()
         temp = temp->next;
     }
 }
-
+/**
+Function Name: print_community_posts
+Input Params:COMMUNITY_HOLDER *c
+Return Type: void
+Description: print all the posts of the the community chosen
+**/
 void print_community_posts(COMMUNITY_HOLDER *c)
 {
     COMMUNITY_HOLDER *temp = c;
@@ -512,7 +594,12 @@ void print_community_posts(COMMUNITY_HOLDER *c)
         printf("\n\n");
     }
 }
-
+/**
+Function Name: get_community
+Input Params: char commuity_name
+Return Type: COMMUNITY_HOLDER *
+Description: checks if the chosen community exists and if exists returns the pointer to that community
+**/
 COMMUNITY_HOLDER *get_community(char community_name[50])
 {
     COMMUNITY_HOLDER *temp = all_communities;

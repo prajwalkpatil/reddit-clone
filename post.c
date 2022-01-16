@@ -1,5 +1,11 @@
 #include "reddit.h"
 
+/**
+Function Name: read_post_count
+Input Params:NIL
+Return Type: void
+Description: reads number of posts from the appropriate file
+**/
 void read_post_count()
 {
     FILE *fp = fopen("files/posts/post_count.rdt", "r");
@@ -12,6 +18,12 @@ void read_post_count()
     fclose(fp);
 }
 
+/**
+Function Name: update_post_count
+Input Params:NIL
+Return Type: void
+Description: updates post count in the appropriate file
+**/
 void update_post_count()
 {
     FILE *fp = fopen("files/posts/post_count.rdt", "w+");
@@ -23,6 +35,12 @@ void update_post_count()
     fprintf(fp, "%d", post_count_start);
     fclose(fp);
 }
+/**
+Function Name: create_post_file
+Input Params:NIL
+Return Type: void
+Description: creates a file for posts
+**/
 void create_post_file(int id)
 {
     char post_name[25];
@@ -39,6 +57,12 @@ void create_post_file(int id)
     }
     fclose(fp1);
 }
+/**
+Function Name: add_post
+Input Params:NIL
+Return Type: void
+Description: checks if the community chosen exists ,if exists adds post to the appropriate file , else return
+**/
 void add_post()
 {
     read_post_count();
@@ -122,6 +146,12 @@ void add_post()
     print_success("This post was sucessfully posted!");
 }
 
+/**
+Function Name: post_file_name
+Input Params:char post_name[25], char file_name[270]
+Return Type: void
+Description: changes file type to .rdt
+**/
 void post_file_name(char post_name[25], char file_name[270])
 {
     int i = 0;
@@ -144,6 +174,12 @@ void post_file_name(char post_name[25], char file_name[270])
     file_name[i] = '\0';
 }
 
+/**
+Function Name: post_file_name
+Input Params:POST *p
+Return Type: void
+Description: writes the id of the post in the user file
+**/
 void update_post_file(POST *p)
 {
     if (p == NULL)
@@ -172,6 +208,12 @@ void update_post_file(POST *p)
     fclose(fp_post);
 }
 
+/**
+Function Name: post_file_name
+Input Params:POST *p
+Return Type: void
+Description: user's karma is upgraded based on the input pointer for post
+**/
 void upvote_post(POST *p)
 {
     p->upvotes++;
@@ -189,6 +231,12 @@ void upvote_post(POST *p)
     update_post_file(p);
 }
 
+/**
+Function Name: post_file_name
+Input Params:POST *p
+Return Type: void
+Description: user's karma is downgraded based on the input pointer for post
+**/
 void downvote_post(POST *p)
 {
     p->downvotes++;
