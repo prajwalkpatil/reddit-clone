@@ -771,6 +771,25 @@ void search_users(char req_username[])
     }
 }
 
+void search_commmunity(char req_community[])
+{
+    //! The req_pattern should be preferably more than 3 characters
+    COMMUNITY_HOLDER *temp_comm = all_communities;
+    cr_start = 0;
+    cr_end = -1;
+    int oc = 0;
+    while (temp_comm != NULL)
+    {
+        oc = bruteforce_substring_search(temp_comm->user_content->name, req_community);
+        oc += bruteforce_substring_search(temp_comm->user_content->desc, req_community);
+        if (oc != 0)
+        {
+            community_search_result[++ur_end]->user_content = temp_comm->user_content;
+        }
+        temp_comm = temp_comm->next;
+    }
+}
+
 void print_user_result()
 {
     if (ur_end == -1 && ur_start == 0)
@@ -784,6 +803,20 @@ void print_user_result()
         printf("%s ", user_search_result[i]->user_h->name);
         ARROW;
         printf(" u/%s ", user_search_result[i]->user_h->username);
+    }
+}
+
+void print_community_result()
+{
+    if (cr_end == -1 && cr_start == 0)
+    {
+        return;
+    }
+    printf("\n=========== COMMUNITIES ============= \n");
+    for (int i = cr_start; i <= cr_end; i++)
+    {
+        printf("\n");
+        printf(" r/%s ", community_search_result[i]->user_content->name);
     }
 }
 

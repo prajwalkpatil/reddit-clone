@@ -355,4 +355,10 @@ void init()
         print_error("Heap is full");
         return;
     }
+    community_search_result = (COMMUNITY **)malloc(sizeof(COMMUNITY *) * 1000);
+    if (community_search_result == NULL)
+    {
+        print_error("Heap is full");
+        return;
+    }
 }

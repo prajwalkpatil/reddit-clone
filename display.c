@@ -286,24 +286,32 @@ void display_options()
     printf("\n6) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    delete_lines(9);
+    delete_lines(10);
     switch (choice)
     {
     case 0:
         display_community_posts_obo();
+        display_options();
+
         break;
     case 1:
         add_post();
+        display_options();
+
         break;
     case 2:
         printf("Enter id of the post: ");
         scanf("%d", &temp);
         add_comment(temp);
+        display_options();
+
         break;
     case 3:
         printf("Enter id of the comment: ");
         scanf("%d", &temp);
         add_reply(temp);
+        display_options();
+
         break;
     case 4:
         join_community();
@@ -365,11 +373,12 @@ void display_post_obo(POST *p)
         DOWNVOTE_ARROW;
         printf("\n");
         printf("3) Remove Upvote/Downvote\n");
-        printf("4) View comments/replies\n");
-        printf("5) Exit this post to proceed next\n");
+        printf("4) Add comment to this post\n");
+        printf("5) View comments/replies\n");
+        printf("6) Exit this post to proceed next\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        delete_lines(11);
+        delete_lines(12);
         switch (choice)
         {
         case 1:
@@ -416,6 +425,9 @@ void display_post_obo(POST *p)
             update_post_file(temp_post);
             break;
         case 4:
+            temp_post = add_comment_to_post(temp_post);
+            break;
+        case 5:
             if (temp_post->child == NULL)
             {
                 print_error("No comment exists proceeding to parent comment/post");
@@ -487,15 +499,16 @@ void display_comments_obo(COMMENT *c, int level)
         DOWNVOTE_ARROW;
         printf("\n");
         printf("3) Remove Upvote/Downvote\n");
-        printf("4) View next replies/comments\n");
-        printf("5) View replies to this comment/reply\n");
-        printf("6) Proceed to previous post/comment/reply\n");
+        printf("4) Add reply to this comment/reply\n");
+        printf("5) View next replies/comments\n");
+        printf("6) View replies to this comment/reply\n");
+        printf("7) Proceed to previous post/comment/reply\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         if (choice == 6)
-            delete_lines(11);
-        else
             delete_lines(12);
+        else
+            delete_lines(13);
         switch (choice)
         {
         case 1:
@@ -542,6 +555,9 @@ void display_comments_obo(COMMENT *c, int level)
             update_comment_file(temp_comment);
             break;
         case 4:
+            temp_comment = add_reply_to_comment(temp_comment);
+            break;
+        case 5:
             if (temp_comment->next == NULL)
             {
                 print_error("No comment exists.");
@@ -562,7 +578,7 @@ void display_comments_obo(COMMENT *c, int level)
             display_comments_obo(temp_comment->next, level);
             // return;
             break;
-        case 5:
+        case 6:
             if (temp_comment->child == NULL)
             {
                 print_error("No comment exists.");

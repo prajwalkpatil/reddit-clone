@@ -35,6 +35,7 @@ COMMUNITY_HOLDER *all_communities = NULL;
 POST **post_sorted = NULL;
 COMMENT **comment_sorted = NULL;
 USER_RESULT **user_search_result = NULL;
+COMMUNITY_HOLDER **community_search_result = NULL;
 POST_RESULT **post_search_result = NULL;
 COMMUNITY_HOLDER *community_members_sort_arr[MAX_NUMBER_OF_COMMENTS];
 USER_HOLDER *users_followers_sort_arr[MAX_NUMBER_OF_USERS];
@@ -47,6 +48,8 @@ int ur_start = 0;
 int ur_end = -1;
 int pr_start = 0;
 int pr_end = -1;
+int cr_start = 0;
+int cr_end = -1;
 
 // TODO: Insert function definitions
 char *hash448(char *str);
@@ -110,6 +113,10 @@ POST **post_by_id(int req_id);
 void init();
 void community_sort_mem();
 void display_community_posts_obo();
+POST *add_comment_to_post(POST *post_ptr);
+COMMENT *add_reply_to_comment(COMMENT *comment_ptr);
+void search_commmunity(char req_community[]);
+void print_community_result();
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);
