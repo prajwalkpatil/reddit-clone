@@ -206,5 +206,7 @@ void insertion_sort_posts();
 void print_all_communities_precise();
 void user_sort_karma();
 void user_sort_followers();
+void display_search_menu();
+
 //**********************
 #endif

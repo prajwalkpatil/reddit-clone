@@ -281,12 +281,13 @@ void display_options()
     printf("\n1) Post to a community");
     printf("\n2) Comment to a post by id");
     printf("\n3) Reply to a comment by id");
-    printf("\n4) Join Community");
-    printf("\n5) Create Community");
-    printf("\n6) Back to main menu");
+    printf("\n4) Search - posts,communities,users");
+    printf("\n5) Join Community");
+    printf("\n6) Create Community");
+    printf("\n7) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    delete_lines(10);
+    delete_lines(11);
     switch (choice)
     {
     case 0:
@@ -311,13 +312,16 @@ void display_options()
         scanf("%d", &temp);
         add_reply(temp);
         display_options();
-
         break;
     case 4:
-        join_community();
+        display_search_menu();
         display_options();
         break;
     case 5:
+        join_community();
+        display_options();
+        break;
+    case 6:
         create_community();
         display_options();
         break;
@@ -611,4 +615,42 @@ void display_post_by_id()
     printf("\nEnter the id of post: ");
     scanf("%d", &temp_id);
     display_post_obo(*(post_by_id(temp_id)));
+}
+
+void display_search_menu()
+{
+    char search_term[1000];
+    int choice;
+    printf("\n===== SEARCH ======\n");
+    printf("1) Search posts\n");
+    printf("2) Search users\n");
+    printf("3) Search communities\n");
+    printf("4) Back to previous menu\n");
+    printf("Enter your choice: ");
+    printf("%d", &choice);
+    getchar();
+    delete_lines(6);
+    printf("Enter the search term: ");
+    scanf("%[^\n]s", search_term);
+    switch (choice)
+    {
+    case 1:
+        search_posts(search_term);
+        print_post_result();
+        display_search_menu();
+        break;
+    case 2:
+        search_users(search_term);
+        print_user_result();
+        display_search_menu();
+        break;
+    case 3:
+        search_communtity(search_term);
+        print_community_result();
+        display_search_menu();
+        break;
+    default:
+        return;
+        break;
+    }
 }
