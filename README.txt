@@ -13,5 +13,19 @@ NOTE: Reddit is a Copyright of reddit Inc.
 *******************************************************************
 
 
+You can register yourself or use one of our credentials and login,
+Username : freakinginsane
+Password : freakinginsane
+
+The project is git integrated so,
+feel free to use git commands to look at the journey of the project.
 
 
+CONSTRAINTS:
+While executing search for posts and communities, enter atleast 5 characters to search.
+Using less than 5 characters might produce unexpected results.
+
+FEATURES:
+There is not limit on the nesting of comments/replies they can be nested to any extent you wish to.
+The data is stored in .rdt files which can be opened with any text editors just like .txt files.
+The upvote/downvote mechanism matches exactly as that of original reddit.
