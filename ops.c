@@ -771,7 +771,7 @@ void search_users(char req_username[])
     }
 }
 
-void search_commmunity(char req_community[])
+void search_commmunity_by_name(char req_community[])
 {
     //! The req_pattern should be preferably more than 3 characters
     COMMUNITY_HOLDER *temp_comm = all_communities;
@@ -784,7 +784,7 @@ void search_commmunity(char req_community[])
         oc += bruteforce_substring_search(temp_comm->user_content->desc, req_community);
         if (oc != 0)
         {
-            community_search_result[++ur_end]->user_content = temp_comm->user_content;
+            community_search_result[++ur_end] = temp_comm;
         }
         temp_comm = temp_comm->next;
     }
@@ -862,6 +862,54 @@ void search_posts(char req_pattern[MAX_SIZE_CONTENT])
         temp_communities = temp_communities->next;
     }
     insertion_sort_posts();
+}
+
+COMMUNITY_HOLDER *community_return(char req_community[MAX_SIZE_CONTENT])
+{
+    COMMUNITY_HOLDER *temp_communities = all_communities;
+    while (temp_communities != NULL)
+    {
+        if (!strcmp(temp_communities->user_content->name, req_community))
+        {
+            break;
+        }
+        temp_communities = temp_communities->next;
+    }
+    return temp_communities;
+}
+
+void print_community_post_result()
+{
+    if (pr_end == -1 && pr_start == 0)
+    {
+        return;
+    }
+    POST_RESULT *temp_post;
+    printf("\n=========== POSTS ============= \n");
+    for (int i = pr_start; i <= pr_end; i++)
+    {
+        temp_post = post_search_result[i];
+        printf("\n");
+        yellow_black();
+        printf("  r/%s  ", temp_post->post_h->community_name);
+        reset();
+        printf("\n\n");
+        printf("%d)", temp_post->post_h->id);
+        blue_black();
+        printf(" u/%s", temp_post->post_h->username);
+        reset();
+        printf(" posted at ");
+        blue_black();
+        print_date_time(temp_post->post_h->dt);
+        reset();
+        printf(" : ");
+        lblue();
+        printf("%s\n", temp_post->post_h->title);
+        reset();
+        printf("%s\n", temp_post->post_h->content);
+        // print_comments(temp_post->post_h->child, 1);
+        printf("\n");
+    }
 }
 
 void print_post_result()

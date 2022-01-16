@@ -115,8 +115,8 @@ void community_sort_mem();
 void display_community_posts_obo();
 POST *add_comment_to_post(POST *post_ptr);
 COMMENT *add_reply_to_comment(COMMENT *comment_ptr);
-void search_commmunity(char req_community[]);
 void print_community_result();
+void search_commmunity_by_name(char req_community[]);
 //********** Display functions ***************
 
 void d_red_black(char a[MAX_DISPLAY_SIZE]);
@@ -207,6 +207,9 @@ void print_all_communities_precise();
 void user_sort_karma();
 void user_sort_followers();
 void display_search_menu();
-
+void print_community_post_result();
+void display_post_options(POST *temp_post);
+COMMUNITY_HOLDER *community_return(char req_community[MAX_SIZE_CONTENT]);
+void display_community_options(COMMUNITY_HOLDER *temp_comm);
 //**********************
 #endif

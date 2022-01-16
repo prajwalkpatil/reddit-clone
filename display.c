@@ -276,18 +276,21 @@ void display_options()
 {
     int choice;
     int temp;
+    COMMUNITY_HOLDER *temp_comm;
+    char comm_name[300];
     d_red("\nProceed to display post individually to upvote/downvote or add comments/replies to it.");
     printf("\n0) Display posts individually");
-    printf("\n1) Post to a community");
-    printf("\n2) Comment to a post by id");
-    printf("\n3) Reply to a comment by id");
-    printf("\n4) Search - posts,communities,users");
-    printf("\n5) Join Community");
-    printf("\n6) Create Community");
-    printf("\n7) Back to main menu");
+    printf("\n1) Display community posts");
+    printf("\n2) Post to a community");
+    printf("\n3) Comment to a post by id");
+    printf("\n4) Reply to a comment by id");
+    printf("\n5) Search - posts,communities,users");
+    printf("\n6) Join Community");
+    printf("\n7) Create Community");
+    printf("\n8) Back to main menu");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    delete_lines(11);
+    delete_lines(12);
     switch (choice)
     {
     case 0:
@@ -296,32 +299,40 @@ void display_options()
 
         break;
     case 1:
-        add_post();
+        print_all_communities_precise();
+        getchar();
+        printf("\nEnter the community name: ");
+        scanf("%[^\n]s", comm_name);
+        temp_comm = community_return(comm_name);
+        display_community_options(temp_comm);
         display_options();
-
         break;
     case 2:
+        add_post();
+        display_options();
+        break;
+    case 3:
         printf("Enter id of the post: ");
         scanf("%d", &temp);
         add_comment(temp);
         display_options();
 
         break;
-    case 3:
+    case 4:
         printf("Enter id of the comment: ");
         scanf("%d", &temp);
         add_reply(temp);
         display_options();
         break;
-    case 4:
+    case 5:
         display_search_menu();
         display_options();
         break;
-    case 5:
+    case 6:
         join_community();
         display_options();
         break;
-    case 6:
+    case 7:
         create_community();
         display_options();
         break;
@@ -379,10 +390,11 @@ void display_post_obo(POST *p)
         printf("3) Remove Upvote/Downvote\n");
         printf("4) Add comment to this post\n");
         printf("5) View comments/replies\n");
-        printf("6) Exit this post to proceed next\n");
+        printf("6) Sort comments\n");
+        printf("7) Exit this post to proceed next\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        delete_lines(12);
+        delete_lines(13);
         switch (choice)
         {
         case 1:
@@ -451,6 +463,8 @@ void display_post_obo(POST *p)
             }
             display_comments_obo(temp_post->child, 1);
             break;
+        case 6:
+            display_post_options(temp_post);
         default:
             return;
             break;
@@ -621,17 +635,20 @@ void display_search_menu()
 {
     char search_term[1000];
     int choice;
-    printf("\n===== SEARCH ======\n");
+    printf("\n\n\n===== SEARCH ======\n");
     printf("1) Search posts\n");
     printf("2) Search users\n");
-    printf("3) Search communities\n");
-    printf("4) Back to previous menu\n");
+    // printf("3) Search communities\n");
+    printf("3) Back to previous menu\n");
     printf("Enter your choice: ");
-    printf("%d", &choice);
+    scanf("%d", &choice);
     getchar();
     delete_lines(6);
-    printf("Enter the search term: ");
-    scanf("%[^\n]s", search_term);
+    if (choice < 4)
+    {
+        printf("Enter the search term: ");
+        scanf("%[^\n]s", search_term);
+    }
     switch (choice)
     {
     case 1:
@@ -644,12 +661,116 @@ void display_search_menu()
         print_user_result();
         display_search_menu();
         break;
-    case 3:
-        search_communtity(search_term);
-        print_community_result();
-        display_search_menu();
-        break;
+    // case 3:
+    //     search_commmunity_by_name(search_term);
+    //     print_community_result();
+    //     display_search_menu();
+    //     break;
     default:
+        return;
+        break;
+    }
+}
+
+void display_community_options(COMMUNITY_HOLDER *temp_comm)
+{
+    int choice;
+    printf("\n1) Display posts by default");
+    printf("\n2) Sort posts by best");
+    printf("\n3) Sort posts by top");
+    printf("\n4) Sort posts by hot");
+    printf("\n5) Sort posts by controversial");
+    printf("\n6) Sort posts by old");
+    printf("\n7) Sort posts by new");
+    printf("\n8) Return to previous menu");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        print_community_posts(temp_comm);
+        display_community_options(temp_comm);
+        break;
+    case 2:
+        post_sort_best(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 3:
+        post_sort_top(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 4:
+        post_sort_hot(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 5:
+        post_sort_controversial(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 6:
+        post_sort_old(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 7:
+        post_sort_new(temp_comm->user_content->posts);
+        print_sorted_posts();
+        display_community_options(temp_comm);
+        break;
+    case 8:
+        return;
+        break;
+    }
+}
+void display_post_options(POST *temp_post)
+{
+    int choice;
+    printf("\n1) Sort comments by best");
+    printf("\n2) Sort comments by top");
+    printf("\n3) Sort comments by hot");
+    printf("\n4) Sort comments by controversial");
+    printf("\n5) Sort comments by old");
+    printf("\n6) Sort comments by new");
+    printf("\n7) Return to previous menu");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        comment_mergeSort_best(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 2:
+        comment_mergeSort_top(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 3:
+        comment_mergeSort_hot(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 4:
+        comment_mergeSort_controversial(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 5:
+        comment_mergeSort_old(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 6:
+        comment_mergeSort_new(temp_post->child);
+        print_sorted_comments();
+        display_post_options(temp_post);
+        break;
+    case 7:
         return;
         break;
     }
